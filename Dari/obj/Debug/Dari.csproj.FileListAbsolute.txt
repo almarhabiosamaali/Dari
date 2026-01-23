@@ -1,0 +1,10 @@
+C:\Users\os\source\repos\Dari\Dari\bin\Debug\Dari.exe.config
+C:\Users\os\source\repos\Dari\Dari\bin\Debug\Dari.exe
+C:\Users\os\source\repos\Dari\Dari\bin\Debug\Dari.pdb
+C:\Users\os\source\repos\Dari\Dari\bin\Debug\MaterialSkin.dll
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.csprojResolveAssemblyReference.cache
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.Properties.Resources.resources
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.csproj.GenerateResource.Cache
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.csproj.CoreCompileInputs.cache
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.exe
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.pdb
