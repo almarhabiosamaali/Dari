@@ -24,7 +24,7 @@ namespace Dari.Clas
             //                               Properties.Settings.Default.Database + "; Integrated Security=false; User ID=" +
             //                               Properties.Settings.Default.ID + "; Password=" + Properties.Settings.Default.Password + "");
 
-             sqlconnection = new SqlConnection(@"Server=LAPTOP-UDOB2GCQ ; Database=Water; Integrated Security=true; User ID=sa; Password=osama@123");
+             sqlconnection = new SqlConnection(@"Server=LAPTOP-UDOB2GCQ ; Database=Dari; Integrated Security=true; User ID=sa; Password=osama@123");
 
 
 
