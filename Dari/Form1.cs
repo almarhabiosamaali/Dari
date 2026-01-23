@@ -15,6 +15,8 @@ namespace Dari
     public partial class Form1 : MaterialForm
     {
         private bool isMenuCollapsed = false;
+        private bool isDataSubMenuExpanded = false;
+        private bool isOperationsSubMenuExpanded = false;
         private const int MENU_EXPANDED_WIDTH = 250;
         private const int MENU_COLLAPSED_WIDTH = 60;
 
@@ -45,6 +47,16 @@ namespace Dari
             btnOperations.Click += BtnOperations_Click;
             btnReports.Click += BtnReports_Click;
             btnSettings.Click += BtnSettings_Click;
+            
+            // ربط أحداث القائمة الفرعية للبيانات
+            btnBuildings.Click += BtnBuildings_Click;
+            btnApartments.Click += BtnApartments_Click;
+            btnTenants.Click += BtnTenants_Click;
+            btnContracts.Click += BtnContracts_Click;
+            
+            // ربط أحداث القائمة الفرعية للعمليات
+            btnInvoices.Click += BtnInvoices_Click;
+            btnReceipts.Click += BtnReceipts_Click;
         }
 
         private void SetupSidebarMenu()
@@ -92,7 +104,22 @@ namespace Dari
                 btnSettings.Text = "⚙️";
                 btnReports.Text = "📈";
                 btnOperations.Text = "💼";
-                btnDataManagement.Text = "📊";
+                
+                // إخفاء القوائم الفرعية عند طي القائمة
+                pnlDataSubMenu.Visible = false;
+                pnlOperationsSubMenu.Visible = false;
+                isDataSubMenuExpanded = false;
+                isOperationsSubMenuExpanded = false;
+                
+                if (isDataSubMenuExpanded)
+                    btnDataManagement.Text = "📊 ▼";
+                else
+                    btnDataManagement.Text = "📊";
+                
+                if (isOperationsSubMenuExpanded)
+                    btnOperations.Text = "💼 ▼";
+                else
+                    btnOperations.Text = "💼";
             }
             else
             {
@@ -100,20 +127,149 @@ namespace Dari
                 btnSettings.Text = "⚙️ الإعدادات";
                 btnReports.Text = "📈 التقارير";
                 btnOperations.Text = "💼 العمليات";
-                btnDataManagement.Text = "📊 البيانات الأساسية";
+                
+                // تحديث نص البيانات الأساسية حسب حالة القائمة الفرعية
+                if (isDataSubMenuExpanded)
+                    btnDataManagement.Text = "📊 البيانات الأساسية ▼";
+                else
+                    btnDataManagement.Text = "📊 البيانات الأساسية";
+                
+                // تحديث نص العمليات حسب حالة القائمة الفرعية
+                if (isOperationsSubMenuExpanded)
+                    btnOperations.Text = "💼 العمليات ▼";
+                else
+                    btnOperations.Text = "💼 العمليات";
             }
         }
 
         private void BtnDataManagement_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "البيانات الأساسية";
-            // هنا سيتم فتح شاشة البيانات الأساسية لاحقاً
+            // تبديل حالة القائمة الفرعية
+            ToggleDataSubMenu();
+        }
+
+        private void ToggleDataSubMenu()
+        {
+            isDataSubMenuExpanded = !isDataSubMenuExpanded;
+            
+            if (isDataSubMenuExpanded)
+            {
+                // إزالة القائمة الفرعية من Controls
+                if (pnlSidebar.Controls.Contains(pnlDataSubMenu))
+                {
+                    pnlSidebar.Controls.Remove(pnlDataSubMenu);
+                }
+                
+                // إضافة القائمة الفرعية بعد الزر الرئيسي مباشرة
+                int dataIndex = pnlSidebar.Controls.IndexOf(btnDataManagement);
+                pnlSidebar.Controls.Add(pnlDataSubMenu);
+                pnlSidebar.Controls.SetChildIndex(pnlDataSubMenu, dataIndex + 1);
+                
+                pnlDataSubMenu.Visible = true;
+            }
+            else
+            {
+                pnlDataSubMenu.Visible = false;
+            }
+            
+            // تحديث نص الزر لإظهار السهم
+            if (isDataSubMenuExpanded)
+            {
+                if (isMenuCollapsed)
+                    btnDataManagement.Text = "📊 ▼";
+                else
+                    btnDataManagement.Text = "📊 البيانات الأساسية ▼";
+            }
+            else
+            {
+                if (isMenuCollapsed)
+                    btnDataManagement.Text = "📊";
+                else
+                    btnDataManagement.Text = "📊 البيانات الأساسية";
+            }
+        }
+
+        private void BtnBuildings_Click(object sender, EventArgs e)
+        {
+            lblHeaderTitle.Text = "بيانات العقار";
+            // هنا سيتم فتح شاشة بيانات العقار لاحقاً
+        }
+
+        private void BtnApartments_Click(object sender, EventArgs e)
+        {
+            lblHeaderTitle.Text = "بيانات الشقق";
+            // هنا سيتم فتح شاشة بيانات الشقق لاحقاً
+        }
+
+        private void BtnTenants_Click(object sender, EventArgs e)
+        {
+            lblHeaderTitle.Text = "بيانات المستأجر";
+            // هنا سيتم فتح شاشة بيانات المستأجر لاحقاً
+        }
+
+        private void BtnContracts_Click(object sender, EventArgs e)
+        {
+            lblHeaderTitle.Text = "بيانات العقود";
+            // هنا سيتم فتح شاشة بيانات العقود لاحقاً
         }
 
         private void BtnOperations_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "العمليات";
-            // هنا سيتم فتح شاشة العمليات لاحقاً
+            // تبديل حالة القائمة الفرعية
+            ToggleOperationsSubMenu();
+        }
+
+        private void ToggleOperationsSubMenu()
+        {
+            isOperationsSubMenuExpanded = !isOperationsSubMenuExpanded;
+            
+            if (isOperationsSubMenuExpanded)
+            {
+                // إزالة القائمة الفرعية من Controls
+                if (pnlSidebar.Controls.Contains(pnlOperationsSubMenu))
+                {
+                    pnlSidebar.Controls.Remove(pnlOperationsSubMenu);
+                }
+                
+                // إضافة القائمة الفرعية بعد الزر الرئيسي مباشرة
+                int operationsIndex = pnlSidebar.Controls.IndexOf(btnOperations);
+                pnlSidebar.Controls.Add(pnlOperationsSubMenu);
+                pnlSidebar.Controls.SetChildIndex(pnlOperationsSubMenu, operationsIndex + 1);
+                
+                pnlOperationsSubMenu.Visible = true;
+            }
+            else
+            {
+                pnlOperationsSubMenu.Visible = false;
+            }
+            
+            // تحديث نص الزر لإظهار السهم
+            if (isOperationsSubMenuExpanded)
+            {
+                if (isMenuCollapsed)
+                    btnOperations.Text = "💼 ▼";
+                else
+                    btnOperations.Text = "💼 العمليات ▼";
+            }
+            else
+            {
+                if (isMenuCollapsed)
+                    btnOperations.Text = "💼";
+                else
+                    btnOperations.Text = "💼 العمليات";
+            }
+        }
+
+        private void BtnInvoices_Click(object sender, EventArgs e)
+        {
+            lblHeaderTitle.Text = "الفواتير";
+            // هنا سيتم فتح شاشة الفواتير لاحقاً
+        }
+
+        private void BtnReceipts_Click(object sender, EventArgs e)
+        {
+            lblHeaderTitle.Text = "سندات القبض";
+            // هنا سيتم فتح شاشة سندات القبض لاحقاً
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
