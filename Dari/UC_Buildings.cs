@@ -19,6 +19,7 @@ namespace Dari
         private GridBtnViewHelper gridBtnViewHelper;
         private Buildings buildings;
         private bool isFieldsEditable = false;
+        private bool isEditMode = false;
 
         public UC_Buildings()
         {
@@ -36,6 +37,7 @@ namespace Dari
 
             // افتراضيًا: كل الحقول للقراءة فقط (وتتفعل عند الضغط على "إضافة")
             SetFieldsEditable(false);
+            SetEditMode(false);
             
             // ربط أحداث الأزرار
             if (btnSearch != null)
@@ -44,8 +46,17 @@ namespace Dari
                 btnSave.Click += BtnSave_Click;
             if (btnAdd != null)
                 btnAdd.Click += BtnAdd_Click;
+            if (btnEdit != null)
+                btnEdit.Click += BtnEdit_Click;
         }
         
+        private void SetEditMode(bool editMode)
+        {
+            isEditMode = editMode;
+            if (btnSave != null)
+                btnSave.Text = editMode ? "تحديث" : "حفظ";
+        }
+
         private void WireReadOnlyFocusGuards()
         {
             // منع الفوكس على الحقول عندما تكون ReadOnly (حتى عند الضغط بالماوس)
@@ -104,6 +115,7 @@ namespace Dari
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
+            SetEditMode(false);
             ClearFields();
             SetFieldsEditable(true);
 
@@ -161,17 +173,44 @@ namespace Dari
                     return;
                 }
 
-                buildings.ADD_Buildings(propertyNo, propertyName, propertyType, description, address, ownerNo);
+                if (isEditMode)
+                {
+                    buildings.UPDATE_Buildings(propertyNo, propertyName, propertyType, description, address, ownerNo);
+                    MessageBox.Show("تم تحديث بيانات العقار بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    buildings.ADD_Buildings(propertyNo, propertyName, propertyType, description, address, ownerNo);
+                    MessageBox.Show("تم حفظ بيانات العقار بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-                
-                MessageBox.Show("تم حفظ بيانات العقار بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearFields();
                 SetFieldsEditable(false);
+                SetEditMode(false);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            // لا يمكن التعديل بدون اختيار سجل (رقم عقار)
+            string propertyNo = (txtPropertyNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(propertyNo))
+            {
+                MessageBox.Show("الرجاء اختيار عقار أولاً عن طريق زر البحث.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SetEditMode(true);
+            SetFieldsEditable(true);
+
+            // رقم العقار لا يتعدل
+            SetPropertyNoEditable(false);
+
+            txtPropertyName?.Focus();
         }
 
         private void ClearFields()
@@ -200,6 +239,7 @@ namespace Dari
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
+            SetEditMode(false);
             // استدعاء البيانات من قاعدة البيانات
             DataTable dt = buildings.GET_ALL_Buildings();
             
@@ -217,10 +257,12 @@ namespace Dari
         {
             try
             {
+                SetEditMode(false);
+                SetFieldsEditable(false);
+
                 // تعبئة الحقول من البيانات المختارة
                 if (row.Table.Columns.Contains("PropertyNo"))
                     txtPropertyNo.Text = row["PropertyNo"]?.ToString() ?? "";
-                SetFieldsEditable(false);
                     
                 if (row.Table.Columns.Contains("PropertyName"))
                     txtPropertyName.Text = row["PropertyName"]?.ToString() ?? "";
