@@ -19,6 +19,7 @@ namespace Dari
         private bool isOperationsSubMenuExpanded = false;
         private const int MENU_EXPANDED_WIDTH = 250;
         private const int MENU_COLLAPSED_WIDTH = 60;
+        private UserControl currentUserControl = null;
 
         public Form1()
         {
@@ -191,8 +192,23 @@ namespace Dari
 
         private void BtnBuildings_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "بيانات العقار";
-            // هنا سيتم فتح شاشة بيانات العقار لاحقاً
+            ShowUserControl(new UC_Buildings());
+        }
+
+        private void ShowUserControl(UserControl userControl)
+        {
+            // إزالة User Control الحالي إن وجد
+            if (currentUserControl != null)
+            {
+                pnlContent.Controls.Remove(currentUserControl);
+                currentUserControl.Dispose();
+            }
+            
+            // إضافة User Control الجديد
+            currentUserControl = userControl;
+            currentUserControl.Dock = DockStyle.Fill;
+            pnlContent.Controls.Clear();
+            pnlContent.Controls.Add(currentUserControl);
         }
 
         private void BtnApartments_Click(object sender, EventArgs e)
