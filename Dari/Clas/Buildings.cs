@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,11 @@ namespace Dari.Clas
             DataTable dt = DAL.SelectData("sp_Property_SelectAll", null);
             DAL.Close();
             return dt;
+        }
+
+        public string GET_NEXT_PROPERTY_CODE()
+        {
+            return AutoNumberHelper.GetNextNumber("Properties", "PropertyNo");
         }
 
 

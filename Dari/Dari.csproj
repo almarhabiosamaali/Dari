@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clas\Buildings.cs" />
+    <Compile Include="Clas\AutoNumberHelper.cs" />
     <Compile Include="Clas\DataAccessLayer.cs" />
     <Compile Include="Clas\GridBtnViewHelper.cs" />
     <Compile Include="Form1.cs">

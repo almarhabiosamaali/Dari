@@ -18,6 +18,7 @@ namespace Dari
     {
         private GridBtnViewHelper gridBtnViewHelper;
         private Buildings buildings;
+        private bool isFieldsEditable = false;
 
         public UC_Buildings()
         {
@@ -30,14 +31,111 @@ namespace Dari
             // تهيئة الكلاسات
             gridBtnViewHelper = new GridBtnViewHelper();
             buildings = new Buildings();
+
+            WireReadOnlyFocusGuards();
+
+            // افتراضيًا: كل الحقول للقراءة فقط (وتتفعل عند الضغط على "إضافة")
+            SetFieldsEditable(false);
             
             // ربط أحداث الأزرار
             if (btnSearch != null)
                 btnSearch.Click += BtnSearch_Click;
             if (btnSave != null)
                 btnSave.Click += BtnSave_Click;
+            if (btnAdd != null)
+                btnAdd.Click += BtnAdd_Click;
         }
         
+        private void WireReadOnlyFocusGuards()
+        {
+            // منع الفوكس على الحقول عندما تكون ReadOnly (حتى عند الضغط بالماوس)
+            if (txtPropertyNo != null) txtPropertyNo.Enter += PreventFocusWhenReadOnly;
+            if (txtPropertyName != null) txtPropertyName.Enter += PreventFocusWhenReadOnly;
+            if (txtDescription != null) txtDescription.Enter += PreventFocusWhenReadOnly;
+            if (txtAddress != null) txtAddress.Enter += PreventFocusWhenReadOnly;
+            if (txtOwnerNo != null) txtOwnerNo.Enter += PreventFocusWhenReadOnly;
+        }
+
+        private void PreventFocusWhenReadOnly(object sender, EventArgs e)
+        {
+            if (isFieldsEditable)
+                return;
+
+            // إذا كانت الشاشة في وضع ReadOnly، انقل الفوكس لأقرب عنصر مناسب (مثل زر الإضافة)
+            if (btnAdd != null && btnAdd.CanSelect)
+            {
+                btnAdd.Select();
+                return;
+            }
+
+            if (sender is Control c)
+                SelectNextControl(c, true, true, true, true);
+        }
+
+        private void SetFieldsEditable(bool isEditable)
+        {
+            isFieldsEditable = isEditable;
+
+            // رقم العقار: افتراضيًا للقراءة فقط (يتفعل فقط في حالة أول مرة)
+            SetPropertyNoEditable(false);
+
+            if (txtPropertyName != null) { txtPropertyName.ReadOnly = !isEditable; txtPropertyName.TabStop = isEditable; }
+            if (txtDescription != null) { txtDescription.ReadOnly = !isEditable; txtDescription.TabStop = isEditable; }
+            if (txtAddress != null) { txtAddress.ReadOnly = !isEditable; txtAddress.TabStop = isEditable; }
+            if (txtOwnerNo != null) { txtOwnerNo.ReadOnly = !isEditable; txtOwnerNo.TabStop = isEditable; }
+
+            if (cmbPropertyType != null) cmbPropertyType.Enabled = isEditable;
+
+            if (chkIsActive != null)
+            {
+                chkIsActive.Enabled = isEditable;
+                chkIsActive.ReadOnly = !isEditable;
+            }
+        }
+
+        private void SetPropertyNoEditable(bool isEditable)
+        {
+            if (txtPropertyNo == null)
+                return;
+
+            txtPropertyNo.ReadOnly = !isEditable;
+            txtPropertyNo.TabStop = isEditable;
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            ClearFields();
+            SetFieldsEditable(true);
+
+            try
+            {
+                string nextId = buildings.GET_NEXT_PROPERTY_CODE();
+
+                // إذا لم يوجد رقم سابق (أول مرة/لا توجد بيانات رقمية) نخلي المستخدم يدخل الرقم يدوياً
+                if (nextId == "1")
+                {
+                    SetPropertyNoEditable(true);
+                    MessageBox.Show(
+                        "لا يوجد رقم سابق للعقار.\nالرجاء إدخال رقم العقار يدوياً لأول مرة، وسيتم توليد الرقم التالي تلقائياً لاحقاً.",
+                        "تنبيه",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    txtPropertyNo?.Focus();
+                    return;
+                }
+
+                if (txtPropertyNo != null)
+                    txtPropertyNo.Text = nextId;
+                SetPropertyNoEditable(false);
+
+                txtPropertyName?.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء توليد الرقم: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void BtnSave_Click(object sender, EventArgs e)
         {
             try
@@ -68,6 +166,7 @@ namespace Dari
                 
                 MessageBox.Show("تم حفظ بيانات العقار بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearFields();
+                SetFieldsEditable(false);
             }
             catch (Exception ex)
             {
@@ -92,7 +191,11 @@ namespace Dari
             if (chkIsActive != null)
                 chkIsActive.Checked = false;
 
-            txtPropertyNo?.Focus();
+            // لا تعطي فوكس لحقل ReadOnly
+            if (isFieldsEditable && txtPropertyNo != null && !txtPropertyNo.ReadOnly)
+                txtPropertyNo.Focus();
+            else if (btnAdd != null && btnAdd.CanSelect)
+                btnAdd.Select();
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
@@ -117,6 +220,7 @@ namespace Dari
                 // تعبئة الحقول من البيانات المختارة
                 if (row.Table.Columns.Contains("PropertyNo"))
                     txtPropertyNo.Text = row["PropertyNo"]?.ToString() ?? "";
+                SetFieldsEditable(false);
                     
                 if (row.Table.Columns.Contains("PropertyName"))
                     txtPropertyName.Text = row["PropertyName"]?.ToString() ?? "";
