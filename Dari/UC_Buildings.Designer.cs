@@ -35,6 +35,7 @@ namespace Dari
         private void InitializeComponent()
         {
             this.pnlHeader = new System.Windows.Forms.Panel();
+            this.btnClose = new MaterialSkin.Controls.MaterialButton();
             this.lblTitle = new MaterialSkin.Controls.MaterialLabel();
             this.pnlForm = new System.Windows.Forms.Panel();
             this.pnlButtons = new System.Windows.Forms.Panel();
@@ -70,6 +71,7 @@ namespace Dari
             // pnlHeader
             // 
             this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
+            this.pnlHeader.Controls.Add(this.btnClose);
             this.pnlHeader.Controls.Add(this.lblTitle);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
@@ -78,6 +80,26 @@ namespace Dari
             this.pnlHeader.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlHeader.Size = new System.Drawing.Size(1267, 74);
             this.pnlHeader.TabIndex = 0;
+            // 
+            // btnClose
+            // 
+            this.btnClose.AutoSize = false;
+            this.btnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnClose.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnClose.Depth = 0;
+            this.btnClose.HighEmphasis = false;
+            this.btnClose.Icon = null;
+            this.btnClose.Location = new System.Drawing.Point(10, 12);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnClose.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnClose.Name = "btnClose";
+            this.btnClose.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnClose.Size = new System.Drawing.Size(120, 45);
+            this.btnClose.TabIndex = 99;
+            this.btnClose.Text = "رجوع";
+            this.btnClose.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnClose.UseAccentColor = false;
+            this.btnClose.UseVisualStyleBackColor = true;
             // 
             // lblTitle
             // 
@@ -614,6 +636,7 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnDelete;
         private MaterialSkin.Controls.MaterialButton btnSearch;
         private MaterialSkin.Controls.MaterialButton btnSave;
+        private MaterialSkin.Controls.MaterialButton btnClose;
         private System.Windows.Forms.Panel pnlDataGrid;
         private System.Windows.Forms.DataGridView dgvProperties;
     }

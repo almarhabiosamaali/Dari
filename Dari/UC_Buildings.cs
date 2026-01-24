@@ -50,6 +50,8 @@ namespace Dari
                 btnEdit.Click += BtnEdit_Click;
             if (btnDelete != null)
                 btnDelete.Click += BtnDelete_Click;
+            if (btnClose != null)
+                btnClose.Click += BtnClose_Click;
         }
         
         private void SetEditMode(bool editMode)
@@ -247,6 +249,19 @@ namespace Dari
             {
                 MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            // رجوع للشاشة الرئيسية (Form1)
+            if (FindForm() is Form1 mainForm)
+            {
+                mainForm.ShowHome();
+                return;
+            }
+
+            // كحل احتياطي: إخفاء الشاشة الحالية
+            this.Visible = false;
         }
 
         private void ClearFields()

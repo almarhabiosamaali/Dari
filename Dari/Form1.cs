@@ -211,6 +211,26 @@ namespace Dari
             pnlContent.Controls.Add(currentUserControl);
         }
 
+        public void ShowHome()
+        {
+            // إزالة User Control الحالي إن وجد
+            if (currentUserControl != null)
+            {
+                pnlContent.Controls.Remove(currentUserControl);
+                currentUserControl.Dispose();
+                currentUserControl = null;
+            }
+
+            pnlContent.Controls.Clear();
+
+            // إعادة إظهار العنوان الافتراضي داخل المحتوى
+            if (lblHeaderTitle != null)
+            {
+                lblHeaderTitle.Text = "مرحباً بك في نظام إدارة الإيجارات";
+                pnlContent.Controls.Add(lblHeaderTitle);
+            }
+        }
+
         private void BtnApartments_Click(object sender, EventArgs e)
         {
             lblHeaderTitle.Text = "بيانات الشقق";
