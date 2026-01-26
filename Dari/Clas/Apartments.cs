@@ -20,6 +20,16 @@ namespace Dari.Clas
             return dt;
         }
 
+        // دالة للحصول على جميع بيانات الشقق
+        public DataTable GET_ALL_Apartments()
+        {
+            Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
+            DAL.Open();
+            DataTable dt = DAL.SelectData("sp_Apartment_SelectAll", null);
+            DAL.Close();
+            return dt;
+        }
+
         // دالة للحصول على الرقم التالي للشقة
         public string GET_NEXT_APARTMENT_CODE()
         {

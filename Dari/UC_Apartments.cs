@@ -16,6 +16,7 @@ namespace Dari
 {
     public partial class UC_Apartments : UserControl
     {
+        private GridBtnViewHelper gridBtnViewHelper;
         private Buildings buildings;
         private Apartments apartments;
         private bool isFieldsEditable = false;
@@ -30,6 +31,7 @@ namespace Dari
                 return;
             
             // تهيئة الكلاسات
+            gridBtnViewHelper = new GridBtnViewHelper();
             buildings = new Buildings();
             apartments = new Apartments();
             
@@ -47,6 +49,8 @@ namespace Dari
                 btnAdd.Click += BtnAdd_Click;
             if (btnSave != null)
                 btnSave.Click += BtnSave_Click;
+            if (btnSearch != null)
+                btnSearch.Click += BtnSearch_Click;
             if (btnEdit != null)
                 btnEdit.Click += BtnEdit_Click;
             if (btnClose != null)
@@ -257,6 +261,123 @@ namespace Dari
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            SetEditMode(false);
+            // استدعاء البيانات من قاعدة البيانات
+            DataTable dt = apartments.GET_ALL_Apartments();
+            
+            // عرض البيانات في نافذة البحث الديناميكية
+            DataRow row = gridBtnViewHelper.Show(dt, "البحث عن الشقق");
+            
+            if (row != null)
+            {
+                // تعبئة البيانات في الحقول
+                FillFieldsFromRow(row);
+            }
+        }
+
+        private void FillFieldsFromRow(DataRow row)
+        {
+            try
+            {
+                SetEditMode(false);
+                SetFieldsEditable(false);
+
+                // تعبئة الحقول من البيانات المختارة
+                if (row.Table.Columns.Contains("ApartmentNo"))
+                    txtApartmentNo.Text = row["ApartmentNo"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("PropertyNo"))
+                {
+                    string propertyNo = row["PropertyNo"]?.ToString() ?? "";
+                    // البحث عن رقم العقار في ComboBox
+                    if (cmbPropertyNo != null)
+                    {
+                        for (int i = 0; i < cmbPropertyNo.Items.Count; i++)
+                        {
+                            DataRowView drv = cmbPropertyNo.Items[i] as DataRowView;
+                            if (drv != null && drv["PropertyNo"]?.ToString() == propertyNo)
+                            {
+                                cmbPropertyNo.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (row.Table.Columns.Contains("AreaSqm"))
+                    txtAreaSqm.Text = row["AreaSqm"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("ApartmentType"))
+                {
+                    string apartmentType = row["ApartmentType"]?.ToString() ?? "";
+                    // البحث عن النوع في ComboBox
+                    if (cmbApartmentType != null)
+                    {
+                        for (int i = 0; i < cmbApartmentType.Items.Count; i++)
+                        {
+                            if (cmbApartmentType.Items[i].ToString() == apartmentType)
+                            {
+                                cmbApartmentType.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (row.Table.Columns.Contains("ApartmentStatus"))
+                {
+                    string apartmentStatus = row["ApartmentStatus"]?.ToString() ?? "";
+                    // البحث عن الحالة في ComboBox
+                    if (cmbApartmentStatus != null)
+                    {
+                        for (int i = 0; i < cmbApartmentStatus.Items.Count; i++)
+                        {
+                            if (cmbApartmentStatus.Items[i].ToString() == apartmentStatus)
+                            {
+                                cmbApartmentStatus.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (row.Table.Columns.Contains("RentStatus"))
+                {
+                    string rentStatus = row["RentStatus"]?.ToString() ?? "";
+                    // البحث عن حالة الإيجار في ComboBox
+                    if (cmbRentStatus != null)
+                    {
+                        for (int i = 0; i < cmbRentStatus.Items.Count; i++)
+                        {
+                            if (cmbRentStatus.Items[i].ToString() == rentStatus)
+                            {
+                                cmbRentStatus.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (row.Table.Columns.Contains("RoomsCount"))
+                    txtRoomsCount.Text = row["RoomsCount"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("KitchensCount"))
+                    txtKitchensCount.Text = row["KitchensCount"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("BathroomsCount"))
+                    txtBathroomsCount.Text = row["BathroomsCount"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("FloorNo"))
+                    txtFloorNo.Text = row["FloorNo"]?.ToString() ?? "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"خطأ في تعبئة البيانات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
