@@ -46,6 +46,8 @@ namespace Dari
                 btnClose.Click += BtnClose_Click;
             if (btnAdd != null)
                 btnAdd.Click += BtnAdd_Click;
+            if (btnSave != null)
+                btnSave.Click += BtnSave_Click;
             
             // ربط أحداث KeyDown للحقول
             if (txtTenantNo != null)
@@ -258,6 +260,107 @@ namespace Dari
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء توليد رقم العقد: {ex.Message}", "خطأ", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // جمع البيانات من الحقول
+                string contractNo = (txtContractNo?.Text ?? string.Empty).Trim();
+                
+                // الحصول على رقم المستأجر من Tag (إذا كان موجوداً) أو من النص
+                string tenantNo = txtTenantNo?.Tag?.ToString() ?? (txtTenantNo?.Text ?? string.Empty).Trim();
+                
+                string apartmentNo = (txtApartmentNo?.Text ?? string.Empty).Trim();
+                DateTime startDate = dtpStartDate?.Value ?? DateTime.Now;
+                DateTime endDate = dtpEndDate?.Value ?? DateTime.Now;
+
+                // التحقق من الحقول الإلزامية
+                if (string.IsNullOrWhiteSpace(contractNo) ||
+                    string.IsNullOrWhiteSpace(tenantNo) ||
+                    string.IsNullOrWhiteSpace(apartmentNo) ||
+                    cmbContractStatus?.SelectedIndex < 0)
+                {
+                    MessageBox.Show(
+                        "الرجاء تعبئة جميع الحقول الإلزامية:\n- رقم العقد\n- رقم المستأجر\n- رقم الشقة\n- حالة العقد",
+                        "تنبيه",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // التحقق من أن تاريخ الانتهاء بعد تاريخ البدء
+                if (endDate < startDate)
+                {
+                    MessageBox.Show(
+                        "تاريخ الانتهاء يجب أن يكون بعد تاريخ البدء.",
+                        "تنبيه",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // معالجة الحقول الرقمية
+                if (!decimal.TryParse(txtMonthlyRent?.Text?.Trim() ?? "0", out decimal monthlyRent))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة صحيحة للإيجار الشهري.", "تنبيه", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtMonthlyRent?.Focus();
+                    return;
+                }
+
+                if (!decimal.TryParse(txtDepositAmount?.Text?.Trim() ?? "0", out decimal depositAmount))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة صحيحة لمبلغ الضمان.", "تنبيه", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtDepositAmount?.Focus();
+                    return;
+                }
+
+                // معالجة رسوم أخرى (اختياري)
+                decimal? otherFees = null;
+                if (!string.IsNullOrWhiteSpace(txtOtherFees?.Text?.Trim()))
+                {
+                    if (decimal.TryParse(txtOtherFees.Text.Trim(), out decimal otherFeesValue))
+                    {
+                        otherFees = otherFeesValue;
+                    }
+                    else
+                    {
+                        MessageBox.Show("الرجاء إدخال قيمة صحيحة لرسوم أخرى.", "تنبيه", 
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        txtOtherFees?.Focus();
+                        return;
+                    }
+                }
+
+                // الحصول على حالة العقد
+                string contractStatus = (cmbContractStatus?.SelectedItem?.ToString() ?? cmbContractStatus?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(contractStatus))
+                {
+                    MessageBox.Show("الرجاء اختيار حالة العقد.", "تنبيه", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // حفظ البيانات
+                contracts.ADD_Contracts(contractNo, tenantNo, apartmentNo, 
+                    startDate, endDate, monthlyRent, depositAmount, otherFees, contractStatus);
+                
+                MessageBox.Show("تم حفظ بيانات العقد بنجاح.", "تم", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // تنظيف الحقول وإعادة الحالة
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
