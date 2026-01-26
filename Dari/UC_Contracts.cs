@@ -50,6 +50,8 @@ namespace Dari
                 btnSave.Click += BtnSave_Click;
             if (btnSearch != null)
                 btnSearch.Click += BtnSearch_Click;
+            if (btnEdit != null)
+                btnEdit.Click += BtnEdit_Click;
             
             // ربط أحداث KeyDown للحقول (يجب أن يكون قبل WireReadOnlyFocusGuards)
             if (txtTenantNo != null)
@@ -391,12 +393,21 @@ namespace Dari
                 if (string.IsNullOrWhiteSpace(note))
                     note = null;
 
-                // حفظ البيانات
-                contracts.ADD_Contracts(contractNo, tenantNo, apartmentNo, 
-                    startDate, endDate, monthlyRent, depositAmount, otherFees, contractStatus, note);
-                
-                MessageBox.Show("تم حفظ بيانات العقد بنجاح.", "تم", 
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // حفظ أو تحديث البيانات
+                if (isEditMode)
+                {
+                    contracts.UPDATE_Contracts(contractNo, tenantNo, apartmentNo, 
+                        startDate, endDate, monthlyRent, depositAmount, otherFees, contractStatus, note);
+                    MessageBox.Show("تم تحديث بيانات العقد بنجاح.", "تم", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    contracts.ADD_Contracts(contractNo, tenantNo, apartmentNo, 
+                        startDate, endDate, monthlyRent, depositAmount, otherFees, contractStatus, note);
+                    MessageBox.Show("تم حفظ بيانات العقد بنجاح.", "تم", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
                 // تنظيف الحقول وإعادة الحالة
                 ClearFields();
@@ -408,6 +419,27 @@ namespace Dari
                 MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            // لا يمكن التعديل بدون اختيار سجل (رقم عقد)
+            string contractNo = (txtContractNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(contractNo))
+            {
+                MessageBox.Show("الرجاء اختيار عقد أولاً عن طريق زر البحث.", "تنبيه", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SetEditMode(true);
+            SetFieldsEditable(true);
+
+            // رقم العقد لا يتعدل
+            SetContractNoEditable(false);
+
+            // نقل الفوكس إلى حقل رقم المستأجر
+            txtTenantNo?.Focus();
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
