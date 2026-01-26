@@ -39,6 +39,7 @@ namespace Dari
             LoadPropertiesComboBox();
             
             WireReadOnlyFocusGuards();
+            WireNumericValidation();
             
             // افتراضيًا: كل الحقول للقراءة فقط (وتتفعل عند الضغط على "إضافة")
             SetFieldsEditable(false);
@@ -89,6 +90,236 @@ namespace Dari
             if (txtKitchensCount != null) txtKitchensCount.Enter += PreventFocusWhenReadOnly;
             if (txtBathroomsCount != null) txtBathroomsCount.Enter += PreventFocusWhenReadOnly;
             if (txtFloorNo != null) txtFloorNo.Enter += PreventFocusWhenReadOnly;
+        }
+
+        private void WireNumericValidation()
+        {
+            // ربط أحداث التحقق من الحقول الرقمية
+            // المساحة (DECIMAL - يسمح بنقطة)
+            if (txtAreaSqm != null)
+            {
+                txtAreaSqm.KeyPress += NumericKeyPress_Decimal;
+                txtAreaSqm.KeyDown += NumericKeyDown_Decimal;
+                txtAreaSqm.TextChanged += NumericTextChanged_Decimal;
+                txtAreaSqm.Validating += NumericValidating;
+            }
+
+            // عدد الغرف (INT - أرقام فقط)
+            if (txtRoomsCount != null)
+            {
+                txtRoomsCount.KeyPress += NumericKeyPress_Integer;
+                txtRoomsCount.Validating += NumericValidating;
+            }
+
+            // عدد المطابخ (INT - أرقام فقط)
+            if (txtKitchensCount != null)
+            {
+                txtKitchensCount.KeyPress += NumericKeyPress_Integer;
+                txtKitchensCount.Validating += NumericValidating;
+            }
+
+            // عدد الحمامات (INT - أرقام فقط)
+            if (txtBathroomsCount != null)
+            {
+                txtBathroomsCount.KeyPress += NumericKeyPress_Integer;
+                txtBathroomsCount.Validating += NumericValidating;
+            }
+
+            // رقم الطابق (INT - أرقام فقط)
+            if (txtFloorNo != null)
+            {
+                txtFloorNo.KeyPress += NumericKeyPress_Integer;
+                txtFloorNo.Validating += NumericValidating;
+            }
+        }
+
+        private void NumericKeyPress_Integer(object sender, KeyPressEventArgs e)
+        {
+            // السماح فقط بالأرقام (0-9) ومفاتيح التحكم (Backspace, Delete, Tab, etc.)
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("هذا الحقل يقبل الأرقام فقط.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void NumericKeyPress_Decimal(object sender, KeyPressEventArgs e)
+        {
+            MaterialTextBox2 textBox = sender as MaterialTextBox2;
+            if (textBox == null) return;
+
+            // السماح بالأرقام ومفاتيح التحكم
+            if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+                return;
+            }
+
+            // السماح بنقطة واحدة فقط للأرقام العشرية
+            if (e.KeyChar == '.' || e.KeyChar == ',')
+            {
+                // تحويل الفاصلة إلى نقطة
+                if (e.KeyChar == ',')
+                    e.KeyChar = '.';
+
+                // التحقق من وجود نقطة مسبقاً
+                if (textBox.Text.Contains("."))
+                {
+                    e.Handled = true;
+                    MessageBox.Show("يمكن إدخال نقطة واحدة فقط.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                e.Handled = false;
+                return;
+            }
+
+            // السماح فقط بالأرقام
+            if (!char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("هذا الحقل يقبل الأرقام فقط.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void NumericKeyDown_Decimal(object sender, KeyEventArgs e)
+        {
+            MaterialTextBox2 textBox = sender as MaterialTextBox2;
+            if (textBox == null) return;
+
+            // السماح بمفاتيح التحكم (Backspace, Delete, Tab, Arrow keys, etc.)
+            if (e.Control || e.Alt || 
+                e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete ||
+                e.KeyCode == Keys.Left || e.KeyCode == Keys.Right ||
+                e.KeyCode == Keys.Home || e.KeyCode == Keys.End ||
+                e.KeyCode == Keys.Tab || e.KeyCode == Keys.Enter)
+            {
+                return;
+            }
+
+            // السماح بالأرقام (0-9) والنقطة
+            bool isNumeric = (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                            (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9);
+            bool isDot = e.KeyCode == Keys.OemPeriod || e.KeyCode == Keys.Decimal;
+
+            if (isDot)
+            {
+                // التحقق من وجود نقطة مسبقاً
+                if (textBox.Text.Contains("."))
+                {
+                    e.SuppressKeyPress = true;
+                    MessageBox.Show("يمكن إدخال نقطة واحدة فقط.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                return;
+            }
+
+            // منع أي مفتاح آخر غير الأرقام
+            if (!isNumeric)
+            {
+                e.SuppressKeyPress = true;
+                MessageBox.Show("هذا الحقل يقبل الأرقام والنقطة فقط.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void NumericTextChanged_Decimal(object sender, EventArgs e)
+        {
+            MaterialTextBox2 textBox = sender as MaterialTextBox2;
+            if (textBox == null || !isFieldsEditable) return;
+
+            string text = textBox.Text;
+            if (string.IsNullOrWhiteSpace(text)) return;
+
+            // إزالة أي أحرف غير رقمية (عدا النقطة)
+            string cleanedText = "";
+            bool hasDot = false;
+            foreach (char c in text)
+            {
+                if (char.IsDigit(c))
+                {
+                    cleanedText += c;
+                }
+                else if ((c == '.' || c == ',') && !hasDot)
+                {
+                    cleanedText += ".";
+                    hasDot = true;
+                }
+            }
+
+            // إذا تغير النص، قم بتحديثه
+            if (cleanedText != text)
+            {
+                int selectionStart = textBox.SelectionStart;
+                int selectionLength = textBox.SelectionLength;
+                
+                // حساب الفرق في الطول
+                int lengthDiff = cleanedText.Length - text.Length;
+                
+                textBox.Text = cleanedText;
+                
+                // الحفاظ على موضع المؤشر
+                int newSelectionStart = selectionStart + lengthDiff;
+                if (newSelectionStart < 0) newSelectionStart = 0;
+                if (newSelectionStart > cleanedText.Length) newSelectionStart = cleanedText.Length;
+                
+                textBox.SelectionStart = newSelectionStart;
+                textBox.SelectionLength = 0;
+                
+                MessageBox.Show("هذا الحقل يقبل الأرقام والنقطة فقط.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void NumericValidating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            MaterialTextBox2 textBox = sender as MaterialTextBox2;
+            if (textBox == null) return;
+
+            string text = textBox.Text.Trim();
+
+            // السماح بالحقل الفارغ (سيتم التحقق منه عند الحفظ)
+            if (string.IsNullOrWhiteSpace(text))
+                return;
+
+            // التحقق من أن القيمة رقمية
+            if (textBox == txtAreaSqm)
+            {
+                // للمساحة (DECIMAL)
+                if (!decimal.TryParse(text, out decimal value))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة رقمية صحيحة للمساحة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                    textBox.Focus();
+                    return;
+                }
+
+                // التحقق من أن القيمة موجبة
+                if (value <= 0)
+                {
+                    MessageBox.Show("المساحة يجب أن تكون قيمة موجبة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                    textBox.Focus();
+                    return;
+                }
+            }
+            else
+            {
+                // للحقول الأخرى (INT)
+                if (!int.TryParse(text, out int value))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة رقمية صحيحة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                    textBox.Focus();
+                    return;
+                }
+
+                // التحقق من أن القيمة موجبة
+                if (value <= 0)
+                {
+                    MessageBox.Show("القيمة يجب أن تكون رقماً موجباً.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    e.Cancel = true;
+                    textBox.Focus();
+                    return;
+                }
+            }
         }
 
         private void PreventFocusWhenReadOnly(object sender, EventArgs e)
