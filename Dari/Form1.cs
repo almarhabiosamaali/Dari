@@ -238,8 +238,7 @@ namespace Dari
 
         private void BtnTenants_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "بيانات المستأجر";
-            // هنا سيتم فتح شاشة بيانات المستأجر لاحقاً
+            ShowUserControl(new UC_Tenants());
         }
 
         private void BtnContracts_Click(object sender, EventArgs e)
