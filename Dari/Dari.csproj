@@ -52,6 +52,7 @@
     <Compile Include="Clas\Buildings.cs" />
     <Compile Include="Clas\Apartments.cs" />
     <Compile Include="Clas\Tenants.cs" />
+    <Compile Include="Clas\Contracts.cs" />
     <Compile Include="Clas\AutoNumberHelper.cs" />
     <Compile Include="Clas\DataAccessLayer.cs" />
     <Compile Include="Clas\GridBtnViewHelper.cs" />
@@ -79,6 +80,12 @@
     <Compile Include="UC_Tenants.Designer.cs">
       <DependentUpon>UC_Tenants.cs</DependentUpon>
     </Compile>
+    <Compile Include="UC_Contracts.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Contracts.Designer.cs">
+      <DependentUpon>UC_Contracts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -92,6 +99,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC_Tenants.resx">
       <DependentUpon>UC_Tenants.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Contracts.resx">
+      <DependentUpon>UC_Contracts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

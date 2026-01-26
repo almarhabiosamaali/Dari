@@ -243,8 +243,7 @@ namespace Dari
 
         private void BtnContracts_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "بيانات العقود";
-            // هنا سيتم فتح شاشة بيانات العقود لاحقاً
+            ShowUserControl(new UC_Contracts());
         }
 
         private void BtnOperations_Click(object sender, EventArgs e)

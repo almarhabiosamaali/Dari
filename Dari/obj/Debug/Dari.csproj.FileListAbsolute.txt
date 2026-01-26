@@ -12,3 +12,4 @@ C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.exe
 C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.pdb
 C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.csprojResolveAssemblyReference.cache
 C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.UC_Tenants.resources
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.UC_Contracts.resources
