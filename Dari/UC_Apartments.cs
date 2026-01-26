@@ -47,6 +47,8 @@ namespace Dari
                 btnAdd.Click += BtnAdd_Click;
             if (btnSave != null)
                 btnSave.Click += BtnSave_Click;
+            if (btnEdit != null)
+                btnEdit.Click += BtnEdit_Click;
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
         }
@@ -237,9 +239,9 @@ namespace Dari
 
                 if (isEditMode)
                 {
-                    // TODO: سيتم إضافة دالة UPDATE لاحقاً
-                    MessageBox.Show("ميزة التحديث قيد التطوير.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    apartments.UPDATE_Apartments(apartmentNo, propertyNo, areaSqm, apartmentType,
+                        apartmentStatus, rentStatus, roomsCount, kitchensCount, bathroomsCount, floorNo);
+                    MessageBox.Show("تم تحديث بيانات الشقة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -256,6 +258,25 @@ namespace Dari
             {
                 MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            // لا يمكن التعديل بدون اختيار سجل (رقم شقة)
+            string apartmentNo = (txtApartmentNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(apartmentNo))
+            {
+                MessageBox.Show("الرجاء اختيار شقة أولاً عن طريق زر البحث.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SetEditMode(true);
+            SetFieldsEditable(true);
+
+            // رقم الشقة لا يتعدل
+            SetApartmentNoEditable(false);
+
+            cmbPropertyNo?.Focus();
         }
 
         private void ClearFields()
