@@ -251,9 +251,11 @@ namespace Dari
 
                 if (isEditMode)
                 {
-                    // سيتم برمجة UPDATE لاحقاً
-                    MessageBox.Show("ميزة التحديث قيد التطوير.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    tenants.UPDATE_Tenants(tenantNo, tenantName, nationalIdNo, mobileNo,
+                        birthDate, nationality, socialStatus, jobTitle, workPlace, tenantStatus,
+                        guarantorName, guarantorNationalId, guarantorMobile, guarantorWorkPlace, commercialRegNo,
+                        idImagePath, contractImagePath, guaranteeImagePath, guarantorIdImagePath);
+                    MessageBox.Show("تم تحديث بيانات المستأجر بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -276,7 +278,20 @@ namespace Dari
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            // سيتم برمجتها لاحقاً
+            string tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(tenantNo))
+            {
+                MessageBox.Show("الرجاء اختيار مستأجر أولاً عن طريق زر البحث.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SetEditMode(true);
+            SetFieldsEditable(true);
+
+            // رقم المستأجر لا يتعدل
+            SetTenantNoEditable(false);
+
+            txtTenantName?.Focus();
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
