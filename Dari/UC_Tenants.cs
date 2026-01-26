@@ -185,7 +185,93 @@ namespace Dari
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            // سيتم برمجتها بعد إرسال البروسيدر
+            try
+            {
+                string tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+                string tenantName = (txtTenantName?.Text ?? string.Empty).Trim();
+                string nationalIdNo = (txtNationalIdNo?.Text ?? string.Empty).Trim();
+                string mobileNo = (txtMobileNo?.Text ?? string.Empty).Trim();
+                string tenantStatus = (cmbTenantStatus?.SelectedItem?.ToString() ?? cmbTenantStatus?.Text ?? string.Empty).Trim();
+
+                // التحقق من الحقول الإلزامية
+                if (string.IsNullOrWhiteSpace(tenantNo) ||
+                    string.IsNullOrWhiteSpace(tenantName) ||
+                    string.IsNullOrWhiteSpace(nationalIdNo) ||
+                    string.IsNullOrWhiteSpace(mobileNo) ||
+                    string.IsNullOrWhiteSpace(tenantStatus))
+                {
+                    MessageBox.Show(
+                        "الرجاء تعبئة جميع الحقول الإلزامية:\n- رقم المستأجر\n- اسم المستأجر\n- رقم الهوية\n- رقم الجوال\n- حالة المستأجر",
+                        "تنبيه",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // معالجة تاريخ الميلاد (اختياري)
+                DateTime? birthDate = null;
+                if (dtpBirthDate != null && dtpBirthDate.Checked)
+                {
+                    birthDate = dtpBirthDate.Value.Date;
+                }
+
+                // الحقول الاختيارية
+                string nationality = (cmbNationality?.SelectedItem?.ToString() ?? cmbNationality?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(nationality)) nationality = null;
+
+                string socialStatus = (cmbSocialStatus?.SelectedItem?.ToString() ?? cmbSocialStatus?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(socialStatus)) socialStatus = null;
+
+                string jobTitle = (txtJobTitle?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(jobTitle)) jobTitle = null;
+
+                string workPlace = (txtWorkPlace?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(workPlace)) workPlace = null;
+
+                string guarantorName = (txtGuarantorName?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(guarantorName)) guarantorName = null;
+
+                string guarantorNationalId = (txtGuarantorNationalId?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(guarantorNationalId)) guarantorNationalId = null;
+
+                string guarantorMobile = (txtGuarantorMobile?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(guarantorMobile)) guarantorMobile = null;
+
+                string guarantorWorkPlace = (txtGuarantorWorkPlace?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(guarantorWorkPlace)) guarantorWorkPlace = null;
+
+                string commercialRegNo = (txtCommercialRegNo?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(commercialRegNo)) commercialRegNo = null;
+
+                // حقول الصور (حالياً null - سيتم إضافتها لاحقاً)
+                string idImagePath = null;
+                string contractImagePath = null;
+                string guaranteeImagePath = null;
+                string guarantorIdImagePath = null;
+
+                if (isEditMode)
+                {
+                    // سيتم برمجة UPDATE لاحقاً
+                    MessageBox.Show("ميزة التحديث قيد التطوير.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else
+                {
+                    tenants.ADD_Tenants(tenantNo, tenantName, nationalIdNo, mobileNo,
+                        birthDate, nationality, socialStatus, jobTitle, workPlace, tenantStatus,
+                        guarantorName, guarantorNationalId, guarantorMobile, guarantorWorkPlace, commercialRegNo,
+                        idImagePath, contractImagePath, guaranteeImagePath, guarantorIdImagePath);
+                    MessageBox.Show("تم حفظ بيانات المستأجر بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
