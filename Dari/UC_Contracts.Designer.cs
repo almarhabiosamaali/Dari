@@ -45,6 +45,8 @@ namespace Dari
             this.btnEdit = new MaterialSkin.Controls.MaterialButton();
             this.btnAdd = new MaterialSkin.Controls.MaterialButton();
             this.pnlFields = new System.Windows.Forms.Panel();
+            this.lblNote = new MaterialSkin.Controls.MaterialLabel();
+            this.txtNote = new System.Windows.Forms.TextBox();
             this.lblContractStatus = new MaterialSkin.Controls.MaterialLabel();
             this.cmbContractStatus = new MaterialSkin.Controls.MaterialComboBox();
             this.lblOtherFees = new MaterialSkin.Controls.MaterialLabel();
@@ -251,6 +253,8 @@ namespace Dari
             // 
             // pnlFields
             // 
+            this.pnlFields.Controls.Add(this.lblNote);
+            this.pnlFields.Controls.Add(this.txtNote);
             this.pnlFields.Controls.Add(this.lblContractStatus);
             this.pnlFields.Controls.Add(this.cmbContractStatus);
             this.pnlFields.Controls.Add(this.lblOtherFees);
@@ -276,6 +280,31 @@ namespace Dari
             this.pnlFields.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlFields.Size = new System.Drawing.Size(1213, 550);
             this.pnlFields.TabIndex = 0;
+            // 
+            // lblNote
+            // 
+            this.lblNote.AutoSize = true;
+            this.lblNote.Depth = 0;
+            this.lblNote.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblNote.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblNote.Location = new System.Drawing.Point(1097, 320);
+            this.lblNote.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblNote.Name = "lblNote";
+            this.lblNote.Size = new System.Drawing.Size(57, 17);
+            this.lblNote.TabIndex = 19;
+            this.lblNote.Text = "ملاحظات:";
+            // 
+            // txtNote
+            // 
+            this.txtNote.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.txtNote.Location = new System.Drawing.Point(613, 341);
+            this.txtNote.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNote.Multiline = true;
+            this.txtNote.Name = "txtNote";
+            this.txtNote.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txtNote.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtNote.Size = new System.Drawing.Size(587, 100);
+            this.txtNote.TabIndex = 9;
             // 
             // lblContractStatus
             // 
@@ -460,7 +489,7 @@ namespace Dari
             this.lblEndDate.Depth = 0;
             this.lblEndDate.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblEndDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblEndDate.Location = new System.Drawing.Point(1097, 125);
+            this.lblEndDate.Location = new System.Drawing.Point(495, 125);
             this.lblEndDate.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblEndDate.Name = "lblEndDate";
             this.lblEndDate.Size = new System.Drawing.Size(82, 17);
@@ -471,7 +500,7 @@ namespace Dari
             // 
             this.dtpEndDate.CustomFormat = "yyyy-MM-dd";
             this.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpEndDate.Location = new System.Drawing.Point(613, 146);
+            this.dtpEndDate.Location = new System.Drawing.Point(0, 146);
             this.dtpEndDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtpEndDate.Name = "dtpEndDate";
             this.dtpEndDate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -485,7 +514,7 @@ namespace Dari
             this.lblStartDate.Depth = 0;
             this.lblStartDate.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblStartDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblStartDate.Location = new System.Drawing.Point(495, 125);
+            this.lblStartDate.Location = new System.Drawing.Point(1094, 125);
             this.lblStartDate.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblStartDate.Name = "lblStartDate";
             this.lblStartDate.Size = new System.Drawing.Size(68, 17);
@@ -496,7 +525,7 @@ namespace Dari
             // 
             this.dtpStartDate.CustomFormat = "yyyy-MM-dd";
             this.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpStartDate.Location = new System.Drawing.Point(0, 146);
+            this.dtpStartDate.Location = new System.Drawing.Point(613, 146);
             this.dtpStartDate.Margin = new System.Windows.Forms.Padding(4);
             this.dtpStartDate.Name = "dtpStartDate";
             this.dtpStartDate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -722,6 +751,8 @@ namespace Dari
         private MaterialSkin.Controls.MaterialTextBox2 txtOtherFees;
         private MaterialSkin.Controls.MaterialLabel lblContractStatus;
         private MaterialSkin.Controls.MaterialComboBox cmbContractStatus;
+        private MaterialSkin.Controls.MaterialLabel lblNote;
+        private System.Windows.Forms.TextBox txtNote;
         private System.Windows.Forms.Panel pnlButtons;
         private MaterialSkin.Controls.MaterialButton btnAdd;
         private MaterialSkin.Controls.MaterialButton btnEdit;

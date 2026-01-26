@@ -18,11 +18,11 @@ namespace Dari.Clas
 
         public void ADD_Contracts(string ContractNo, string TenantNo, string ApartmentNo, 
             DateTime StartDate, DateTime EndDate, decimal MonthlyRent, decimal DepositAmount, 
-            decimal? OtherFees = null, string ContractStatus = null)
+            decimal? OtherFees = null, string ContractStatus = null, string Note = null)
         {
             Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
             DAL.Open();
-            SqlParameter[] param = new SqlParameter[9];
+            SqlParameter[] param = new SqlParameter[10];
 
             param[0] = new SqlParameter("@ContractNo", SqlDbType.NVarChar, 50);
             param[0].Value = ContractNo;
@@ -56,6 +56,9 @@ namespace Dari.Clas
 
             param[8] = new SqlParameter("@ContractStatus", SqlDbType.NVarChar, 30);
             param[8].Value = ContractStatus;
+
+            param[9] = new SqlParameter("@note", SqlDbType.NVarChar, -1);
+            param[9].Value = string.IsNullOrWhiteSpace(Note) ? (object)DBNull.Value : Note;
 
             DAL.ExecuteCommand("sp_Contract_Add", param);
             DAL.Close();

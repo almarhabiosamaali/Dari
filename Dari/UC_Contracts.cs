@@ -49,7 +49,7 @@ namespace Dari
             if (btnSave != null)
                 btnSave.Click += BtnSave_Click;
             
-            // ربط أحداث KeyDown للحقول
+            // ربط أحداث KeyDown للحقول (يجب أن يكون قبل WireReadOnlyFocusGuards)
             if (txtTenantNo != null)
             {
                 txtTenantNo.KeyDown += TxtTenantNo_KeyDown;
@@ -61,12 +61,15 @@ namespace Dari
                 txtApartmentNo.KeyDown += TxtApartmentNo_KeyDown;
                 txtApartmentNo.Enter += TxtApartmentNo_Enter;
             }
+            
+            // ربط أحداث منع الفوكس على الحقول في وضع ReadOnly (يجب أن يكون بعد ربط الأحداث الأخرى)
+            WireReadOnlyFocusGuards();
         }
 
         private void TxtTenantNo_Enter(object sender, EventArgs e)
         {
-            // عند الدخول للحقل، نمنع الكتابة المباشرة
-            if (txtTenantNo != null)
+            // عند الدخول للحقل، نمنع الكتابة المباشرة (فقط عندما تكون الحقول قابلة للتحرير)
+            if (txtTenantNo != null && isFieldsEditable)
             {
                 txtTenantNo.ReadOnly = true;
             }
@@ -88,8 +91,8 @@ namespace Dari
 
         private void TxtApartmentNo_Enter(object sender, EventArgs e)
         {
-            // عند الدخول للحقل، نمنع الكتابة المباشرة
-            if (txtApartmentNo != null)
+            // عند الدخول للحقل، نمنع الكتابة المباشرة (فقط عندما تكون الحقول قابلة للتحرير)
+            if (txtApartmentNo != null && isFieldsEditable)
             {
                 txtApartmentNo.ReadOnly = true;
             }
@@ -177,6 +180,39 @@ namespace Dari
             }
         }
 
+        private void WireReadOnlyFocusGuards()
+        {
+            // منع الفوكس على الحقول عندما تكون ReadOnly (حتى عند الضغط بالماوس)
+            // ملاحظة: txtTenantNo و txtApartmentNo لهما أحداث Enter خاصة (TxtTenantNo_Enter و TxtApartmentNo_Enter)
+            // لذا سنربط PreventFocusWhenReadOnly أيضاً، لكن TxtTenantNo_Enter و TxtApartmentNo_Enter سيتحققان من isFieldsEditable أولاً
+            if (txtContractNo != null) txtContractNo.Enter += PreventFocusWhenReadOnly;
+            if (txtTenantNo != null) txtTenantNo.Enter += PreventFocusWhenReadOnly;
+            if (txtApartmentNo != null) txtApartmentNo.Enter += PreventFocusWhenReadOnly;
+            if (dtpStartDate != null) dtpStartDate.Enter += PreventFocusWhenReadOnly;
+            if (dtpEndDate != null) dtpEndDate.Enter += PreventFocusWhenReadOnly;
+            if (txtMonthlyRent != null) txtMonthlyRent.Enter += PreventFocusWhenReadOnly;
+            if (txtDepositAmount != null) txtDepositAmount.Enter += PreventFocusWhenReadOnly;
+            if (txtOtherFees != null) txtOtherFees.Enter += PreventFocusWhenReadOnly;
+            if (cmbContractStatus != null) cmbContractStatus.Enter += PreventFocusWhenReadOnly;
+            if (txtNote != null) txtNote.Enter += PreventFocusWhenReadOnly;
+        }
+
+        private void PreventFocusWhenReadOnly(object sender, EventArgs e)
+        {
+            if (isFieldsEditable)
+                return;
+
+            // إذا كانت الشاشة في وضع ReadOnly، انقل الفوكس لأقرب عنصر مناسب (مثل زر الإضافة)
+            if (btnAdd != null && btnAdd.CanSelect)
+            {
+                btnAdd.Select();
+                return;
+            }
+
+            if (sender is Control c)
+                SelectNextControl(c, true, true, true, true);
+        }
+
         private void SetEditMode(bool editMode)
         {
             isEditMode = editMode;
@@ -199,6 +235,7 @@ namespace Dari
             if (txtDepositAmount != null) { txtDepositAmount.ReadOnly = !isEditable; txtDepositAmount.TabStop = isEditable; }
             if (txtOtherFees != null) { txtOtherFees.ReadOnly = !isEditable; txtOtherFees.TabStop = isEditable; }
             if (cmbContractStatus != null) cmbContractStatus.Enabled = isEditable;
+            if (txtNote != null) { txtNote.ReadOnly = !isEditable; txtNote.Enabled = isEditable; }
         }
 
         private void SetContractNoEditable(bool isEditable)
@@ -225,6 +262,7 @@ namespace Dari
             if (txtDepositAmount != null) txtDepositAmount.Text = string.Empty;
             if (txtOtherFees != null) txtOtherFees.Text = string.Empty;
             if (cmbContractStatus != null) cmbContractStatus.SelectedIndex = -1;
+            if (txtNote != null) txtNote.Text = string.Empty;
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
@@ -346,9 +384,14 @@ namespace Dari
                     return;
                 }
 
+                // معالجة الملاحظات (اختياري)
+                string note = (txtNote?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(note))
+                    note = null;
+
                 // حفظ البيانات
                 contracts.ADD_Contracts(contractNo, tenantNo, apartmentNo, 
-                    startDate, endDate, monthlyRent, depositAmount, otherFees, contractStatus);
+                    startDate, endDate, monthlyRent, depositAmount, otherFees, contractStatus, note);
                 
                 MessageBox.Show("تم حفظ بيانات العقد بنجاح.", "تم", 
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
