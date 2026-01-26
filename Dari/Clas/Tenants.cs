@@ -10,6 +10,10 @@ namespace Dari.Clas
 {
     class Tenants
     {
-        // سيتم إضافة الدوال هنا لاحقاً
+        // دالة للحصول على الرقم التالي للمستأجر
+        public string GET_NEXT_TENANT_CODE()
+        {
+            return AutoNumberHelper.GetNextNumber("Tenants", "TenantNo");
+        }
     }
 }
