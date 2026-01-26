@@ -10,6 +10,16 @@ namespace Dari.Clas
 {
     class Contracts
     {
+        // دالة للحصول على جميع بيانات العقود
+        public DataTable GET_ALL_Contracts()
+        {
+            Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
+            DAL.Open();
+            DataTable dt = DAL.SelectData("sp_Contract_SelectAll", null);
+            DAL.Close();
+            return dt;
+        }
+
         // دالة للحصول على الرقم التالي للعقد
         public string GET_NEXT_CONTRACT_CODE()
         {

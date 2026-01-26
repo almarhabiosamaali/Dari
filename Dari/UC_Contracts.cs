@@ -48,6 +48,8 @@ namespace Dari
                 btnAdd.Click += BtnAdd_Click;
             if (btnSave != null)
                 btnSave.Click += BtnSave_Click;
+            if (btnSearch != null)
+                btnSearch.Click += BtnSearch_Click;
             
             // ربط أحداث KeyDown للحقول (يجب أن يكون قبل WireReadOnlyFocusGuards)
             if (txtTenantNo != null)
@@ -404,6 +406,139 @@ namespace Dari
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            SetEditMode(false);
+            // استدعاء البيانات من قاعدة البيانات
+            DataTable dt = contracts.GET_ALL_Contracts();
+            
+            // عرض البيانات في نافذة البحث الديناميكية
+            DataRow row = gridBtnViewHelper.Show(dt, "البحث عن العقود");
+            
+            if (row != null)
+            {
+                // تعبئة البيانات في الحقول
+                FillFieldsFromRow(row);
+            }
+        }
+
+        private void FillFieldsFromRow(DataRow row)
+        {
+            try
+            {
+                SetEditMode(false);
+                SetFieldsEditable(false);
+
+                // تعبئة رقم العقد
+                if (row.Table.Columns.Contains("ContractNo"))
+                    txtContractNo.Text = row["ContractNo"]?.ToString() ?? "";
+
+                // تعبئة رقم المستأجر واسمه
+                if (row.Table.Columns.Contains("TenantNo"))
+                {
+                    string tenantNo = row["TenantNo"]?.ToString() ?? "";
+                    txtTenantNo.Tag = tenantNo;
+                    
+                    // الحصول على اسم المستأجر من البيانات (إذا كان موجوداً)
+                    if (row.Table.Columns.Contains("TenantName"))
+                    {
+                        string tenantName = row["TenantName"]?.ToString() ?? "";
+                        txtTenantNo.Text = tenantName;
+                    }
+                    else
+                    {
+                        // إذا لم يكن اسم المستأجر موجوداً، نعرض الرقم
+                        txtTenantNo.Text = tenantNo;
+                    }
+                }
+
+                // تعبئة رقم الشقة
+                if (row.Table.Columns.Contains("ApartmentNo"))
+                    txtApartmentNo.Text = row["ApartmentNo"]?.ToString() ?? "";
+
+                // معالجة تاريخ البدء
+                if (row.Table.Columns.Contains("StartDate") && dtpStartDate != null)
+                {
+                    if (row["StartDate"] != DBNull.Value && row["StartDate"] != null)
+                    {
+                        if (DateTime.TryParse(row["StartDate"].ToString(), out DateTime startDate))
+                        {
+                            dtpStartDate.Value = startDate;
+                        }
+                    }
+                }
+
+                // معالجة تاريخ الانتهاء
+                if (row.Table.Columns.Contains("EndDate") && dtpEndDate != null)
+                {
+                    if (row["EndDate"] != DBNull.Value && row["EndDate"] != null)
+                    {
+                        if (DateTime.TryParse(row["EndDate"].ToString(), out DateTime endDate))
+                        {
+                            dtpEndDate.Value = endDate;
+                        }
+                    }
+                }
+
+                // تعبئة الإيجار الشهري
+                if (row.Table.Columns.Contains("MonthlyRent"))
+                    txtMonthlyRent.Text = row["MonthlyRent"]?.ToString() ?? "";
+
+                // تعبئة مبلغ الضمان
+                if (row.Table.Columns.Contains("DepositAmount"))
+                    txtDepositAmount.Text = row["DepositAmount"]?.ToString() ?? "";
+
+                // تعبئة رسوم أخرى (اختياري)
+                if (row.Table.Columns.Contains("OtherFees"))
+                {
+                    if (row["OtherFees"] != DBNull.Value && row["OtherFees"] != null)
+                    {
+                        txtOtherFees.Text = row["OtherFees"]?.ToString() ?? "";
+                    }
+                    else
+                    {
+                        txtOtherFees.Text = string.Empty;
+                    }
+                }
+
+                // تعبئة حالة العقد
+                if (row.Table.Columns.Contains("ContractStatus") && cmbContractStatus != null)
+                {
+                    string contractStatus = row["ContractStatus"]?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(contractStatus))
+                    {
+                        // البحث عن الحالة في ComboBox
+                        for (int i = 0; i < cmbContractStatus.Items.Count; i++)
+                        {
+                            if (cmbContractStatus.Items[i]?.ToString() == contractStatus)
+                            {
+                                cmbContractStatus.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // تعبئة الملاحظات (اختياري)
+                if (row.Table.Columns.Contains("note") && txtNote != null)
+                {
+                    if (row["note"] != DBNull.Value && row["note"] != null)
+                    {
+                        txtNote.Text = row["note"]?.ToString() ?? "";
+                    }
+                    else
+                    {
+                        txtNote.Text = string.Empty;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء تعبئة البيانات: {ex.Message}", "خطأ", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
