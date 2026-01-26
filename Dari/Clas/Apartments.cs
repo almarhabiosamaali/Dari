@@ -149,5 +149,18 @@ namespace Dari.Clas
             DAL.ExecuteCommand("sp_Apartment_Update", param);
             DAL.Close();
         }
+
+        public void DELETE_Apartments(string ApartmentNo)
+        {
+            Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
+            DAL.Open();
+
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 50);
+            param[0].Value = ApartmentNo;
+
+            DAL.ExecuteCommand("sp_Apartment_Delete", param);
+            DAL.Close();
+        }
     }
 }

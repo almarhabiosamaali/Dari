@@ -53,6 +53,8 @@ namespace Dari
                 btnSearch.Click += BtnSearch_Click;
             if (btnEdit != null)
                 btnEdit.Click += BtnEdit_Click;
+            if (btnDelete != null)
+                btnDelete.Click += BtnDelete_Click;
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
         }
@@ -398,6 +400,40 @@ namespace Dari
             SetApartmentNoEditable(false);
 
             cmbPropertyNo?.Focus();
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            string apartmentNo = (txtApartmentNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(apartmentNo))
+            {
+                MessageBox.Show("الرجاء اختيار شقة أولاً عن طريق زر البحث.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"هل أنت متأكد من حذف الشقة رقم ({apartmentNo})؟",
+                "تأكيد الحذف",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                apartments.DELETE_Apartments(apartmentNo);
+                MessageBox.Show("تم حذف الشقة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ClearFields()
