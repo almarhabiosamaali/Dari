@@ -10,3 +10,4 @@ C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.pdb
 C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.Form1.resources
 C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.UC_Buildings.resources
 C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.csprojResolveAssemblyReference.cache
+C:\Users\os\source\repos\Dari\Dari\obj\Debug\Dari.UC_Apartments.resources

@@ -233,8 +233,7 @@ namespace Dari
 
         private void BtnApartments_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "بيانات الشقق";
-            // هنا سيتم فتح شاشة بيانات الشقق لاحقاً
+            ShowUserControl(new UC_Apartments());
         }
 
         private void BtnTenants_Click(object sender, EventArgs e)
