@@ -444,7 +444,39 @@ namespace Dari
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            // سيتم برمجتها لاحقاً
+            string tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(tenantNo))
+            {
+                MessageBox.Show("الرجاء اختيار مستأجر أولاً عن طريق زر البحث.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string tenantName = (txtTenantName?.Text ?? string.Empty).Trim();
+            string displayName = string.IsNullOrWhiteSpace(tenantName) ? tenantNo : $"{tenantName} ({tenantNo})";
+
+            var confirm = MessageBox.Show(
+                $"هل أنت متأكد من حذف المستأجر ({displayName})؟",
+                "تأكيد الحذف",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                tenants.DELETE_Tenants(tenantNo);
+                MessageBox.Show("تم حذف المستأجر بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
