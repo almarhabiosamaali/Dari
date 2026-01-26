@@ -45,6 +45,8 @@ namespace Dari
             // ربط أحداث الأزرار
             if (btnAdd != null)
                 btnAdd.Click += BtnAdd_Click;
+            if (btnSave != null)
+                btnSave.Click += BtnSave_Click;
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
         }
@@ -164,6 +166,95 @@ namespace Dari
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء توليد الرقم: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string apartmentNo = (txtApartmentNo?.Text ?? string.Empty).Trim();
+                string propertyNo = cmbPropertyNo?.SelectedValue?.ToString() ?? string.Empty;
+                string areaSqmText = (txtAreaSqm?.Text ?? string.Empty).Trim();
+                string apartmentType = (cmbApartmentType?.SelectedItem?.ToString() ?? cmbApartmentType?.Text ?? string.Empty).Trim();
+                string apartmentStatus = (cmbApartmentStatus?.SelectedItem?.ToString() ?? cmbApartmentStatus?.Text ?? string.Empty).Trim();
+                string rentStatus = (cmbRentStatus?.SelectedItem?.ToString() ?? cmbRentStatus?.Text ?? string.Empty).Trim();
+                string roomsCountText = (txtRoomsCount?.Text ?? string.Empty).Trim();
+                string kitchensCountText = (txtKitchensCount?.Text ?? string.Empty).Trim();
+                string bathroomsCountText = (txtBathroomsCount?.Text ?? string.Empty).Trim();
+                string floorNoText = (txtFloorNo?.Text ?? string.Empty).Trim();
+
+                // التحقق من الحقول الإلزامية
+                if (string.IsNullOrWhiteSpace(apartmentNo) ||
+                    string.IsNullOrWhiteSpace(propertyNo) ||
+                    string.IsNullOrWhiteSpace(areaSqmText) ||
+                    string.IsNullOrWhiteSpace(apartmentType) ||
+                    string.IsNullOrWhiteSpace(apartmentStatus) ||
+                    string.IsNullOrWhiteSpace(rentStatus) ||
+                    string.IsNullOrWhiteSpace(roomsCountText) ||
+                    string.IsNullOrWhiteSpace(kitchensCountText) ||
+                    string.IsNullOrWhiteSpace(bathroomsCountText) ||
+                    string.IsNullOrWhiteSpace(floorNoText))
+                {
+                    MessageBox.Show(
+                        "الرجاء تعبئة جميع الحقول الإلزامية.",
+                        "تنبيه",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // تحويل القيم الرقمية
+                if (!decimal.TryParse(areaSqmText, out decimal areaSqm))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة صحيحة للمساحة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(roomsCountText, out int roomsCount))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة صحيحة لعدد الغرف.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(kitchensCountText, out int kitchensCount))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة صحيحة لعدد المطابخ.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(bathroomsCountText, out int bathroomsCount))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة صحيحة لعدد الحمامات.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(floorNoText, out int floorNo))
+                {
+                    MessageBox.Show("الرجاء إدخال قيمة صحيحة لرقم الطابق.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (isEditMode)
+                {
+                    // TODO: سيتم إضافة دالة UPDATE لاحقاً
+                    MessageBox.Show("ميزة التحديث قيد التطوير.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else
+                {
+                    apartments.ADD_Apartments(apartmentNo, propertyNo, areaSqm, apartmentType, 
+                        apartmentStatus, rentStatus, roomsCount, kitchensCount, bathroomsCount, floorNo);
+                    MessageBox.Show("تم حفظ بيانات الشقة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
