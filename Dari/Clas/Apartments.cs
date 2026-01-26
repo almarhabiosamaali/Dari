@@ -19,5 +19,11 @@ namespace Dari.Clas
             DAL.Close();
             return dt;
         }
+
+        // دالة للحصول على الرقم التالي للشقة
+        public string GET_NEXT_APARTMENT_CODE()
+        {
+            return AutoNumberHelper.GetNextNumber("Apartments", "ApartmentNo");
+        }
     }
 }
