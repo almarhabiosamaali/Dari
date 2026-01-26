@@ -281,7 +281,150 @@ namespace Dari
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            // سيتم برمجتها لاحقاً
+            SetEditMode(false);
+            // استدعاء البيانات من قاعدة البيانات
+            DataTable dt = tenants.GET_ALL_Tenants();
+            
+            // عرض البيانات في نافذة البحث الديناميكية
+            DataRow row = gridBtnViewHelper.Show(dt, "البحث عن المستأجرين");
+            
+            if (row != null)
+            {
+                // تعبئة البيانات في الحقول
+                FillFieldsFromRow(row);
+            }
+        }
+
+        private void FillFieldsFromRow(DataRow row)
+        {
+            try
+            {
+                SetEditMode(false);
+                SetFieldsEditable(false);
+
+                // تعبئة الحقول الأساسية
+                if (row.Table.Columns.Contains("TenantNo"))
+                    txtTenantNo.Text = row["TenantNo"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("TenantName"))
+                    txtTenantName.Text = row["TenantName"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("NationalIdNo"))
+                    txtNationalIdNo.Text = row["NationalIdNo"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("MobileNo"))
+                    txtMobileNo.Text = row["MobileNo"]?.ToString() ?? "";
+
+                // معالجة تاريخ الميلاد
+                if (row.Table.Columns.Contains("BirthDate") && dtpBirthDate != null)
+                {
+                    if (row["BirthDate"] != DBNull.Value && row["BirthDate"] != null)
+                    {
+                        if (DateTime.TryParse(row["BirthDate"].ToString(), out DateTime birthDate))
+                        {
+                            dtpBirthDate.Value = birthDate;
+                            dtpBirthDate.Checked = true;
+                        }
+                        else
+                        {
+                            dtpBirthDate.Checked = false;
+                        }
+                    }
+                    else
+                    {
+                        dtpBirthDate.Checked = false;
+                    }
+                }
+
+                // معالجة ComboBox الجنسية
+                if (row.Table.Columns.Contains("Nationality") && cmbNationality != null)
+                {
+                    string nationality = row["Nationality"]?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(nationality))
+                    {
+                        for (int i = 0; i < cmbNationality.Items.Count; i++)
+                        {
+                            if (cmbNationality.Items[i].ToString() == nationality)
+                            {
+                                cmbNationality.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cmbNationality.SelectedIndex = -1;
+                    }
+                }
+
+                // معالجة ComboBox الحالة الاجتماعية
+                if (row.Table.Columns.Contains("SocialStatus") && cmbSocialStatus != null)
+                {
+                    string socialStatus = row["SocialStatus"]?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(socialStatus))
+                    {
+                        for (int i = 0; i < cmbSocialStatus.Items.Count; i++)
+                        {
+                            if (cmbSocialStatus.Items[i].ToString() == socialStatus)
+                            {
+                                cmbSocialStatus.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cmbSocialStatus.SelectedIndex = -1;
+                    }
+                }
+
+                if (row.Table.Columns.Contains("JobTitle"))
+                    txtJobTitle.Text = row["JobTitle"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("WorkPlace"))
+                    txtWorkPlace.Text = row["WorkPlace"]?.ToString() ?? "";
+
+                // معالجة ComboBox حالة المستأجر
+                if (row.Table.Columns.Contains("TenantStatus") && cmbTenantStatus != null)
+                {
+                    string tenantStatus = row["TenantStatus"]?.ToString() ?? "";
+                    if (!string.IsNullOrWhiteSpace(tenantStatus))
+                    {
+                        for (int i = 0; i < cmbTenantStatus.Items.Count; i++)
+                        {
+                            if (cmbTenantStatus.Items[i].ToString() == tenantStatus)
+                            {
+                                cmbTenantStatus.SelectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        cmbTenantStatus.SelectedIndex = -1;
+                    }
+                }
+
+                // بيانات الكفيل
+                if (row.Table.Columns.Contains("GuarantorName"))
+                    txtGuarantorName.Text = row["GuarantorName"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("GuarantorNationalId"))
+                    txtGuarantorNationalId.Text = row["GuarantorNationalId"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("GuarantorMobile"))
+                    txtGuarantorMobile.Text = row["GuarantorMobile"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("GuarantorWorkPlace"))
+                    txtGuarantorWorkPlace.Text = row["GuarantorWorkPlace"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("CommercialRegNo"))
+                    txtCommercialRegNo.Text = row["CommercialRegNo"]?.ToString() ?? "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء تعبئة البيانات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)

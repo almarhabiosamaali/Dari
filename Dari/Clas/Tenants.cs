@@ -16,6 +16,16 @@ namespace Dari.Clas
             return AutoNumberHelper.GetNextNumber("Tenants", "TenantNo");
         }
 
+        // دالة للحصول على جميع بيانات المستأجرين
+        public DataTable GET_ALL_Tenants()
+        {
+            Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
+            DAL.Open();
+            DataTable dt = DAL.SelectData("sp_Tenant_SelectAll", null);
+            DAL.Close();
+            return dt;
+        }
+
         public void ADD_Tenants(string TenantNo, string TenantName, string NationalIdNo, string MobileNo,
             DateTime? BirthDate = null, string Nationality = null, string SocialStatus = null,
             string JobTitle = null, string WorkPlace = null, string TenantStatus = null,
