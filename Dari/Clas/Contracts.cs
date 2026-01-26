@@ -10,6 +10,10 @@ namespace Dari.Clas
 {
     class Contracts
     {
-        // سيتم إضافة الدوال هنا لاحقاً
+        // دالة للحصول على الرقم التالي للعقد
+        public string GET_NEXT_CONTRACT_CODE()
+        {
+            return AutoNumberHelper.GetNextNumber("Contracts", "ContractNo");
+        }
     }
 }

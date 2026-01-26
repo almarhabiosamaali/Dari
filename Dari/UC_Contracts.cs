@@ -19,6 +19,9 @@ namespace Dari
         private GridBtnViewHelper gridBtnViewHelper;
         private Tenants tenants;
         private Apartments apartments;
+        private Contracts contracts;
+        private bool isFieldsEditable = false;
+        private bool isEditMode = false;
 
         public UC_Contracts()
         {
@@ -32,10 +35,17 @@ namespace Dari
             gridBtnViewHelper = new GridBtnViewHelper();
             tenants = new Tenants();
             apartments = new Apartments();
+            contracts = new Contracts();
+            
+            // افتراضيًا: كل الحقول للقراءة فقط
+            SetFieldsEditable(false);
+            SetEditMode(false);
             
             // ربط أحداث الأزرار
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
+            if (btnAdd != null)
+                btnAdd.Click += BtnAdd_Click;
             
             // ربط أحداث KeyDown للحقول
             if (txtTenantNo != null)
@@ -161,6 +171,93 @@ namespace Dari
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء البحث عن الشقق: {ex.Message}", "خطأ", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SetEditMode(bool editMode)
+        {
+            isEditMode = editMode;
+            if (btnSave != null)
+                btnSave.Text = editMode ? "تحديث" : "حفظ";
+        }
+
+        private void SetFieldsEditable(bool isEditable)
+        {
+            isFieldsEditable = isEditable;
+
+            // رقم العقد: افتراضيًا للقراءة فقط (يتفعل فقط في حالة أول مرة)
+            SetContractNoEditable(false);
+
+            if (txtTenantNo != null) { txtTenantNo.ReadOnly = !isEditable; txtTenantNo.TabStop = isEditable; }
+            if (txtApartmentNo != null) { txtApartmentNo.ReadOnly = !isEditable; txtApartmentNo.TabStop = isEditable; }
+            if (dtpStartDate != null) dtpStartDate.Enabled = isEditable;
+            if (dtpEndDate != null) dtpEndDate.Enabled = isEditable;
+            if (txtMonthlyRent != null) { txtMonthlyRent.ReadOnly = !isEditable; txtMonthlyRent.TabStop = isEditable; }
+            if (txtDepositAmount != null) { txtDepositAmount.ReadOnly = !isEditable; txtDepositAmount.TabStop = isEditable; }
+            if (txtOtherFees != null) { txtOtherFees.ReadOnly = !isEditable; txtOtherFees.TabStop = isEditable; }
+            if (cmbContractStatus != null) cmbContractStatus.Enabled = isEditable;
+        }
+
+        private void SetContractNoEditable(bool isEditable)
+        {
+            if (txtContractNo == null)
+                return;
+
+            txtContractNo.ReadOnly = !isEditable;
+            txtContractNo.TabStop = isEditable;
+        }
+
+        private void ClearFields()
+        {
+            if (txtContractNo != null) txtContractNo.Text = string.Empty;
+            if (txtTenantNo != null) 
+            { 
+                txtTenantNo.Text = string.Empty;
+                txtTenantNo.Tag = null;
+            }
+            if (txtApartmentNo != null) txtApartmentNo.Text = string.Empty;
+            if (dtpStartDate != null) dtpStartDate.Value = DateTime.Now;
+            if (dtpEndDate != null) dtpEndDate.Value = DateTime.Now;
+            if (txtMonthlyRent != null) txtMonthlyRent.Text = string.Empty;
+            if (txtDepositAmount != null) txtDepositAmount.Text = string.Empty;
+            if (txtOtherFees != null) txtOtherFees.Text = string.Empty;
+            if (cmbContractStatus != null) cmbContractStatus.SelectedIndex = -1;
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            SetEditMode(false);
+            ClearFields();
+            SetFieldsEditable(true);
+
+            try
+            {
+                string nextId = contracts.GET_NEXT_CONTRACT_CODE();
+
+                // إذا لم يوجد رقم سابق (أول مرة/لا توجد بيانات رقمية) نخلي المستخدم يدخل الرقم يدوياً
+                if (nextId == "1")
+                {
+                    SetContractNoEditable(true);
+                    MessageBox.Show(
+                        "لا يوجد رقم سابق للعقد.\nالرجاء إدخال رقم العقد يدوياً لأول مرة، وسيتم توليد الرقم التالي تلقائياً لاحقاً.",
+                        "تنبيه",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    txtContractNo?.Focus();
+                    return;
+                }
+
+                if (txtContractNo != null)
+                    txtContractNo.Text = nextId;
+                SetContractNoEditable(false);
+
+                // نقل الفوكس إلى حقل رقم المستأجر
+                txtTenantNo?.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء توليد رقم العقد: {ex.Message}", "خطأ", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
