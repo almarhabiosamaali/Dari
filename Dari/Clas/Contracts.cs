@@ -121,5 +121,18 @@ namespace Dari.Clas
             DAL.ExecuteCommand("sp_Contract_Update", param);
             DAL.Close();
         }
+
+        public void DELETE_Contracts(string ContractNo)
+        {
+            Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
+            DAL.Open();
+
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@ContractNo", SqlDbType.NVarChar, 50);
+            param[0].Value = ContractNo;
+
+            DAL.ExecuteCommand("sp_Contract_Delete", param);
+            DAL.Close();
+        }
     }
 }

@@ -52,6 +52,8 @@ namespace Dari
                 btnSearch.Click += BtnSearch_Click;
             if (btnEdit != null)
                 btnEdit.Click += BtnEdit_Click;
+            if (btnDelete != null)
+                btnDelete.Click += BtnDelete_Click;
             
             // ربط أحداث KeyDown للحقول (يجب أن يكون قبل WireReadOnlyFocusGuards)
             if (txtTenantNo != null)
@@ -571,6 +573,43 @@ namespace Dari
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء تعبئة البيانات: {ex.Message}", "خطأ", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            string contractNo = (txtContractNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(contractNo))
+            {
+                MessageBox.Show("الرجاء اختيار عقد أولاً عن طريق زر البحث.", "تنبيه", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"هل أنت متأكد من حذف العقد رقم ({contractNo})؟",
+                "تأكيد الحذف",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                contracts.DELETE_Contracts(contractNo);
+                MessageBox.Show("تم حذف العقد بنجاح.", "تم", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ", 
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
