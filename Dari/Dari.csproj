@@ -54,6 +54,7 @@
     <Compile Include="Clas\Tenants.cs" />
     <Compile Include="Clas\Contracts.cs" />
     <Compile Include="Clas\AutoNumberHelper.cs" />
+    <Compile Include="Clas\FileHelper.cs" />
     <Compile Include="Clas\DataAccessLayer.cs" />
     <Compile Include="Clas\GridBtnViewHelper.cs" />
     <Compile Include="Form1.cs">
