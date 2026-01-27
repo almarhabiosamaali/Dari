@@ -32,6 +32,12 @@ namespace Dari
         private string contractImagePathCopied = null;
         private string guaranteeImagePathCopied = null;
         private string guarantorIdImagePathCopied = null;
+        
+        // متغيرات لتتبع ما إذا تم حذف الملف (عند الحفظ سيتم حذفه من المجلد)
+        private bool isIdImageDeleted = false;
+        private bool isContractImageDeleted = false;
+        private bool isGuaranteeImageDeleted = false;
+        private bool isGuarantorIdImageDeleted = false;
 
         public UC_Tenants()
         {
@@ -65,13 +71,37 @@ namespace Dari
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
             
-            // ربط أحداث أزرار المرفقات
+            // ربط أحداث أزرار المرفقات - صورة الهوية
             if (btnIdImageUpload != null)
                 btnIdImageUpload.Click += BtnIdImageUpload_Click;
             if (btnIdImageOpen != null)
                 btnIdImageOpen.Click += BtnIdImageOpen_Click;
             if (btnIdImageDelete != null)
                 btnIdImageDelete.Click += BtnIdImageDelete_Click;
+            
+            // ربط أحداث أزرار المرفقات - صورة العقد
+            if (btnContractImageUpload != null)
+                btnContractImageUpload.Click += BtnContractImageUpload_Click;
+            if (btnContractImageOpen != null)
+                btnContractImageOpen.Click += BtnContractImageOpen_Click;
+            if (btnContractImageDelete != null)
+                btnContractImageDelete.Click += BtnContractImageDelete_Click;
+            
+            // ربط أحداث أزرار المرفقات - صورة الضمان
+            if (btnGuaranteeImageUpload != null)
+                btnGuaranteeImageUpload.Click += BtnGuaranteeImageUpload_Click;
+            if (btnGuaranteeImageOpen != null)
+                btnGuaranteeImageOpen.Click += BtnGuaranteeImageOpen_Click;
+            if (btnGuaranteeImageDelete != null)
+                btnGuaranteeImageDelete.Click += BtnGuaranteeImageDelete_Click;
+            
+            // ربط أحداث أزرار المرفقات - صورة هوية الضامن
+            if (btnGuarantorIdImageUpload != null)
+                btnGuarantorIdImageUpload.Click += BtnGuarantorIdImageUpload_Click;
+            if (btnGuarantorIdImageOpen != null)
+                btnGuarantorIdImageOpen.Click += BtnGuarantorIdImageOpen_Click;
+            if (btnGuarantorIdImageDelete != null)
+                btnGuarantorIdImageDelete.Click += BtnGuarantorIdImageDelete_Click;
         }
 
         private void WireReadOnlyFocusGuards()
@@ -178,6 +208,12 @@ namespace Dari
             contractImagePathCopied = null;
             guaranteeImagePathCopied = null;
             guarantorIdImagePathCopied = null;
+            
+            // إعادة تعيين علامات الحذف
+            isIdImageDeleted = false;
+            isContractImageDeleted = false;
+            isGuaranteeImageDeleted = false;
+            isGuarantorIdImageDeleted = false;
             
             if (lblIdImageName != null) lblIdImageName.Text = string.Empty;
             if (lblContractImageName != null) lblContractImageName.Text = string.Empty;
@@ -304,11 +340,22 @@ namespace Dari
                         
                         idImagePathToSave = CopyFileToAttachmentsFolder(idImagePath, "Tenants");
                         idImagePathCopied = idImagePathToSave; // حفظ المسار المنسوخ
+                        isIdImageDeleted = false; // إعادة تعيين علامة الحذف
                     }
-                    else if (isEditMode && !string.IsNullOrWhiteSpace(idImagePathCopied))
+                    else if (isEditMode && !string.IsNullOrWhiteSpace(idImagePathCopied) && !isIdImageDeleted)
                     {
-                        // إذا لم يتم رفع ملف جديد وكان هناك ملف قديم، استخدم الملف القديم
+                        // إذا لم يتم رفع ملف جديد ولم يتم حذفه، استخدم الملف القديم
                         idImagePathToSave = idImagePathCopied;
+                    }
+                    else if (isEditMode && isIdImageDeleted && !string.IsNullOrWhiteSpace(idImagePathCopied))
+                    {
+                        // إذا تم حذف الملف وكان هناك ملف قديم، احذفه من المجلد
+                        try
+                        {
+                            FileHelper.DeleteAttachmentFile(idImagePathCopied);
+                            idImagePathToSave = null; // لن يتم حفظ الملف
+                        }
+                        catch { }
                     }
                     
                     // نسخ صورة العقد
@@ -321,10 +368,20 @@ namespace Dari
                         }
                         contractImagePathToSave = CopyFileToAttachmentsFolder(contractImagePath, "Tenants");
                         contractImagePathCopied = contractImagePathToSave;
+                        isContractImageDeleted = false;
                     }
-                    else if (isEditMode && !string.IsNullOrWhiteSpace(contractImagePathCopied))
+                    else if (isEditMode && !string.IsNullOrWhiteSpace(contractImagePathCopied) && !isContractImageDeleted)
                     {
                         contractImagePathToSave = contractImagePathCopied;
+                    }
+                    else if (isEditMode && isContractImageDeleted && !string.IsNullOrWhiteSpace(contractImagePathCopied))
+                    {
+                        try
+                        {
+                            FileHelper.DeleteAttachmentFile(contractImagePathCopied);
+                            contractImagePathToSave = null;
+                        }
+                        catch { }
                     }
                     
                     // نسخ صورة الضمان
@@ -337,10 +394,20 @@ namespace Dari
                         }
                         guaranteeImagePathToSave = CopyFileToAttachmentsFolder(guaranteeImagePath, "Tenants");
                         guaranteeImagePathCopied = guaranteeImagePathToSave;
+                        isGuaranteeImageDeleted = false;
                     }
-                    else if (isEditMode && !string.IsNullOrWhiteSpace(guaranteeImagePathCopied))
+                    else if (isEditMode && !string.IsNullOrWhiteSpace(guaranteeImagePathCopied) && !isGuaranteeImageDeleted)
                     {
                         guaranteeImagePathToSave = guaranteeImagePathCopied;
+                    }
+                    else if (isEditMode && isGuaranteeImageDeleted && !string.IsNullOrWhiteSpace(guaranteeImagePathCopied))
+                    {
+                        try
+                        {
+                            FileHelper.DeleteAttachmentFile(guaranteeImagePathCopied);
+                            guaranteeImagePathToSave = null;
+                        }
+                        catch { }
                     }
                     
                     // نسخ صورة هوية الضامن
@@ -353,10 +420,20 @@ namespace Dari
                         }
                         guarantorIdImagePathToSave = CopyFileToAttachmentsFolder(guarantorIdImagePath, "Tenants");
                         guarantorIdImagePathCopied = guarantorIdImagePathToSave;
+                        isGuarantorIdImageDeleted = false;
                     }
-                    else if (isEditMode && !string.IsNullOrWhiteSpace(guarantorIdImagePathCopied))
+                    else if (isEditMode && !string.IsNullOrWhiteSpace(guarantorIdImagePathCopied) && !isGuarantorIdImageDeleted)
                     {
                         guarantorIdImagePathToSave = guarantorIdImagePathCopied;
+                    }
+                    else if (isEditMode && isGuarantorIdImageDeleted && !string.IsNullOrWhiteSpace(guarantorIdImagePathCopied))
+                    {
+                        try
+                        {
+                            FileHelper.DeleteAttachmentFile(guarantorIdImagePathCopied);
+                            guarantorIdImagePathToSave = null;
+                        }
+                        catch { }
                     }
                 }
                 catch (Exception ex)
@@ -557,10 +634,9 @@ namespace Dari
                 if (row.Table.Columns.Contains("IdImagePath"))
                 {
                     string savedPath = row["IdImagePath"] != DBNull.Value ? row["IdImagePath"]?.ToString() : null;
-                    // عند البحث، نحفظ المسار المنسوخ (من قاعدة البيانات) في المتغير
-                    // لكن idImagePath يجب أن يكون null لأن الملف موجود بالفعل في المجلد
                     idImagePath = null; // لا يوجد ملف جديد مرفق
                     idImagePathCopied = savedPath; // المسار المنسوخ من قاعدة البيانات
+                    isIdImageDeleted = false; // إعادة تعيين علامة الحذف
                     if (lblIdImageName != null)
                     {
                         lblIdImageName.Text = !string.IsNullOrWhiteSpace(savedPath) 
@@ -574,6 +650,7 @@ namespace Dari
                     string savedPath = row["ContractImagePath"] != DBNull.Value ? row["ContractImagePath"]?.ToString() : null;
                     contractImagePath = null;
                     contractImagePathCopied = savedPath;
+                    isContractImageDeleted = false;
                     if (lblContractImageName != null)
                     {
                         lblContractImageName.Text = !string.IsNullOrWhiteSpace(savedPath) 
@@ -587,6 +664,7 @@ namespace Dari
                     string savedPath = row["GuaranteeImagePath"] != DBNull.Value ? row["GuaranteeImagePath"]?.ToString() : null;
                     guaranteeImagePath = null;
                     guaranteeImagePathCopied = savedPath;
+                    isGuaranteeImageDeleted = false;
                     if (lblGuaranteeImageName != null)
                     {
                         lblGuaranteeImageName.Text = !string.IsNullOrWhiteSpace(savedPath) 
@@ -600,6 +678,7 @@ namespace Dari
                     string savedPath = row["GuarantorIdImagePath"] != DBNull.Value ? row["GuarantorIdImagePath"]?.ToString() : null;
                     guarantorIdImagePath = null;
                     guarantorIdImagePathCopied = savedPath;
+                    isGuarantorIdImageDeleted = false;
                     if (lblGuarantorIdImageName != null)
                     {
                         lblGuarantorIdImageName.Text = !string.IsNullOrWhiteSpace(savedPath) 
@@ -710,20 +789,10 @@ namespace Dari
         }
 
         // دوال ديناميكية للتعامل مع الملفات
-        private void HandleFileUpload(ref string filePath, ref string filePathCopied, MaterialLabel labelName, string dialogTitle)
+        private void HandleFileUpload(ref string filePath, ref string filePathCopied, ref bool isDeleted, MaterialLabel labelName, string dialogTitle)
         {
             try
             {
-                // حذف الملف السابق المنسوخ (إذا كان موجوداً) قبل رفع ملف جديد
-                if (!string.IsNullOrWhiteSpace(filePathCopied) && System.IO.File.Exists(filePathCopied))
-                {
-                    try
-                    {
-                        FileHelper.DeleteAttachmentFile(filePathCopied);
-                    }
-                    catch { } // تجاهل الأخطاء في حذف الملف القديم
-                }
-                
                 // فتح حوار اختيار الملف
                 string selectedFile = FileHelper.BrowseFile(dialogTitle, "جميع الملفات|*.*|صور|*.jpg;*.jpeg;*.png;*.bmp|PDF|*.pdf");
                 
@@ -732,7 +801,8 @@ namespace Dari
 
                 // حفظ المسار الأصلي فقط (بدون نسخ إلى المجلد)
                 filePath = selectedFile;
-                filePathCopied = null; // لم يتم النسخ بعد
+                // لا نمسح filePathCopied هنا - سيتم التعامل معه عند الحفظ
+                isDeleted = false; // إعادة تعيين علامة الحذف
                 
                 // عرض اسم الملف
                 string fileName = FileHelper.GetFileName(selectedFile);
@@ -787,21 +857,12 @@ namespace Dari
             }
         }
 
-        private void HandleFileDelete(ref string filePath, ref string filePathCopied, MaterialLabel labelName)
+        private void HandleFileDelete(ref string filePath, ref string filePathCopied, ref bool isDeleted, MaterialLabel labelName)
         {
-            // حذف الملف المنسوخ من المجلد (إذا كان موجوداً)
-            if (!string.IsNullOrWhiteSpace(filePathCopied) && System.IO.File.Exists(filePathCopied))
-            {
-                try
-                {
-                    FileHelper.DeleteAttachmentFile(filePathCopied);
-                }
-                catch { } // تجاهل الأخطاء
-            }
-            
-            // مسح الملف من المتغيرات
+            // مسح الملف من المتغيرات فقط (لا يحذف من المجلد - سيتم الحذف عند الحفظ)
             filePath = null;
-            filePathCopied = null;
+            // وضع علامة أن الملف تم حذفه (سيتم حذفه من المجلد عند الحفظ)
+            isDeleted = true;
             if (labelName != null)
             {
                 labelName.Text = string.Empty;
@@ -810,7 +871,7 @@ namespace Dari
 
         private void BtnIdImageUpload_Click(object sender, EventArgs e)
         {
-            HandleFileUpload(ref idImagePath, ref idImagePathCopied, lblIdImageName, "اختر صورة الهوية");
+            HandleFileUpload(ref idImagePath, ref idImagePathCopied, ref isIdImageDeleted, lblIdImageName, "اختر صورة الهوية");
         }
 
         private void BtnIdImageOpen_Click(object sender, EventArgs e)
@@ -852,7 +913,133 @@ namespace Dari
 
         private void BtnIdImageDelete_Click(object sender, EventArgs e)
         {
-            HandleFileDelete(ref idImagePath, ref idImagePathCopied, lblIdImageName);
+            HandleFileDelete(ref idImagePath, ref idImagePathCopied, ref isIdImageDeleted, lblIdImageName);
+        }
+
+        // دوال صورة العقد
+        private void BtnContractImageUpload_Click(object sender, EventArgs e)
+        {
+            HandleFileUpload(ref contractImagePath, ref contractImagePathCopied, ref isContractImageDeleted, lblContractImageName, "اختر صورة العقد");
+        }
+
+        private void BtnContractImageOpen_Click(object sender, EventArgs e)
+        {
+            string filePathToOpen = contractImagePath;
+            if (string.IsNullOrWhiteSpace(filePathToOpen))
+            {
+                filePathToOpen = contractImagePathCopied;
+                if (string.IsNullOrWhiteSpace(filePathToOpen))
+                {
+                    string tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+                    if (!string.IsNullOrWhiteSpace(tenantNo))
+                    {
+                        try
+                        {
+                            DataTable dt = tenants.GET_ALL_Tenants();
+                            DataRow tenantRow = dt.AsEnumerable()
+                                .FirstOrDefault(row => row["TenantNo"]?.ToString() == tenantNo);
+                            
+                            if (tenantRow != null && 
+                                tenantRow.Table.Columns.Contains("ContractImagePath") && 
+                                tenantRow["ContractImagePath"] != DBNull.Value)
+                            {
+                                filePathToOpen = tenantRow["ContractImagePath"]?.ToString();
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+            HandleFileOpen(filePathToOpen);
+        }
+
+        private void BtnContractImageDelete_Click(object sender, EventArgs e)
+        {
+            HandleFileDelete(ref contractImagePath, ref contractImagePathCopied, ref isContractImageDeleted, lblContractImageName);
+        }
+
+        // دوال صورة الضمان
+        private void BtnGuaranteeImageUpload_Click(object sender, EventArgs e)
+        {
+            HandleFileUpload(ref guaranteeImagePath, ref guaranteeImagePathCopied, ref isGuaranteeImageDeleted, lblGuaranteeImageName, "اختر صورة الضمان");
+        }
+
+        private void BtnGuaranteeImageOpen_Click(object sender, EventArgs e)
+        {
+            string filePathToOpen = guaranteeImagePath;
+            if (string.IsNullOrWhiteSpace(filePathToOpen))
+            {
+                filePathToOpen = guaranteeImagePathCopied;
+                if (string.IsNullOrWhiteSpace(filePathToOpen))
+                {
+                    string tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+                    if (!string.IsNullOrWhiteSpace(tenantNo))
+                    {
+                        try
+                        {
+                            DataTable dt = tenants.GET_ALL_Tenants();
+                            DataRow tenantRow = dt.AsEnumerable()
+                                .FirstOrDefault(row => row["TenantNo"]?.ToString() == tenantNo);
+                            
+                            if (tenantRow != null && 
+                                tenantRow.Table.Columns.Contains("GuaranteeImagePath") && 
+                                tenantRow["GuaranteeImagePath"] != DBNull.Value)
+                            {
+                                filePathToOpen = tenantRow["GuaranteeImagePath"]?.ToString();
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+            HandleFileOpen(filePathToOpen);
+        }
+
+        private void BtnGuaranteeImageDelete_Click(object sender, EventArgs e)
+        {
+            HandleFileDelete(ref guaranteeImagePath, ref guaranteeImagePathCopied, ref isGuaranteeImageDeleted, lblGuaranteeImageName);
+        }
+
+        // دوال صورة هوية الضامن
+        private void BtnGuarantorIdImageUpload_Click(object sender, EventArgs e)
+        {
+            HandleFileUpload(ref guarantorIdImagePath, ref guarantorIdImagePathCopied, ref isGuarantorIdImageDeleted, lblGuarantorIdImageName, "اختر صورة هوية الضامن");
+        }
+
+        private void BtnGuarantorIdImageOpen_Click(object sender, EventArgs e)
+        {
+            string filePathToOpen = guarantorIdImagePath;
+            if (string.IsNullOrWhiteSpace(filePathToOpen))
+            {
+                filePathToOpen = guarantorIdImagePathCopied;
+                if (string.IsNullOrWhiteSpace(filePathToOpen))
+                {
+                    string tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+                    if (!string.IsNullOrWhiteSpace(tenantNo))
+                    {
+                        try
+                        {
+                            DataTable dt = tenants.GET_ALL_Tenants();
+                            DataRow tenantRow = dt.AsEnumerable()
+                                .FirstOrDefault(row => row["TenantNo"]?.ToString() == tenantNo);
+                            
+                            if (tenantRow != null && 
+                                tenantRow.Table.Columns.Contains("GuarantorIdImagePath") && 
+                                tenantRow["GuarantorIdImagePath"] != DBNull.Value)
+                            {
+                                filePathToOpen = tenantRow["GuarantorIdImagePath"]?.ToString();
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+            HandleFileOpen(filePathToOpen);
+        }
+
+        private void BtnGuarantorIdImageDelete_Click(object sender, EventArgs e)
+        {
+            HandleFileDelete(ref guarantorIdImagePath, ref guarantorIdImagePathCopied, ref isGuarantorIdImageDeleted, lblGuarantorIdImageName);
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
