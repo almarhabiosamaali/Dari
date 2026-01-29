@@ -45,6 +45,13 @@ namespace Dari
             this.btnEdit = new MaterialSkin.Controls.MaterialButton();
             this.btnAdd = new MaterialSkin.Controls.MaterialButton();
             this.pnlFields = new System.Windows.Forms.Panel();
+            // Panel للمرفق
+            this.pnlAttachment = new System.Windows.Forms.Panel();
+            this.lblAttachment = new MaterialSkin.Controls.MaterialLabel();
+            this.lblAttachmentName = new MaterialSkin.Controls.MaterialLabel();
+            this.btnAttachmentUpload = new MaterialSkin.Controls.MaterialButton();
+            this.btnAttachmentOpen = new MaterialSkin.Controls.MaterialButton();
+            this.btnAttachmentDelete = new MaterialSkin.Controls.MaterialButton();
             this.lblFloorNo = new MaterialSkin.Controls.MaterialLabel();
             this.txtFloorNo = new MaterialSkin.Controls.MaterialTextBox2();
             this.lblBathroomsCount = new MaterialSkin.Controls.MaterialLabel();
@@ -253,6 +260,7 @@ namespace Dari
             // 
             // pnlFields
             // 
+            this.pnlFields.Controls.Add(this.pnlAttachment);
             this.pnlFields.Controls.Add(this.lblFloorNo);
             this.pnlFields.Controls.Add(this.txtFloorNo);
             this.pnlFields.Controls.Add(this.lblBathroomsCount);
@@ -325,6 +333,101 @@ namespace Dari
             this.txtFloorNo.TrailingIcon = null;
             this.txtFloorNo.UseSystemPasswordChar = false;
             this.txtFloorNo.UseTallSize = false;
+            // 
+            // pnlAttachment
+            // 
+            this.pnlAttachment.Controls.Add(this.lblAttachment);
+            this.pnlAttachment.Controls.Add(this.lblAttachmentName);
+            this.pnlAttachment.Controls.Add(this.btnAttachmentUpload);
+            this.pnlAttachment.Controls.Add(this.btnAttachmentOpen);
+            this.pnlAttachment.Controls.Add(this.btnAttachmentDelete);
+            this.pnlAttachment.Location = new System.Drawing.Point(613, 380);
+            this.pnlAttachment.Name = "pnlAttachment";
+            this.pnlAttachment.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.pnlAttachment.Size = new System.Drawing.Size(587, 60);
+            this.pnlAttachment.TabIndex = 20;
+            // 
+            // lblAttachment
+            // 
+            this.lblAttachment.AutoSize = true;
+            this.lblAttachment.Depth = 0;
+            this.lblAttachment.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblAttachment.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblAttachment.Location = new System.Drawing.Point(479, 0);
+            this.lblAttachment.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblAttachment.Name = "lblAttachment";
+            this.lblAttachment.Size = new System.Drawing.Size(60, 17);
+            this.lblAttachment.TabIndex = 21;
+            this.lblAttachment.Text = "المرفق:";
+            // 
+            // lblAttachmentName
+            // 
+            this.lblAttachmentName.AutoSize = true;
+            this.lblAttachmentName.Depth = 0;
+            this.lblAttachmentName.Font = new System.Drawing.Font("Roboto", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblAttachmentName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblAttachmentName.Location = new System.Drawing.Point(0, 21);
+            this.lblAttachmentName.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblAttachmentName.Name = "lblAttachmentName";
+            this.lblAttachmentName.Size = new System.Drawing.Size(0, 15);
+            this.lblAttachmentName.TabIndex = 22;
+            // 
+            // btnAttachmentUpload
+            // 
+            this.btnAttachmentUpload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAttachmentUpload.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnAttachmentUpload.Depth = 0;
+            this.btnAttachmentUpload.HighEmphasis = true;
+            this.btnAttachmentUpload.Icon = null;
+            this.btnAttachmentUpload.Location = new System.Drawing.Point(300, 16);
+            this.btnAttachmentUpload.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnAttachmentUpload.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAttachmentUpload.Name = "btnAttachmentUpload";
+            this.btnAttachmentUpload.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnAttachmentUpload.Size = new System.Drawing.Size(60, 36);
+            this.btnAttachmentUpload.TabIndex = 23;
+            this.btnAttachmentUpload.Text = "رفع";
+            this.btnAttachmentUpload.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnAttachmentUpload.UseAccentColor = false;
+            this.btnAttachmentUpload.UseVisualStyleBackColor = true;
+            // 
+            // btnAttachmentOpen
+            // 
+            this.btnAttachmentOpen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAttachmentOpen.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnAttachmentOpen.Depth = 0;
+            this.btnAttachmentOpen.HighEmphasis = true;
+            this.btnAttachmentOpen.Icon = null;
+            this.btnAttachmentOpen.Location = new System.Drawing.Point(370, 16);
+            this.btnAttachmentOpen.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnAttachmentOpen.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAttachmentOpen.Name = "btnAttachmentOpen";
+            this.btnAttachmentOpen.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnAttachmentOpen.Size = new System.Drawing.Size(60, 36);
+            this.btnAttachmentOpen.TabIndex = 24;
+            this.btnAttachmentOpen.Text = "فتح";
+            this.btnAttachmentOpen.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnAttachmentOpen.UseAccentColor = false;
+            this.btnAttachmentOpen.UseVisualStyleBackColor = true;
+            // 
+            // btnAttachmentDelete
+            // 
+            this.btnAttachmentDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAttachmentDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnAttachmentDelete.Depth = 0;
+            this.btnAttachmentDelete.HighEmphasis = true;
+            this.btnAttachmentDelete.Icon = null;
+            this.btnAttachmentDelete.Location = new System.Drawing.Point(440, 16);
+            this.btnAttachmentDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnAttachmentDelete.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAttachmentDelete.Name = "btnAttachmentDelete";
+            this.btnAttachmentDelete.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnAttachmentDelete.Size = new System.Drawing.Size(60, 36);
+            this.btnAttachmentDelete.TabIndex = 25;
+            this.btnAttachmentDelete.Text = "حذف";
+            this.btnAttachmentDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnAttachmentDelete.UseAccentColor = false;
+            this.btnAttachmentDelete.UseVisualStyleBackColor = true;
             // 
             // lblBathroomsCount
             // 
@@ -803,6 +906,13 @@ namespace Dari
         private MaterialSkin.Controls.MaterialLabel lblKitchensCount;
         private MaterialSkin.Controls.MaterialLabel lblBathroomsCount;
         private MaterialSkin.Controls.MaterialLabel lblFloorNo;
+        // المرفق
+        private System.Windows.Forms.Panel pnlAttachment;
+        private MaterialSkin.Controls.MaterialLabel lblAttachment;
+        private MaterialSkin.Controls.MaterialLabel lblAttachmentName;
+        private MaterialSkin.Controls.MaterialButton btnAttachmentUpload;
+        private MaterialSkin.Controls.MaterialButton btnAttachmentOpen;
+        private MaterialSkin.Controls.MaterialButton btnAttachmentDelete;
         private System.Windows.Forms.Panel pnlButtons;
         private MaterialSkin.Controls.MaterialButton btnAdd;
         private MaterialSkin.Controls.MaterialButton btnEdit;

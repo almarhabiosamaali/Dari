@@ -38,12 +38,11 @@ namespace Dari.Clas
 
         public void ADD_Apartments(string ApartmentNo, string PropertyNo, decimal AreaSqm, string ApartmentType, 
             string ApartmentStatus, string RentStatus, int RoomsCount, int KitchensCount, 
-            int BathroomsCount, int FloorNo, string AttachmentPath = null, string AttachmentName = null, 
-            string AttachmentType = null, long? AttachmentSize = null)
+            int BathroomsCount, int FloorNo, string AttachmentPath = null)
         {
             Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
             DAL.Open();
-            SqlParameter[] param = new SqlParameter[14];
+            SqlParameter[] param = new SqlParameter[11];
 
             param[0] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 50);
             param[0].Value = ApartmentNo;
@@ -79,15 +78,6 @@ namespace Dari.Clas
 
             param[10] = new SqlParameter("@AttachmentPath", SqlDbType.NVarChar, 500);
             param[10].Value = string.IsNullOrWhiteSpace(AttachmentPath) ? (object)DBNull.Value : AttachmentPath;
-
-            param[11] = new SqlParameter("@AttachmentName", SqlDbType.NVarChar, 255);
-            param[11].Value = string.IsNullOrWhiteSpace(AttachmentName) ? (object)DBNull.Value : AttachmentName;
-
-            param[12] = new SqlParameter("@AttachmentType", SqlDbType.NVarChar, 100);
-            param[12].Value = string.IsNullOrWhiteSpace(AttachmentType) ? (object)DBNull.Value : AttachmentType;
-
-            param[13] = new SqlParameter("@AttachmentSize", SqlDbType.BigInt);
-            param[13].Value = AttachmentSize.HasValue ? (object)AttachmentSize.Value : DBNull.Value;
 
             DAL.ExecuteCommand("sp_Apartment_Add", param);
             DAL.Close();
@@ -95,12 +85,11 @@ namespace Dari.Clas
 
         public void UPDATE_Apartments(string ApartmentNo, string PropertyNo, decimal AreaSqm, string ApartmentType,
             string ApartmentStatus, string RentStatus, int RoomsCount, int KitchensCount,
-            int BathroomsCount, int FloorNo, string AttachmentPath = null, string AttachmentName = null,
-            string AttachmentType = null, long? AttachmentSize = null)
+            int BathroomsCount, int FloorNo, string AttachmentPath = null)
         {
             Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
             DAL.Open();
-            SqlParameter[] param = new SqlParameter[14];
+            SqlParameter[] param = new SqlParameter[11];
 
             param[0] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 50);
             param[0].Value = ApartmentNo;
@@ -136,15 +125,6 @@ namespace Dari.Clas
 
             param[10] = new SqlParameter("@AttachmentPath", SqlDbType.NVarChar, 500);
             param[10].Value = string.IsNullOrWhiteSpace(AttachmentPath) ? (object)DBNull.Value : AttachmentPath;
-
-            param[11] = new SqlParameter("@AttachmentName", SqlDbType.NVarChar, 255);
-            param[11].Value = string.IsNullOrWhiteSpace(AttachmentName) ? (object)DBNull.Value : AttachmentName;
-
-            param[12] = new SqlParameter("@AttachmentType", SqlDbType.NVarChar, 100);
-            param[12].Value = string.IsNullOrWhiteSpace(AttachmentType) ? (object)DBNull.Value : AttachmentType;
-
-            param[13] = new SqlParameter("@AttachmentSize", SqlDbType.BigInt);
-            param[13].Value = AttachmentSize.HasValue ? (object)AttachmentSize.Value : DBNull.Value;
 
             DAL.ExecuteCommand("sp_Apartment_Update", param);
             DAL.Close();

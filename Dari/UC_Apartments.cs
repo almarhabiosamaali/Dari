@@ -21,6 +21,11 @@ namespace Dari
         private Apartments apartments;
         private bool isFieldsEditable = false;
         private bool isEditMode = false;
+        
+        // متغيرات لحفظ مسار الملف المرفق
+        private string attachmentPath = null;
+        private string attachmentPathCopied = null;
+        private bool isAttachmentDeleted = false;
 
         public UC_Apartments()
         {
@@ -58,6 +63,14 @@ namespace Dari
                 btnDelete.Click += BtnDelete_Click;
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
+            
+            // ربط أحداث أزرار المرفق
+            if (btnAttachmentUpload != null)
+                btnAttachmentUpload.Click += BtnAttachmentUpload_Click;
+            if (btnAttachmentOpen != null)
+                btnAttachmentOpen.Click += BtnAttachmentOpen_Click;
+            if (btnAttachmentDelete != null)
+                btnAttachmentDelete.Click += BtnAttachmentDelete_Click;
         }
 
         private void LoadPropertiesComboBox()
@@ -362,6 +375,11 @@ namespace Dari
             if (cmbApartmentType != null) cmbApartmentType.Enabled = isEditable;
             if (cmbApartmentStatus != null) cmbApartmentStatus.Enabled = isEditable;
             if (cmbRentStatus != null) cmbRentStatus.Enabled = isEditable;
+            
+            // أزرار المرفق
+            if (btnAttachmentUpload != null) btnAttachmentUpload.Enabled = isEditable;
+            if (btnAttachmentOpen != null) btnAttachmentOpen.Enabled = isEditable;
+            if (btnAttachmentDelete != null) btnAttachmentDelete.Enabled = isEditable;
         }
 
         private void SetApartmentNoEditable(bool isEditable)
@@ -474,16 +492,59 @@ namespace Dari
                     return;
                 }
 
+                // نسخ الملف إلى مجلد المرفقات قبل الحفظ
+                string attachmentPathToSave = null;
+                
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(attachmentPath))
+                    {
+                        // إذا كان في وضع التعديل وكان هناك ملف قديم، احذفه أولاً
+                        if (isEditMode && !string.IsNullOrWhiteSpace(attachmentPathCopied) && 
+                            System.IO.File.Exists(attachmentPathCopied))
+                        {
+                            try
+                            {
+                                FileHelper.DeleteAttachmentFile(attachmentPathCopied);
+                            }
+                            catch { }
+                        }
+                        
+                        attachmentPathToSave = CopyFileToAttachmentsFolder(attachmentPath, "Apartments");
+                        attachmentPathCopied = attachmentPathToSave;
+                        isAttachmentDeleted = false;
+                    }
+                    else if (isEditMode && !string.IsNullOrWhiteSpace(attachmentPathCopied) && !isAttachmentDeleted)
+                    {
+                        attachmentPathToSave = attachmentPathCopied;
+                    }
+                    else if (isEditMode && isAttachmentDeleted && !string.IsNullOrWhiteSpace(attachmentPathCopied))
+                    {
+                        try
+                        {
+                            FileHelper.DeleteAttachmentFile(attachmentPathCopied);
+                            attachmentPathToSave = null;
+                        }
+                        catch { }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"حدث خطأ أثناء نسخ الملف: {ex.Message}", "خطأ", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (isEditMode)
                 {
                     apartments.UPDATE_Apartments(apartmentNo, propertyNo, areaSqm, apartmentType,
-                        apartmentStatus, rentStatus, roomsCount, kitchensCount, bathroomsCount, floorNo);
+                        apartmentStatus, rentStatus, roomsCount, kitchensCount, bathroomsCount, floorNo, attachmentPathToSave);
                     MessageBox.Show("تم تحديث بيانات الشقة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     apartments.ADD_Apartments(apartmentNo, propertyNo, areaSqm, apartmentType, 
-                        apartmentStatus, rentStatus, roomsCount, kitchensCount, bathroomsCount, floorNo);
+                        apartmentStatus, rentStatus, roomsCount, kitchensCount, bathroomsCount, floorNo, attachmentPathToSave);
                     MessageBox.Show("تم حفظ بيانات الشقة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -654,6 +715,25 @@ namespace Dari
 
             try
             {
+                // حذف الملف المرفق من القرص قبل حذف الشقة
+                DataTable dt = apartments.GET_ALL_Apartments();
+                DataRow apartmentRow = dt.AsEnumerable()
+                    .FirstOrDefault(row => row["ApartmentNo"]?.ToString() == apartmentNo);
+                
+                if (apartmentRow != null)
+                {
+                    if (apartmentRow.Table.Columns.Contains("AttachmentPath") && 
+                        apartmentRow["AttachmentPath"] != DBNull.Value && 
+                        !string.IsNullOrWhiteSpace(apartmentRow["AttachmentPath"]?.ToString()))
+                    {
+                        try
+                        {
+                            FileHelper.DeleteAttachmentFile(apartmentRow["AttachmentPath"].ToString());
+                        }
+                        catch { }
+                    }
+                }
+                
                 apartments.DELETE_Apartments(apartmentNo);
                 MessageBox.Show("تم حذف الشقة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -679,6 +759,128 @@ namespace Dari
             if (txtKitchensCount != null) txtKitchensCount.Text = string.Empty;
             if (txtBathroomsCount != null) txtBathroomsCount.Text = string.Empty;
             if (txtFloorNo != null) txtFloorNo.Text = string.Empty;
+            
+            // مسح المرفق
+            attachmentPath = null;
+            attachmentPathCopied = null;
+            isAttachmentDeleted = false;
+            if (lblAttachmentName != null) lblAttachmentName.Text = string.Empty;
+        }
+
+        // دوال ديناميكية للتعامل مع الملفات
+        private void HandleFileUpload(ref string filePath, ref string filePathCopied, ref bool isDeleted, MaterialLabel labelName, string dialogTitle)
+        {
+            try
+            {
+                string selectedFile = FileHelper.BrowseFile(dialogTitle, "جميع الملفات|*.*|صور|*.jpg;*.jpeg;*.png;*.bmp|PDF|*.pdf");
+                
+                if (string.IsNullOrWhiteSpace(selectedFile))
+                    return;
+
+                filePath = selectedFile;
+                isDeleted = false;
+                
+                string fileName = FileHelper.GetFileName(selectedFile);
+                if (labelName != null)
+                {
+                    labelName.Text = fileName;
+                }
+                
+                MessageBox.Show("تم اختيار الملف بنجاح. سيتم حفظه عند الضغط على زر الحفظ.", "تم", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء اختيار الملف: {ex.Message}", "خطأ", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void HandleFileOpen(string filePath)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(filePath))
+                {
+                    MessageBox.Show("لا يوجد ملف مرفق.", "تنبيه", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                FileHelper.OpenFile(filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء فتح الملف: {ex.Message}", "خطأ", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void HandleFileDelete(ref string filePath, ref string filePathCopied, ref bool isDeleted, MaterialLabel labelName)
+        {
+            filePath = null;
+            isDeleted = true;
+            if (labelName != null)
+            {
+                labelName.Text = string.Empty;
+            }
+        }
+
+        private string CopyFileToAttachmentsFolder(string sourceFilePath, string folderType)
+        {
+            if (string.IsNullOrWhiteSpace(sourceFilePath) || !System.IO.File.Exists(sourceFilePath))
+                return null;
+            
+            try
+            {
+                return FileHelper.CopyFileToAttachments(sourceFilePath, folderType);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"فشل في نسخ الملف إلى مجلد المرفقات: {ex.Message}");
+            }
+        }
+
+        // دوال المرفق
+        private void BtnAttachmentUpload_Click(object sender, EventArgs e)
+        {
+            HandleFileUpload(ref attachmentPath, ref attachmentPathCopied, ref isAttachmentDeleted, lblAttachmentName, "اختر المرفق");
+        }
+
+        private void BtnAttachmentOpen_Click(object sender, EventArgs e)
+        {
+            string filePathToOpen = attachmentPath;
+            if (string.IsNullOrWhiteSpace(filePathToOpen))
+            {
+                filePathToOpen = attachmentPathCopied;
+                if (string.IsNullOrWhiteSpace(filePathToOpen))
+                {
+                    string apartmentNo = (txtApartmentNo?.Text ?? string.Empty).Trim();
+                    if (!string.IsNullOrWhiteSpace(apartmentNo))
+                    {
+                        try
+                        {
+                            DataTable dt = apartments.GET_ALL_Apartments();
+                            DataRow apartmentRow = dt.AsEnumerable()
+                                .FirstOrDefault(row => row["ApartmentNo"]?.ToString() == apartmentNo);
+                            
+                            if (apartmentRow != null && 
+                                apartmentRow.Table.Columns.Contains("AttachmentPath") && 
+                                apartmentRow["AttachmentPath"] != DBNull.Value)
+                            {
+                                filePathToOpen = apartmentRow["AttachmentPath"]?.ToString();
+                            }
+                        }
+                        catch { }
+                    }
+                }
+            }
+            HandleFileOpen(filePathToOpen);
+        }
+
+        private void BtnAttachmentDelete_Click(object sender, EventArgs e)
+        {
+            HandleFileDelete(ref attachmentPath, ref attachmentPathCopied, ref isAttachmentDeleted, lblAttachmentName);
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
