@@ -36,6 +36,7 @@ namespace Dari
             this.pnlOperationsSubMenu = new System.Windows.Forms.Panel();
             this.btnReceipts = new MaterialSkin.Controls.MaterialButton();
             this.btnInvoices = new MaterialSkin.Controls.MaterialButton();
+            this.btnRentLoad = new MaterialSkin.Controls.MaterialButton();
             this.btnDataManagement = new MaterialSkin.Controls.MaterialButton();
             this.pnlDataSubMenu = new System.Windows.Forms.Panel();
             this.btnContracts = new MaterialSkin.Controls.MaterialButton();
@@ -159,12 +160,38 @@ namespace Dari
             this.pnlOperationsSubMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
             this.pnlOperationsSubMenu.Controls.Add(this.btnReceipts);
             this.pnlOperationsSubMenu.Controls.Add(this.btnInvoices);
+            this.pnlOperationsSubMenu.Controls.Add(this.btnRentLoad);
+            this.pnlOperationsSubMenu.Controls.SetChildIndex(this.btnRentLoad, 2);
+            this.pnlOperationsSubMenu.Controls.SetChildIndex(this.btnInvoices, 1);
+            this.pnlOperationsSubMenu.Controls.SetChildIndex(this.btnReceipts, 0);
             this.pnlOperationsSubMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlOperationsSubMenu.Location = new System.Drawing.Point(0, 250);
             this.pnlOperationsSubMenu.Name = "pnlOperationsSubMenu";
-            this.pnlOperationsSubMenu.Size = new System.Drawing.Size(250, 100);
+            this.pnlOperationsSubMenu.Size = new System.Drawing.Size(250, 150);
             this.pnlOperationsSubMenu.TabIndex = 6;
             this.pnlOperationsSubMenu.Visible = false;
+            // 
+            // btnRentLoad
+            // 
+            this.btnRentLoad.AutoSize = false;
+            this.btnRentLoad.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnRentLoad.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnRentLoad.Depth = 0;
+            this.btnRentLoad.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnRentLoad.DrawShadows = false;
+            this.btnRentLoad.HighEmphasis = false;
+            this.btnRentLoad.Icon = null;
+            this.btnRentLoad.Location = new System.Drawing.Point(0, 0);
+            this.btnRentLoad.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnRentLoad.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnRentLoad.Name = "btnRentLoad";
+            this.btnRentLoad.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnRentLoad.Size = new System.Drawing.Size(250, 50);
+            this.btnRentLoad.TabIndex = 2;
+            this.btnRentLoad.Text = "  📅 احتساب الإيجار";
+            this.btnRentLoad.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnRentLoad.UseAccentColor = false;
+            this.btnRentLoad.UseVisualStyleBackColor = true;
             // 
             // btnReceipts
             // 
@@ -176,14 +203,14 @@ namespace Dari
             this.btnReceipts.DrawShadows = false;
             this.btnReceipts.HighEmphasis = false;
             this.btnReceipts.Icon = null;
-            this.btnReceipts.Location = new System.Drawing.Point(0, 50);
+            this.btnReceipts.Location = new System.Drawing.Point(0, 100);
             this.btnReceipts.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnReceipts.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnReceipts.Name = "btnReceipts";
             this.btnReceipts.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btnReceipts.Size = new System.Drawing.Size(250, 50);
             this.btnReceipts.TabIndex = 1;
-            this.btnReceipts.Text = "  💰 سندات القبض";
+            this.btnReceipts.Text = "  💰 سند قبض";
             this.btnReceipts.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
             this.btnReceipts.UseAccentColor = false;
             this.btnReceipts.UseVisualStyleBackColor = true;
@@ -198,14 +225,14 @@ namespace Dari
             this.btnInvoices.DrawShadows = false;
             this.btnInvoices.HighEmphasis = false;
             this.btnInvoices.Icon = null;
-            this.btnInvoices.Location = new System.Drawing.Point(0, 0);
+            this.btnInvoices.Location = new System.Drawing.Point(0, 50);
             this.btnInvoices.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.btnInvoices.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnInvoices.Name = "btnInvoices";
             this.btnInvoices.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btnInvoices.Size = new System.Drawing.Size(250, 50);
             this.btnInvoices.TabIndex = 0;
-            this.btnInvoices.Text = "  📋 الفواتير";
+            this.btnInvoices.Text = "  📋 فواتير المستأجر";
             this.btnInvoices.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
             this.btnInvoices.UseAccentColor = false;
             this.btnInvoices.UseVisualStyleBackColor = true;
@@ -397,5 +424,6 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnTenants;
         private MaterialSkin.Controls.MaterialButton btnApartments;
         private MaterialSkin.Controls.MaterialButton btnBuildings;
+        private MaterialSkin.Controls.MaterialButton btnRentLoad;
     }
 }

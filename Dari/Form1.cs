@@ -56,6 +56,7 @@ namespace Dari
             btnContracts.Click += BtnContracts_Click;
             
             // ربط أحداث القائمة الفرعية للعمليات
+            btnRentLoad.Click += BtnRentLoad_Click;
             btnInvoices.Click += BtnInvoices_Click;
             btnReceipts.Click += BtnReceipts_Click;
         }
@@ -293,16 +294,22 @@ namespace Dari
             }
         }
 
+        private void BtnRentLoad_Click(object sender, EventArgs e)
+        {
+            lblHeaderTitle.Text = "احتساب الإيجار";
+            // هنا سيتم فتح شاشة احتساب الإيجار لاحقاً
+        }
+
         private void BtnInvoices_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "الفواتير";
-            // هنا سيتم فتح شاشة الفواتير لاحقاً
+            lblHeaderTitle.Text = "فواتير المستأجر";
+            // هنا سيتم فتح شاشة فواتير المستأجر لاحقاً
         }
 
         private void BtnReceipts_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "سندات القبض";
-            // هنا سيتم فتح شاشة سندات القبض لاحقاً
+            lblHeaderTitle.Text = "سند قبض";
+            // هنا سيتم فتح شاشة سند القبض لاحقاً
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
