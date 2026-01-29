@@ -240,9 +240,17 @@ namespace Dari
                 if (string.IsNullOrWhiteSpace(referenceNo)) referenceNo = null;
                 if (string.IsNullOrWhiteSpace(narration)) narration = null;
 
-                receipts.ADD_Receipt(receiptNo, receiptType, receiptDate, tenantNo, amount, referenceNo, narration, billMonth, billYear);
+                if (isEditMode)
+                {
+                    receipts.UPDATE_Receipt(receiptNo, receiptType, receiptDate, tenantNo, amount, referenceNo, narration, billMonth, billYear);
+                    MessageBox.Show("تم تحديث السند بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    receipts.ADD_Receipt(receiptNo, receiptType, receiptDate, tenantNo, amount, referenceNo, narration, billMonth, billYear);
+                    MessageBox.Show("تم حفظ السند بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-                MessageBox.Show("تم حفظ السند بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearFields();
                 SetFieldsEditable(false);
                 SetEditMode(false);
@@ -341,14 +349,55 @@ namespace Dari
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("تعديل السند متاح عند إضافة إجراء التحديث (sp_Receipt_Update) في قاعدة البيانات.", "تنبيه",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string receiptNo = (txtReceiptNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(receiptNo))
+            {
+                MessageBox.Show("الرجاء اختيار سند أولاً عن طريق زر العرض.", "تنبيه",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SetEditMode(true);
+            SetFieldsEditable(true);
+            SetReceiptNoEditable(false);
+            txtTenantNo?.Focus();
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("حذف السند متاح عند إضافة إجراء الحذف (sp_Receipt_Delete) في قاعدة البيانات.", "تنبيه",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string receiptNo = (txtReceiptNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(receiptNo))
+            {
+                MessageBox.Show("الرجاء اختيار سند أولاً عن طريق زر العرض.", "تنبيه",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"هل أنت متأكد من حذف السند رقم ({receiptNo})؟",
+                "تأكيد الحذف",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                receipts.DELETE_Receipt(receiptNo);
+                MessageBox.Show("تم حذف السند بنجاح.", "تم",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+                LoadGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
