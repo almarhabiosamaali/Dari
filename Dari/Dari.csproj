@@ -87,6 +87,13 @@
     <Compile Include="UC_Contracts.Designer.cs">
       <DependentUpon>UC_Contracts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Clas\TenantInvoices.cs" />
+    <Compile Include="UC_TenantInvoices.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_TenantInvoices.Designer.cs">
+      <DependentUpon>UC_TenantInvoices.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -103,6 +110,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC_Contracts.resx">
       <DependentUpon>UC_Contracts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_TenantInvoices.resx">
+      <DependentUpon>UC_TenantInvoices.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -302,8 +302,7 @@ namespace Dari
 
         private void BtnInvoices_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "فواتير المستأجر";
-            // هنا سيتم فتح شاشة فواتير المستأجر لاحقاً
+            ShowUserControl(new UC_TenantInvoices());
         }
 
         private void BtnReceipts_Click(object sender, EventArgs e)

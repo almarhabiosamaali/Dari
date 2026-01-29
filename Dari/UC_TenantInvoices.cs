@@ -1,0 +1,345 @@
+using System;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
+using MaterialSkin.Controls;
+using Dari.Clas;
+
+namespace Dari
+{
+    public partial class UC_TenantInvoices : UserControl
+    {
+        private TenantInvoices tenantInvoices;
+        private Tenants tenants;
+        private GridBtnViewHelper gridBtnViewHelper;
+        private bool isFieldsEditable = false;
+        private bool isEditMode = false;
+
+        public UC_TenantInvoices()
+        {
+            InitializeComponent();
+
+            if (DesignMode)
+                return;
+
+            tenantInvoices = new TenantInvoices();
+            tenants = new Tenants();
+            gridBtnViewHelper = new GridBtnViewHelper();
+
+            FillBillYearCombo();
+            SetDefaultDates();
+            SetFieldsEditable(false);
+
+            if (btnClose != null) btnClose.Click += BtnClose_Click;
+            if (btnAdd != null) btnAdd.Click += BtnAdd_Click;
+            if (btnSave != null) btnSave.Click += BtnSave_Click;
+            if (btnSearch != null) btnSearch.Click += BtnSearch_Click;
+            if (btnEdit != null) btnEdit.Click += BtnEdit_Click;
+            if (btnDelete != null) btnDelete.Click += BtnDelete_Click;
+
+            if (txtTenantNo != null)
+            {
+                txtTenantNo.KeyDown += TxtTenantNo_KeyDown;
+                txtTenantNo.Enter += TxtTenantNo_Enter;
+            }
+
+            if (dgvInvoices != null)
+                dgvInvoices.SelectionChanged += DgvInvoices_SelectionChanged;
+
+            // منع الفوكس على جميع الحقول عندما تكون للقراءة فقط
+            WireReadOnlyFocusGuards();
+        }
+
+        /// <summary>
+        /// ربط حدث Enter لجميع الحقول لمنع الفوكس عند وضع القراءة فقط
+        /// </summary>
+        private void WireReadOnlyFocusGuards()
+        {
+            if (txtInvoiceNo != null) txtInvoiceNo.Enter += PreventFocusWhenReadOnly;
+            if (txtTenantNo != null) txtTenantNo.Enter += PreventFocusWhenReadOnly;
+            if (cmbBillYear != null) cmbBillYear.Enter += PreventFocusWhenReadOnly;
+            if (cmbBillMonth != null) cmbBillMonth.Enter += PreventFocusWhenReadOnly;
+            if (dtpInvoiceDate != null) dtpInvoiceDate.Enter += PreventFocusWhenReadOnly;
+            if (txtElectricityUsage != null) txtElectricityUsage.Enter += PreventFocusWhenReadOnly;
+            if (txtElectricityAmount != null) txtElectricityAmount.Enter += PreventFocusWhenReadOnly;
+            if (txtWaterUsage != null) txtWaterUsage.Enter += PreventFocusWhenReadOnly;
+            if (txtWaterAmount != null) txtWaterAmount.Enter += PreventFocusWhenReadOnly;
+            if (txtOtherFees != null) txtOtherFees.Enter += PreventFocusWhenReadOnly;
+            if (txtNarration != null) txtNarration.Enter += PreventFocusWhenReadOnly;
+        }
+
+        /// <summary>
+        /// عند محاولة الدخول لحقل والوضع قراءة فقط: نقل الفوكس لزر الإضافة (أو التالي)
+        /// </summary>
+        private void PreventFocusWhenReadOnly(object sender, EventArgs e)
+        {
+            if (isFieldsEditable)
+                return;
+
+            if (btnAdd != null && btnAdd.CanSelect)
+            {
+                btnAdd.Select();
+                return;
+            }
+
+            if (sender is Control c)
+                SelectNextControl(c, true, true, true, true);
+        }
+
+        private void FillBillYearCombo()
+        {
+            if (cmbBillYear == null) return;
+            cmbBillYear.Items.Clear();
+            int year = DateTime.Now.Year;
+            for (int i = year - 2; i <= year + 1; i++)
+                cmbBillYear.Items.Add(i.ToString());
+            if (cmbBillYear.Items.Count > 0)
+            {
+                string currentYear = year.ToString();
+                int idx = cmbBillYear.Items.IndexOf(currentYear);
+                if (idx >= 0) cmbBillYear.SelectedIndex = idx;
+                else cmbBillYear.SelectedIndex = 0;
+            }
+        }
+
+        private void SetDefaultDates()
+        {
+            if (dtpInvoiceDate != null)
+                dtpInvoiceDate.Value = DateTime.Now;
+        }
+
+        private void TxtTenantNo_Enter(object sender, EventArgs e)
+        {
+            if (txtTenantNo != null && isFieldsEditable)
+                txtTenantNo.ReadOnly = true;
+        }
+
+        private void TxtTenantNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.F2 || e.KeyCode == Keys.Space ||
+                (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z) ||
+                (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9))
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                OpenTenantSearchPopup();
+            }
+        }
+
+        private void OpenTenantSearchPopup()
+        {
+            try
+            {
+                DataTable dt = tenants.GET_ALL_Tenants();
+                DataRow row = gridBtnViewHelper.Show(dt, "البحث عن المستأجرين");
+                if (row != null)
+                {
+                    string tenantNo = row.Table.Columns.Contains("TenantNo") ? (row["TenantNo"]?.ToString() ?? "") : "";
+                    string tenantName = row.Table.Columns.Contains("TenantName") ? (row["TenantName"]?.ToString() ?? "") : "";
+                    if (!string.IsNullOrWhiteSpace(tenantNo))
+                    {
+                        txtTenantNo.Tag = tenantNo;
+                        txtTenantNo.Text = tenantName;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء البحث عن المستأجرين: {ex.Message}", "خطأ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SetFieldsEditable(bool isEditable)
+        {
+            isFieldsEditable = isEditable;
+            // رقم الفاتورة: للقراءة فقط إلا في حالة عدم وجود رقم سابق (أول مرة)
+            SetInvoiceNoEditable(false);
+            if (txtTenantNo != null) { txtTenantNo.ReadOnly = !isEditable; txtTenantNo.TabStop = isEditable; }
+            if (cmbBillYear != null) cmbBillYear.Enabled = isEditable;
+            if (cmbBillMonth != null) cmbBillMonth.Enabled = isEditable;
+            if (dtpInvoiceDate != null) dtpInvoiceDate.Enabled = isEditable;
+            if (txtElectricityUsage != null) { txtElectricityUsage.ReadOnly = !isEditable; txtElectricityUsage.TabStop = isEditable; }
+            if (txtElectricityAmount != null) { txtElectricityAmount.ReadOnly = !isEditable; txtElectricityAmount.TabStop = isEditable; }
+            if (txtWaterUsage != null) { txtWaterUsage.ReadOnly = !isEditable; txtWaterUsage.TabStop = isEditable; }
+            if (txtWaterAmount != null) { txtWaterAmount.ReadOnly = !isEditable; txtWaterAmount.TabStop = isEditable; }
+            if (txtOtherFees != null) { txtOtherFees.ReadOnly = !isEditable; txtOtherFees.TabStop = isEditable; }
+            if (txtNarration != null) { txtNarration.ReadOnly = !isEditable; txtNarration.Enabled = isEditable; }
+        }
+
+        private void SetInvoiceNoEditable(bool isEditable)
+        {
+            if (txtInvoiceNo == null) return;
+            txtInvoiceNo.ReadOnly = !isEditable;
+            txtInvoiceNo.TabStop = isEditable;
+        }
+
+        private void SetEditMode(bool editMode)
+        {
+            isEditMode = editMode;
+            if (btnSave != null)
+                btnSave.Text = editMode ? "تحديث" : "حفظ";
+        }
+
+        private void ClearFields()
+        {
+            if (txtInvoiceNo != null) txtInvoiceNo.Text = string.Empty;
+            if (txtTenantNo != null) { txtTenantNo.Text = string.Empty; txtTenantNo.Tag = null; }
+            if (cmbBillYear != null && cmbBillYear.Items.Count > 0)
+            {
+                string y = DateTime.Now.Year.ToString();
+                int i = cmbBillYear.Items.IndexOf(y);
+                if (i >= 0) cmbBillYear.SelectedIndex = i; else cmbBillYear.SelectedIndex = 0;
+            }
+            if (cmbBillMonth != null && cmbBillMonth.Items.Count > 0)
+                cmbBillMonth.SelectedIndex = DateTime.Now.Month - 1;
+            if (dtpInvoiceDate != null) dtpInvoiceDate.Value = DateTime.Now;
+            if (txtElectricityUsage != null) txtElectricityUsage.Text = string.Empty;
+            if (txtElectricityAmount != null) txtElectricityAmount.Text = string.Empty;
+            if (txtWaterUsage != null) txtWaterUsage.Text = string.Empty;
+            if (txtWaterAmount != null) txtWaterAmount.Text = string.Empty;
+            if (txtOtherFees != null) txtOtherFees.Text = string.Empty;
+            if (txtNarration != null) txtNarration.Text = string.Empty;
+        }
+
+        private void BtnAdd_Click(object sender, EventArgs e)
+        {
+            SetEditMode(false);
+            ClearFields();
+            SetFieldsEditable(true);
+            try
+            {
+                string nextNo = tenantInvoices.GET_NEXT_InvoiceNo();
+
+                // إذا لم يوجد رقم سابق (أول مرة/لا توجد بيانات رقمية) نسمح للمستخدم بإدخال الرقم يدوياً
+                if (nextNo == "1")
+                {
+                    SetInvoiceNoEditable(true);
+                    MessageBox.Show(
+                        "لا يوجد رقم سابق للفاتورة.\nالرجاء إدخال رقم الفاتورة يدوياً لأول مرة، وسيتم توليد الرقم التالي تلقائياً لاحقاً.",
+                        "تنبيه",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                    txtInvoiceNo?.Focus();
+                    return;
+                }
+
+                if (txtInvoiceNo != null) txtInvoiceNo.Text = nextNo;
+                SetInvoiceNoEditable(false);
+                if (cmbBillMonth != null && cmbBillMonth.Items.Count >= DateTime.Now.Month)
+                    cmbBillMonth.SelectedIndex = DateTime.Now.Month - 1;
+                txtTenantNo?.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string invoiceNo = (txtInvoiceNo?.Text ?? string.Empty).Trim();
+                string tenantNo = txtTenantNo?.Tag?.ToString() ?? (txtTenantNo?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(invoiceNo) || string.IsNullOrWhiteSpace(tenantNo))
+                {
+                    MessageBox.Show("الرجاء تعبئة رقم الفاتورة ورقم المستأجر.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (cmbBillYear?.SelectedItem == null || cmbBillMonth?.SelectedIndex < 0)
+                {
+                    MessageBox.Show("الرجاء اختيار السنة والشهر.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!int.TryParse(cmbBillYear.SelectedItem.ToString(), out int billYear))
+                {
+                    MessageBox.Show("قيمة السنة غير صحيحة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                byte billMonth = (byte)(cmbBillMonth.SelectedIndex + 1);
+                DateTime invoiceDate = dtpInvoiceDate?.Value ?? DateTime.Now;
+
+                decimal? electricityUsage = ParseDecimalOrNull(txtElectricityUsage?.Text);
+                decimal? electricityAmount = ParseDecimalOrNull(txtElectricityAmount?.Text);
+                decimal? waterUsage = ParseDecimalOrNull(txtWaterUsage?.Text);
+                decimal? waterAmount = ParseDecimalOrNull(txtWaterAmount?.Text);
+                decimal? otherFees = ParseDecimalOrNull(txtOtherFees?.Text);
+                string narration = (txtNarration?.Text ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(narration)) narration = null;
+
+                tenantInvoices.ADD_TenantInvoice(
+                    invoiceNo, tenantNo, billYear, billMonth, invoiceDate,
+                    electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration);
+
+                MessageBox.Show("تم حفظ الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
+                SetFieldsEditable(false);
+                LoadGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static decimal? ParseDecimalOrNull(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text)) return null;
+            return decimal.TryParse(text.Trim(), out decimal v) ? v : (decimal?)null;
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            LoadGrid();
+        }
+
+        private void LoadGrid()
+        {
+            try
+            {
+                DataTable dt = tenantInvoices.GET_ALL_TenantInvoices();
+                dgvInvoices.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء تحميل البيانات: {ex.Message}\n\nتأكد من وجود الإجراء المخزن sp_TenantInvoice_SelectAll.", "خطأ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DgvInvoices_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvInvoices?.SelectedRows.Count != 1 || !isFieldsEditable) return;
+            DataGridViewRow row = dgvInvoices.SelectedRows[0];
+            if (row.IsNewRow) return;
+            // يمكن ملء الحقول عند التعديل لاحقاً
+        }
+
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("تعديل الفاتورة متاح عند إضافة إجراء التحديث (sp_TenantInvoice_Update) في قاعدة البيانات.", "تنبيه",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("حذف الفاتورة متاح عند إضافة إجراء الحذف (sp_TenantInvoice_Delete) في قاعدة البيانات.", "تنبيه",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            if (FindForm() is Form1 mainForm)
+            {
+                mainForm.ShowHome();
+                return;
+            }
+            this.Visible = false;
+        }
+    }
+}
