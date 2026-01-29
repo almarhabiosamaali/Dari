@@ -287,6 +287,7 @@ namespace Dari
                     MessageBox.Show("تم حفظ الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
+                ClearFields();
                 SetFieldsEditable(false);
                 SetEditMode(false);
                 LoadGrid();
