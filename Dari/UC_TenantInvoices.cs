@@ -272,13 +272,23 @@ namespace Dari
                 string narration = (txtNarration?.Text ?? string.Empty).Trim();
                 if (string.IsNullOrWhiteSpace(narration)) narration = null;
 
-                tenantInvoices.ADD_TenantInvoice(
-                    invoiceNo, tenantNo, billYear, billMonth, invoiceDate,
-                    electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration);
+                if (isEditMode)
+                {
+                    tenantInvoices.UPDATE_TenantInvoice(
+                        invoiceNo, tenantNo, billYear, billMonth, invoiceDate,
+                        electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration);
+                    MessageBox.Show("تم تحديث الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    tenantInvoices.ADD_TenantInvoice(
+                        invoiceNo, tenantNo, billYear, billMonth, invoiceDate,
+                        electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration);
+                    MessageBox.Show("تم حفظ الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-                MessageBox.Show("تم حفظ الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearFields();
                 SetFieldsEditable(false);
+                SetEditMode(false);
                 LoadGrid();
             }
             catch (Exception ex)
@@ -394,14 +404,55 @@ namespace Dari
 
         private void BtnEdit_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("تعديل الفاتورة متاح عند إضافة إجراء التحديث (sp_TenantInvoice_Update) في قاعدة البيانات.", "تنبيه",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string invoiceNo = (txtInvoiceNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(invoiceNo))
+            {
+                MessageBox.Show("الرجاء اختيار فاتورة أولاً عن طريق زر العرض.", "تنبيه",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            SetEditMode(true);
+            SetFieldsEditable(true);
+            SetInvoiceNoEditable(false);
+            txtTenantNo?.Focus();
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("حذف الفاتورة متاح عند إضافة إجراء الحذف (sp_TenantInvoice_Delete) في قاعدة البيانات.", "تنبيه",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            string invoiceNo = (txtInvoiceNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(invoiceNo))
+            {
+                MessageBox.Show("الرجاء اختيار فاتورة أولاً عن طريق زر العرض.", "تنبيه",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                $"هل أنت متأكد من حذف الفاتورة رقم ({invoiceNo})؟",
+                "تأكيد الحذف",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (confirm != DialogResult.Yes)
+                return;
+
+            try
+            {
+                tenantInvoices.DELETE_TenantInvoice(invoiceNo);
+                MessageBox.Show("تم حذف الفاتورة بنجاح.", "تم",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
+                SetFieldsEditable(false);
+                SetEditMode(false);
+                LoadGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnClose_Click(object sender, EventArgs e)
