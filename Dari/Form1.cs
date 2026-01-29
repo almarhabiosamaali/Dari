@@ -307,8 +307,7 @@ namespace Dari
 
         private void BtnReceipts_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "سند قبض";
-            // هنا سيتم فتح شاشة سند القبض لاحقاً
+            ShowUserControl(new UC_Receipts());
         }
 
         private void BtnReports_Click(object sender, EventArgs e)
