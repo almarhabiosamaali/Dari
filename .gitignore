@@ -1,0 +1,85 @@
+# ================================
+# Visual Studio / .NET
+# ================================
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# مجلدات البناء والمخرجات
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# الملفات التنفيذية والمكتبات
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.meta
+*.cache
+
+# نتائج الاختبار
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+*.trx
+*.coverage
+*.coveragexml
+
+# NuGet
+packages/
+!packages/build/
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+
+# ================================
+# ملفات النظام
+# ================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ================================
+# إعدادات IDE محلية
+# ================================
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# ================================
+# قاعدة البيانات المحلية (اختياري - احذف السطر إذا أردت تتبع ملف DB)
+# ================================
+# *.db
+# *.db-shm
+# *.db-wal
+# *.sqlite
+# *.sqlite3
+
+# ================================
+# ملفات مؤقتة
+# ================================
+*.tmp
+*.temp
+*.tmp
+*.bak
+*.swp
+*~
