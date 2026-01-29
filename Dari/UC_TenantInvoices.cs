@@ -295,7 +295,79 @@ namespace Dari
 
         private void BtnSearch_Click(object sender, EventArgs e)
         {
-            LoadGrid();
+            SetEditMode(false);
+            try
+            {
+                DataTable dt = tenantInvoices.GET_ALL_TenantInvoices();
+                DataRow row = gridBtnViewHelper.Show(dt, "البحث عن الفواتير");
+                if (row != null)
+                    FillFieldsFromRow(row);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء تحميل البيانات: {ex.Message}", "خطأ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void FillFieldsFromRow(DataRow row)
+        {
+            try
+            {
+                SetEditMode(false);
+                SetFieldsEditable(false);
+
+                if (row.Table.Columns.Contains("InvoiceNo"))
+                    txtInvoiceNo.Text = row["InvoiceNo"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("TenantNo"))
+                {
+                    string tenantNo = row["TenantNo"]?.ToString() ?? "";
+                    txtTenantNo.Tag = tenantNo;
+                    txtTenantNo.Text = tenantNo;
+                }
+
+                if (row.Table.Columns.Contains("BillYear") && cmbBillYear != null)
+                {
+                    string yearVal = row["BillYear"]?.ToString() ?? "";
+                    if (!string.IsNullOrEmpty(yearVal))
+                    {
+                        int idx = cmbBillYear.Items.IndexOf(yearVal);
+                        if (idx >= 0) cmbBillYear.SelectedIndex = idx;
+                    }
+                }
+
+                if (row.Table.Columns.Contains("BillMonth") && cmbBillMonth != null)
+                {
+                    if (row["BillMonth"] != DBNull.Value && row["BillMonth"] != null &&
+                        int.TryParse(row["BillMonth"].ToString(), out int month) && month >= 1 && month <= 12)
+                        cmbBillMonth.SelectedIndex = month - 1;
+                }
+
+                if (row.Table.Columns.Contains("InvoiceDate") && dtpInvoiceDate != null)
+                {
+                    if (row["InvoiceDate"] != DBNull.Value && row["InvoiceDate"] != null &&
+                        DateTime.TryParse(row["InvoiceDate"].ToString(), out DateTime d))
+                        dtpInvoiceDate.Value = d;
+                }
+
+                if (row.Table.Columns.Contains("ElectricityUsage"))
+                    txtElectricityUsage.Text = row["ElectricityUsage"] != DBNull.Value && row["ElectricityUsage"] != null ? row["ElectricityUsage"].ToString() : "";
+                if (row.Table.Columns.Contains("ElectricityAmount"))
+                    txtElectricityAmount.Text = row["ElectricityAmount"] != DBNull.Value && row["ElectricityAmount"] != null ? row["ElectricityAmount"].ToString() : "";
+                if (row.Table.Columns.Contains("WaterUsage"))
+                    txtWaterUsage.Text = row["WaterUsage"] != DBNull.Value && row["WaterUsage"] != null ? row["WaterUsage"].ToString() : "";
+                if (row.Table.Columns.Contains("WaterAmount"))
+                    txtWaterAmount.Text = row["WaterAmount"] != DBNull.Value && row["WaterAmount"] != null ? row["WaterAmount"].ToString() : "";
+                if (row.Table.Columns.Contains("OtherFees"))
+                    txtOtherFees.Text = row["OtherFees"] != DBNull.Value && row["OtherFees"] != null ? row["OtherFees"].ToString() : "";
+                if (row.Table.Columns.Contains("Narration"))
+                    txtNarration.Text = row["Narration"]?.ToString() ?? "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء تعبئة البيانات: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void LoadGrid()
@@ -307,7 +379,7 @@ namespace Dari
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"حدث خطأ أثناء تحميل البيانات: {ex.Message}\n\nتأكد من وجود الإجراء المخزن sp_TenantInvoice_SelectAll.", "خطأ",
+                MessageBox.Show($"حدث خطأ أثناء تحميل البيانات: {ex.Message}", "خطأ",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
