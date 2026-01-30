@@ -36,6 +36,7 @@ namespace Dari
             if (btnSave != null) btnSave.Click += BtnSave_Click;
             if (btnSearch != null) btnSearch.Click += BtnSearch_Click;
             if (btnEdit != null) btnEdit.Click += BtnEdit_Click;
+            if (btnDelete != null) btnDelete.Click += BtnDelete_Click;
 
             if (txtPropertyNo != null)
             {
@@ -444,6 +445,36 @@ namespace Dari
             }
             SetEditMode(true);
             SetFieldsEditable(true);
+        }
+
+        private void BtnDelete_Click(object sender, EventArgs e)
+        {
+            string calculationNo = (txtCalculationNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(calculationNo))
+            {
+                MessageBox.Show("الرجاء اختيار احتساب للحذف (زر عرض).", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var result = MessageBox.Show(
+                $"هل تريد حذف الاحتساب رقم {calculationNo}؟",
+                "تأكيد الحذف",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+            if (result != DialogResult.Yes)
+                return;
+            try
+            {
+                rentCalculation.DeleteDtlByCalculationNo(calculationNo);
+                rentCalculation.DeleteMst(calculationNo);
+                MessageBox.Show("تم حذف الاحتساب والتفاصيل بنجاح.", "حذف", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SetEditMode(false);
+                SetFieldsEditable(false);
+                ClearFields();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء الحذف: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)
