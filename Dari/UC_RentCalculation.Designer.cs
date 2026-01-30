@@ -25,6 +25,12 @@ namespace Dari
             this.btnClose = new MaterialSkin.Controls.MaterialButton();
             this.lblTitle = new MaterialSkin.Controls.MaterialLabel();
             this.pnlForm = new System.Windows.Forms.Panel();
+            this.pnlButtons = new System.Windows.Forms.Panel();
+            this.btnSave = new MaterialSkin.Controls.MaterialButton();
+            this.btnSearch = new MaterialSkin.Controls.MaterialButton();
+            this.btnDelete = new MaterialSkin.Controls.MaterialButton();
+            this.btnEdit = new MaterialSkin.Controls.MaterialButton();
+            this.btnAdd = new MaterialSkin.Controls.MaterialButton();
             this.pnlFilters = new System.Windows.Forms.Panel();
             this.btnCalculate = new MaterialSkin.Controls.MaterialButton();
             this.lblMonth = new MaterialSkin.Controls.MaterialLabel();
@@ -37,6 +43,7 @@ namespace Dari
             this.dgvRentSummary = new System.Windows.Forms.DataGridView();
             this.pnlHeader.SuspendLayout();
             this.pnlForm.SuspendLayout();
+            this.pnlButtons.SuspendLayout();
             this.pnlFilters.SuspendLayout();
             this.pnlDataGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRentSummary)).BeginInit();
@@ -92,6 +99,100 @@ namespace Dari
             this.pnlForm.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlForm.Size = new System.Drawing.Size(1267, 180);
             this.pnlForm.TabIndex = 1;
+            //
+            // pnlButtons
+            //
+            this.pnlButtons.Controls.Add(this.btnSave);
+            this.pnlButtons.Controls.Add(this.btnSearch);
+            this.pnlButtons.Controls.Add(this.btnDelete);
+            this.pnlButtons.Controls.Add(this.btnEdit);
+            this.pnlButtons.Controls.Add(this.btnAdd);
+            this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlButtons.Location = new System.Drawing.Point(27, 681);
+            this.pnlButtons.Name = "pnlButtons";
+            this.pnlButtons.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.pnlButtons.Size = new System.Drawing.Size(1213, 98);
+            this.pnlButtons.TabIndex = 1;
+            //
+            // btnSave
+            //
+            this.btnSave.AutoSize = false;
+            this.btnSave.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnSave.Depth = 0;
+            this.btnSave.HighEmphasis = false;
+            this.btnSave.Icon = null;
+            this.btnSave.Location = new System.Drawing.Point(0, 18);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(200, 62);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "حفظ";
+            this.btnSave.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnSave.UseAccentColor = false;
+            this.btnSave.UseVisualStyleBackColor = true;
+            //
+            // btnSearch
+            //
+            this.btnSearch.AutoSize = false;
+            this.btnSearch.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnSearch.Depth = 0;
+            this.btnSearch.HighEmphasis = false;
+            this.btnSearch.Icon = null;
+            this.btnSearch.Location = new System.Drawing.Point(213, 18);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(200, 62);
+            this.btnSearch.TabIndex = 3;
+            this.btnSearch.Text = "🔍 عرض";
+            this.btnSearch.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnSearch.UseAccentColor = false;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            //
+            // btnDelete
+            //
+            this.btnDelete.AutoSize = false;
+            this.btnDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnDelete.Depth = 0;
+            this.btnDelete.HighEmphasis = true;
+            this.btnDelete.Icon = null;
+            this.btnDelete.Location = new System.Drawing.Point(427, 18);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(200, 62);
+            this.btnDelete.TabIndex = 2;
+            this.btnDelete.Text = "🗑️ حذف";
+            this.btnDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnDelete.UseAccentColor = true;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            //
+            // btnEdit
+            //
+            this.btnEdit.AutoSize = false;
+            this.btnEdit.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnEdit.Depth = 0;
+            this.btnEdit.HighEmphasis = true;
+            this.btnEdit.Icon = null;
+            this.btnEdit.Location = new System.Drawing.Point(640, 18);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(200, 62);
+            this.btnEdit.TabIndex = 1;
+            this.btnEdit.Text = "✏️ تعديل";
+            this.btnEdit.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnEdit.UseAccentColor = false;
+            this.btnEdit.UseVisualStyleBackColor = true;
+            //
+            // btnAdd
+            //
+            this.btnAdd.AutoSize = false;
+            this.btnAdd.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnAdd.Depth = 0;
+            this.btnAdd.HighEmphasis = true;
+            this.btnAdd.Icon = null;
+            this.btnAdd.Location = new System.Drawing.Point(853, 18);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(200, 62);
+            this.btnAdd.TabIndex = 0;
+            this.btnAdd.Text = "➕ إضافة";
+            this.btnAdd.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnAdd.UseAccentColor = false;
+            this.btnAdd.UseVisualStyleBackColor = true;
             //
             // pnlFilters
             //
@@ -235,6 +336,7 @@ namespace Dari
             // pnlDataGrid
             //
             this.pnlDataGrid.BackColor = System.Drawing.Color.White;
+            this.pnlDataGrid.Controls.Add(this.pnlButtons);
             this.pnlDataGrid.Controls.Add(this.dgvRentSummary);
             this.pnlDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDataGrid.Location = new System.Drawing.Point(0, 254);
@@ -260,7 +362,7 @@ namespace Dari
             this.dgvRentSummary.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.dgvRentSummary.RowHeadersWidth = 51;
             this.dgvRentSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRentSummary.Size = new System.Drawing.Size(1213, 727);
+            this.dgvRentSummary.Size = new System.Drawing.Size(1213, 558);
             this.dgvRentSummary.TabIndex = 0;
             //
             // UC_RentCalculation
@@ -277,6 +379,7 @@ namespace Dari
             this.pnlHeader.ResumeLayout(false);
             this.pnlHeader.PerformLayout();
             this.pnlForm.ResumeLayout(false);
+            this.pnlButtons.ResumeLayout(false);
             this.pnlFilters.ResumeLayout(false);
             this.pnlFilters.PerformLayout();
             this.pnlDataGrid.ResumeLayout(false);
@@ -290,6 +393,12 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnClose;
         private MaterialSkin.Controls.MaterialLabel lblTitle;
         private System.Windows.Forms.Panel pnlForm;
+        private System.Windows.Forms.Panel pnlButtons;
+        private MaterialSkin.Controls.MaterialButton btnSave;
+        private MaterialSkin.Controls.MaterialButton btnSearch;
+        private MaterialSkin.Controls.MaterialButton btnDelete;
+        private MaterialSkin.Controls.MaterialButton btnEdit;
+        private MaterialSkin.Controls.MaterialButton btnAdd;
         private System.Windows.Forms.Panel pnlFilters;
         private MaterialSkin.Controls.MaterialLabel lblPropertyNo;
         private MaterialSkin.Controls.MaterialTextBox2 txtPropertyNo;
