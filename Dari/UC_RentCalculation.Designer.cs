@@ -26,12 +26,17 @@ namespace Dari
             this.lblTitle = new MaterialSkin.Controls.MaterialLabel();
             this.pnlForm = new System.Windows.Forms.Panel();
             this.pnlButtons = new System.Windows.Forms.Panel();
+            this.lblTotal = new MaterialSkin.Controls.MaterialLabel();
             this.btnSave = new MaterialSkin.Controls.MaterialButton();
             this.btnSearch = new MaterialSkin.Controls.MaterialButton();
             this.btnDelete = new MaterialSkin.Controls.MaterialButton();
             this.btnEdit = new MaterialSkin.Controls.MaterialButton();
             this.btnAdd = new MaterialSkin.Controls.MaterialButton();
             this.pnlFilters = new System.Windows.Forms.Panel();
+            this.lblCalculationDate = new MaterialSkin.Controls.MaterialLabel();
+            this.dtpCalculationDate = new System.Windows.Forms.DateTimePicker();
+            this.lblCalculationNo = new MaterialSkin.Controls.MaterialLabel();
+            this.txtCalculationNo = new MaterialSkin.Controls.MaterialTextBox2();
             this.btnCalculate = new MaterialSkin.Controls.MaterialButton();
             this.lblMonth = new MaterialSkin.Controls.MaterialLabel();
             this.cmbMonth = new MaterialSkin.Controls.MaterialComboBox();
@@ -97,22 +102,37 @@ namespace Dari
             this.pnlForm.Location = new System.Drawing.Point(0, 74);
             this.pnlForm.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
             this.pnlForm.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlForm.Size = new System.Drawing.Size(1267, 180);
+            this.pnlForm.Size = new System.Drawing.Size(1267, 244);
             this.pnlForm.TabIndex = 1;
             //
             // pnlButtons
             //
+            this.pnlButtons.Controls.Add(this.lblTotal);
             this.pnlButtons.Controls.Add(this.btnSave);
             this.pnlButtons.Controls.Add(this.btnSearch);
             this.pnlButtons.Controls.Add(this.btnDelete);
             this.pnlButtons.Controls.Add(this.btnEdit);
             this.pnlButtons.Controls.Add(this.btnAdd);
             this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlButtons.Location = new System.Drawing.Point(27, 681);
+            this.pnlButtons.Location = new System.Drawing.Point(27, 615);
             this.pnlButtons.Name = "pnlButtons";
             this.pnlButtons.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlButtons.Size = new System.Drawing.Size(1213, 98);
             this.pnlButtons.TabIndex = 1;
+            //
+            // lblTotal
+            //
+            this.lblTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Depth = 0;
+            this.lblTotal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblTotal.Location = new System.Drawing.Point(970, 35);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(120, 19);
+            this.lblTotal.TabIndex = 5;
+            this.lblTotal.Text = "الاجمالي: 0.00";
+            this.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             //
             // btnSave
             //
@@ -196,6 +216,10 @@ namespace Dari
             //
             // pnlFilters
             //
+            this.pnlFilters.Controls.Add(this.lblCalculationNo);
+            this.pnlFilters.Controls.Add(this.txtCalculationNo);
+            this.pnlFilters.Controls.Add(this.lblCalculationDate);
+            this.pnlFilters.Controls.Add(this.dtpCalculationDate);
             this.pnlFilters.Controls.Add(this.lblPropertyNo);
             this.pnlFilters.Controls.Add(this.txtPropertyNo);
             this.pnlFilters.Controls.Add(this.lblYear);
@@ -207,8 +231,66 @@ namespace Dari
             this.pnlFilters.Location = new System.Drawing.Point(27, 25);
             this.pnlFilters.Name = "pnlFilters";
             this.pnlFilters.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlFilters.Size = new System.Drawing.Size(1213, 130);
+            this.pnlFilters.Size = new System.Drawing.Size(1213, 190);
             this.pnlFilters.TabIndex = 0;
+            //
+            // lblCalculationNo
+            //
+            this.lblCalculationNo.AutoSize = true;
+            this.lblCalculationNo.Depth = 0;
+            this.lblCalculationNo.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblCalculationNo.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblCalculationNo.Location = new System.Drawing.Point(1085, 0);
+            this.lblCalculationNo.Name = "lblCalculationNo";
+            this.lblCalculationNo.Size = new System.Drawing.Size(91, 19);
+            this.lblCalculationNo.TabIndex = 0;
+            this.lblCalculationNo.Text = "رقم الاحتساب:";
+            //
+            // txtCalculationNo
+            //
+            this.txtCalculationNo.AnimateReadOnly = false;
+            this.txtCalculationNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
+            this.txtCalculationNo.Depth = 0;
+            this.txtCalculationNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.txtCalculationNo.HideSelection = false;
+            this.txtCalculationNo.LeadingIcon = null;
+            this.txtCalculationNo.Location = new System.Drawing.Point(613, 21);
+            this.txtCalculationNo.MaxLength = 50;
+            this.txtCalculationNo.MouseState = MaterialSkin.MouseState.OUT;
+            this.txtCalculationNo.Name = "txtCalculationNo";
+            this.txtCalculationNo.PasswordChar = '\0';
+            this.txtCalculationNo.PrefixSuffixText = null;
+            this.txtCalculationNo.ReadOnly = false;
+            this.txtCalculationNo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txtCalculationNo.Size = new System.Drawing.Size(587, 36);
+            this.txtCalculationNo.TabIndex = 0;
+            this.txtCalculationNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.txtCalculationNo.TrailingIcon = null;
+            this.txtCalculationNo.UseSystemPasswordChar = false;
+            this.txtCalculationNo.UseTallSize = false;
+            //
+            // lblCalculationDate
+            //
+            this.lblCalculationDate.AutoSize = true;
+            this.lblCalculationDate.Depth = 0;
+            this.lblCalculationDate.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblCalculationDate.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblCalculationDate.Location = new System.Drawing.Point(509, 0);
+            this.lblCalculationDate.Name = "lblCalculationDate";
+            this.lblCalculationDate.Size = new System.Drawing.Size(99, 19);
+            this.lblCalculationDate.TabIndex = 0;
+            this.lblCalculationDate.Text = "تاريخ الاحتساب:";
+            //
+            // dtpCalculationDate
+            //
+            this.dtpCalculationDate.CustomFormat = "yyyy-MM-dd";
+            this.dtpCalculationDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpCalculationDate.Location = new System.Drawing.Point(0, 21);
+            this.dtpCalculationDate.Name = "dtpCalculationDate";
+            this.dtpCalculationDate.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.dtpCalculationDate.RightToLeftLayout = true;
+            this.dtpCalculationDate.Size = new System.Drawing.Size(587, 22);
+            this.dtpCalculationDate.TabIndex = 1;
             //
             // lblPropertyNo
             //
@@ -216,7 +298,7 @@ namespace Dari
             this.lblPropertyNo.Depth = 0;
             this.lblPropertyNo.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblPropertyNo.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
-            this.lblPropertyNo.Location = new System.Drawing.Point(1115, 0);
+            this.lblPropertyNo.Location = new System.Drawing.Point(1115, 60);
             this.lblPropertyNo.Name = "lblPropertyNo";
             this.lblPropertyNo.Size = new System.Drawing.Size(75, 19);
             this.lblPropertyNo.TabIndex = 1;
@@ -230,7 +312,7 @@ namespace Dari
             this.txtPropertyNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.txtPropertyNo.HideSelection = false;
             this.txtPropertyNo.LeadingIcon = null;
-            this.txtPropertyNo.Location = new System.Drawing.Point(613, 21);
+            this.txtPropertyNo.Location = new System.Drawing.Point(613, 81);
             this.txtPropertyNo.MaxLength = 50;
             this.txtPropertyNo.MouseState = MaterialSkin.MouseState.OUT;
             this.txtPropertyNo.Name = "txtPropertyNo";
@@ -239,7 +321,7 @@ namespace Dari
             this.txtPropertyNo.ReadOnly = false;
             this.txtPropertyNo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.txtPropertyNo.Size = new System.Drawing.Size(587, 36);
-            this.txtPropertyNo.TabIndex = 0;
+            this.txtPropertyNo.TabIndex = 2;
             this.txtPropertyNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPropertyNo.TrailingIcon = null;
             this.txtPropertyNo.UseSystemPasswordChar = false;
@@ -251,7 +333,7 @@ namespace Dari
             this.lblYear.Depth = 0;
             this.lblYear.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblYear.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
-            this.lblYear.Location = new System.Drawing.Point(515, 0);
+            this.lblYear.Location = new System.Drawing.Point(515, 60);
             this.lblYear.Name = "lblYear";
             this.lblYear.Size = new System.Drawing.Size(41, 19);
             this.lblYear.TabIndex = 3;
@@ -271,7 +353,7 @@ namespace Dari
             this.cmbYear.FormattingEnabled = true;
             this.cmbYear.IntegralHeight = false;
             this.cmbYear.ItemHeight = 43;
-            this.cmbYear.Location = new System.Drawing.Point(0, 21);
+            this.cmbYear.Location = new System.Drawing.Point(0, 81);
             this.cmbYear.MouseState = MaterialSkin.MouseState.OUT;
             this.cmbYear.Name = "cmbYear";
             this.cmbYear.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -285,7 +367,7 @@ namespace Dari
             this.lblMonth.Depth = 0;
             this.lblMonth.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblMonth.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
-            this.lblMonth.Location = new System.Drawing.Point(1115, 80);
+            this.lblMonth.Location = new System.Drawing.Point(1115, 140);
             this.lblMonth.Name = "lblMonth";
             this.lblMonth.Size = new System.Drawing.Size(43, 19);
             this.lblMonth.TabIndex = 5;
@@ -309,7 +391,7 @@ namespace Dari
                 "1 - يناير", "2 - فبراير", "3 - مارس", "4 - أبريل", "5 - مايو", "6 - يونيو",
                 "7 - يوليو", "8 - أغسطس", "9 - سبتمبر", "10 - أكتوبر", "11 - نوفمبر", "12 - ديسمبر"
             });
-            this.cmbMonth.Location = new System.Drawing.Point(613, 101);
+            this.cmbMonth.Location = new System.Drawing.Point(613, 161);
             this.cmbMonth.MouseState = MaterialSkin.MouseState.OUT;
             this.cmbMonth.Name = "cmbMonth";
             this.cmbMonth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -324,7 +406,7 @@ namespace Dari
             this.btnCalculate.Depth = 0;
             this.btnCalculate.HighEmphasis = true;
             this.btnCalculate.Icon = null;
-            this.btnCalculate.Location = new System.Drawing.Point(0, 95);
+            this.btnCalculate.Location = new System.Drawing.Point(0, 155);
             this.btnCalculate.Name = "btnCalculate";
             this.btnCalculate.Size = new System.Drawing.Size(220, 55);
             this.btnCalculate.TabIndex = 3;
@@ -339,10 +421,10 @@ namespace Dari
             this.pnlDataGrid.Controls.Add(this.pnlButtons);
             this.pnlDataGrid.Controls.Add(this.dgvRentSummary);
             this.pnlDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDataGrid.Location = new System.Drawing.Point(0, 254);
+            this.pnlDataGrid.Location = new System.Drawing.Point(0, 318);
             this.pnlDataGrid.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
             this.pnlDataGrid.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlDataGrid.Size = new System.Drawing.Size(1267, 777);
+            this.pnlDataGrid.Size = new System.Drawing.Size(1267, 713);
             this.pnlDataGrid.TabIndex = 2;
             //
             // dgvRentSummary
@@ -399,7 +481,12 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnDelete;
         private MaterialSkin.Controls.MaterialButton btnEdit;
         private MaterialSkin.Controls.MaterialButton btnAdd;
+        private MaterialSkin.Controls.MaterialLabel lblTotal;
         private System.Windows.Forms.Panel pnlFilters;
+        private MaterialSkin.Controls.MaterialLabel lblCalculationNo;
+        private MaterialSkin.Controls.MaterialTextBox2 txtCalculationNo;
+        private MaterialSkin.Controls.MaterialLabel lblCalculationDate;
+        private System.Windows.Forms.DateTimePicker dtpCalculationDate;
         private MaterialSkin.Controls.MaterialLabel lblPropertyNo;
         private MaterialSkin.Controls.MaterialTextBox2 txtPropertyNo;
         private MaterialSkin.Controls.MaterialLabel lblYear;
