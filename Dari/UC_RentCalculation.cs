@@ -12,6 +12,7 @@ namespace Dari
         private Buildings buildings;
         private GridBtnViewHelper gridBtnViewHelper;
         private bool isFieldsEditable = false;
+        private bool isEditMode = false;
 
         public UC_RentCalculation()
         {
@@ -34,6 +35,7 @@ namespace Dari
             if (btnAdd != null) btnAdd.Click += BtnAdd_Click;
             if (btnSave != null) btnSave.Click += BtnSave_Click;
             if (btnSearch != null) btnSearch.Click += BtnSearch_Click;
+            if (btnEdit != null) btnEdit.Click += BtnEdit_Click;
 
             if (txtPropertyNo != null)
             {
@@ -85,6 +87,13 @@ namespace Dari
             if (txtCalculationNo == null) return;
             txtCalculationNo.ReadOnly = !isEditable;
             txtCalculationNo.TabStop = isEditable;
+        }
+
+        private void SetEditMode(bool editMode)
+        {
+            isEditMode = editMode;
+            if (btnSave != null)
+                btnSave.Text = editMode ? "تحديث" : "حفظ";
         }
 
         private void TxtPropertyNo_Enter(object sender, EventArgs e)
@@ -179,6 +188,7 @@ namespace Dari
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
+            SetEditMode(false);
             SetFieldsEditable(true);
             ClearFields();
             try
@@ -341,7 +351,7 @@ namespace Dari
             var dt = dgvRentSummary?.DataSource as DataTable;
             if (dt == null || dt.Rows.Count == 0)
             {
-                MessageBox.Show("الرجاء الضغط على زر الاحتساب أولاً لتحميل بيانات الإيجار.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("الرجاء الضغط على زر الاحتساب أولاً لتحميل بيانات الإيجار (بعد التعديل أيضاً).", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (cmbYear?.SelectedItem == null || cmbMonth?.SelectedIndex < 0)
@@ -360,23 +370,34 @@ namespace Dari
 
             try
             {
-                rentCalculation.AddMst(calculationNo, propertyNo, billYear, billMonth, calculationDate, totalAmount);
-
-                for (int i = 0; i < dt.Rows.Count; i++)
+                if (isEditMode)
                 {
-                    DataRow row = dt.Rows[i];
-                    string tenantNo = GetRowString(row, IdxTenantNo);
-                    string apartmentNo = GetRowString(row, IdxApartmentNo);
-                    string contractNo = GetRowString(row, IdxContractNo);
-                    decimal rentAmount = GetRowDecimal(row, IdxRentAmount);
-                    decimal otherAmount = GetRowDecimal(row, IdxOtherAmount);
-                    decimal totalLineAmount = GetRowDecimal(row, IdxTotalLineAmount);
-                    rentCalculation.AddDtl(calculationNo, tenantNo, apartmentNo, contractNo, rentAmount, otherAmount, totalLineAmount);
+                    rentCalculation.UpdateMst(calculationNo, propertyNo, billYear, billMonth, calculationDate, totalAmount);
+                    MessageBox.Show("تم تحديث الاحتساب بنجاح.", "تحديث", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SetEditMode(false);
+                    SetFieldsEditable(false);
+                    ClearFields();
                 }
+                else
+                {
+                    rentCalculation.AddMst(calculationNo, propertyNo, billYear, billMonth, calculationDate, totalAmount);
 
-                MessageBox.Show("تم حفظ الاحتساب والتفاصيل بنجاح.", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                SetFieldsEditable(false);
-                ClearFields();
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        DataRow row = dt.Rows[i];
+                        string tenantNo = GetRowString(row, IdxTenantNo);
+                        string apartmentNo = GetRowString(row, IdxApartmentNo);
+                        string contractNo = GetRowString(row, IdxContractNo);
+                        decimal rentAmount = GetRowDecimal(row, IdxRentAmount);
+                        decimal otherAmount = GetRowDecimal(row, IdxOtherAmount);
+                        decimal totalLineAmount = GetRowDecimal(row, IdxTotalLineAmount);
+                        rentCalculation.AddDtl(calculationNo, tenantNo, apartmentNo, contractNo, rentAmount, otherAmount, totalLineAmount);
+                    }
+
+                    MessageBox.Show("تم حفظ الاحتساب والتفاصيل بنجاح.", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    SetFieldsEditable(false);
+                    ClearFields();
+                }
             }
             catch (Exception ex)
             {
@@ -401,10 +422,23 @@ namespace Dari
             return decimal.TryParse(v.ToString(), out decimal parsed) ? parsed : 0;
         }
 
+        private void BtnEdit_Click(object sender, EventArgs e)
+        {
+            string calculationNo = (txtCalculationNo?.Text ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(calculationNo))
+            {
+                MessageBox.Show("الرجاء اختيار احتساب للتعديل (زر عرض).", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            SetEditMode(true);
+            SetFieldsEditable(true);
+        }
+
         private void BtnSearch_Click(object sender, EventArgs e)
         {
             try
             {
+                SetEditMode(false);
                 DataTable dt = rentCalculation.GetAllMst();
                 DataRow row = gridBtnViewHelper.Show(dt, "البحث عن الاحتسابات");
                 if (row != null)
@@ -421,6 +455,7 @@ namespace Dari
         {
             try
             {
+                SetEditMode(false);
                 SetFieldsEditable(false);
 
                 if (row.Table.Columns.Contains("CalculationNo") && txtCalculationNo != null)

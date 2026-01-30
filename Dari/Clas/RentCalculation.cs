@@ -79,6 +79,30 @@ namespace Dari.Clas
         }
 
         /// <summary>
+        /// تحديث سجل رئيسي في RentCalculation_mst عبر sp_RentCalculationMst_Update
+        /// </summary>
+        public void UpdateMst(
+            string CalculationNo,
+            string PropertyNo,
+            int BillYear,
+            byte BillMonth,
+            DateTime CalculationDate,
+            decimal TotalAmount)
+        {
+            var dal = new DataAccessLayer();
+            dal.Open();
+            SqlParameter[] param = new SqlParameter[6];
+            param[0] = new SqlParameter("@CalculationNo", SqlDbType.NVarChar, 50) { Value = CalculationNo };
+            param[1] = new SqlParameter("@PropertyNo", SqlDbType.NVarChar, 50) { Value = PropertyNo };
+            param[2] = new SqlParameter("@BillYear", SqlDbType.Int) { Value = BillYear };
+            param[3] = new SqlParameter("@BillMonth", SqlDbType.TinyInt) { Value = BillMonth };
+            param[4] = new SqlParameter("@CalculationDate", SqlDbType.Date) { Value = CalculationDate };
+            param[5] = new SqlParameter("@TotalAmount", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = TotalAmount };
+            dal.ExecuteCommand("sp_RentCalculationMst_Update", param);
+            dal.Close();
+        }
+
+        /// <summary>
         /// إضافة سطر تفصيلي في RentCalculation_dtl عبر sp_RentCalculationDtl_Add
         /// </summary>
         public void AddDtl(
