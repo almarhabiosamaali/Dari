@@ -51,5 +51,31 @@ namespace Dari.Clas
             dal.ExecuteCommand("sp_RentCalculationMst_Add", param);
             dal.Close();
         }
+
+        /// <summary>
+        /// إضافة سطر تفصيلي في RentCalculation_dtl عبر sp_RentCalculationDtl_Add
+        /// </summary>
+        public void AddDtl(
+            string CalculationNo,
+            string TenantNo,
+            string ApartmentNo,
+            string ContractNo,
+            decimal RentAmount,
+            decimal OtherAmount,
+            decimal TotalLineAmount)
+        {
+            var dal = new DataAccessLayer();
+            dal.Open();
+            SqlParameter[] param = new SqlParameter[7];
+            param[0] = new SqlParameter("@CalculationNo", SqlDbType.NVarChar, 50) { Value = CalculationNo };
+            param[1] = new SqlParameter("@TenantNo", SqlDbType.NVarChar, 50) { Value = TenantNo ?? (object)DBNull.Value };
+            param[2] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 50) { Value = ApartmentNo ?? (object)DBNull.Value };
+            param[3] = new SqlParameter("@ContractNo", SqlDbType.NVarChar, 50) { Value = ContractNo ?? (object)DBNull.Value };
+            param[4] = new SqlParameter("@RentAmount", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = RentAmount };
+            param[5] = new SqlParameter("@OtherAmount", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = OtherAmount };
+            param[6] = new SqlParameter("@TotalLineAmount", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = TotalLineAmount };
+            dal.ExecuteCommand("sp_RentCalculationDtl_Add", param);
+            dal.Close();
+        }
     }
 }
