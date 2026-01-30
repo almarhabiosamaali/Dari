@@ -296,8 +296,7 @@ namespace Dari
 
         private void BtnRentLoad_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "احتساب الإيجار";
-            // هنا سيتم فتح شاشة احتساب الإيجار لاحقاً
+            ShowUserControl(new UC_RentCalculation());
         }
 
         private void BtnInvoices_Click(object sender, EventArgs e)
