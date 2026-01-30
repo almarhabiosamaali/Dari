@@ -223,12 +223,26 @@ namespace Dari
             {
                 DataTable dt = rentCalculation.GetRentSummaryByProperty(propertyNo);
                 dgvRentSummary.DataSource = dt;
+                HideFirstTwoColumns();
                 RefreshTotalAmount();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"حدث خطأ أثناء احتساب الإيجار: {ex.Message}", "خطأ",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// إخفاء العمود الأول والثاني من العرض في الـ Grid (البيانات تبقى في الـ DataTable للحفظ).
+        /// </summary>
+        private void HideFirstTwoColumns()
+        {
+            if (dgvRentSummary == null) return;
+            if (dgvRentSummary.Columns.Count > 1)
+            {
+                dgvRentSummary.Columns[0].Visible = false;
+                dgvRentSummary.Columns[1].Visible = false;
             }
         }
 
