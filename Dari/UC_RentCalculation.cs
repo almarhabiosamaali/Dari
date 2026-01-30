@@ -33,6 +33,7 @@ namespace Dari
             if (btnCalculate != null) btnCalculate.Click += BtnCalculate_Click;
             if (btnAdd != null) btnAdd.Click += BtnAdd_Click;
             if (btnSave != null) btnSave.Click += BtnSave_Click;
+            if (btnSearch != null) btnSearch.Click += BtnSearch_Click;
 
             if (txtPropertyNo != null)
             {
@@ -398,6 +399,90 @@ namespace Dari
             if (v is decimal d) return d;
             if (v is double dbl) return (decimal)dbl;
             return decimal.TryParse(v.ToString(), out decimal parsed) ? parsed : 0;
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataTable dt = rentCalculation.GetAllMst();
+                DataRow row = gridBtnViewHelper.Show(dt, "البحث عن الاحتسابات");
+                if (row != null)
+                    FillFieldsFromRow(row);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء تحميل البيانات: {ex.Message}", "خطأ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void FillFieldsFromRow(DataRow row)
+        {
+            try
+            {
+                SetFieldsEditable(false);
+
+                if (row.Table.Columns.Contains("CalculationNo") && txtCalculationNo != null)
+                    txtCalculationNo.Text = row["CalculationNo"]?.ToString() ?? "";
+
+                if (row.Table.Columns.Contains("CalculationDate") && dtpCalculationDate != null)
+                {
+                    if (row["CalculationDate"] != DBNull.Value && row["CalculationDate"] != null &&
+                        DateTime.TryParse(row["CalculationDate"].ToString(), out DateTime d))
+                        dtpCalculationDate.Value = d;
+                }
+
+                if (row.Table.Columns.Contains("PropertyNo") && txtPropertyNo != null)
+                {
+                    string propertyNo = row["PropertyNo"]?.ToString() ?? "";
+                    txtPropertyNo.Tag = propertyNo;
+                    txtPropertyNo.Text = row.Table.Columns.Contains("PropertyName")
+                        ? (row["PropertyName"]?.ToString() ?? propertyNo)
+                        : propertyNo;
+                }
+
+                if (row.Table.Columns.Contains("BillYear") && cmbYear != null && cmbYear.Items.Count > 0)
+                {
+                    string yearVal = row["BillYear"]?.ToString() ?? "";
+                    if (!string.IsNullOrEmpty(yearVal))
+                    {
+                        int idx = cmbYear.Items.IndexOf(yearVal);
+                        if (idx >= 0) cmbYear.SelectedIndex = idx;
+                    }
+                }
+
+                if (row.Table.Columns.Contains("BillMonth") && cmbMonth != null && cmbMonth.Items.Count > 0)
+                {
+                    if (row["BillMonth"] != DBNull.Value && row["BillMonth"] != null &&
+                        int.TryParse(row["BillMonth"].ToString(), out int month) && month >= 1 && month <= 12)
+                        cmbMonth.SelectedIndex = month - 1;
+                }
+
+                if (lblTotal != null)
+                {
+                    if (row.Table.Columns.Contains("TotalAmount") && row["TotalAmount"] != DBNull.Value && row["TotalAmount"] != null &&
+                        decimal.TryParse(row["TotalAmount"].ToString(), out decimal total))
+                        lblTotal.Text = "الاجمالي: " + total.ToString("N2");
+                    else
+                        lblTotal.Text = "الاجمالي: 0.00";
+                }
+
+                string calculationNo = row.Table.Columns.Contains("CalculationNo") ? (row["CalculationNo"]?.ToString() ?? "").Trim() : "";
+                if (!string.IsNullOrEmpty(calculationNo))
+                {
+                    DataTable dtDtl = rentCalculation.GetDtlByCalculationNo(calculationNo);
+                    dgvRentSummary.DataSource = dtDtl;
+                    HideFirstTwoColumns();
+                }
+                else
+                    dgvRentSummary.DataSource = null;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"حدث خطأ أثناء تعبئة البيانات: {ex.Message}", "خطأ",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnClose_Click(object sender, EventArgs e)

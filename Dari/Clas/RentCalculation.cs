@@ -21,6 +21,32 @@ namespace Dari.Clas
         }
 
         /// <summary>
+        /// جلب جميع سجلات الاحتساب الرئيسية عبر sp_RentCalculationMst_SelectAll
+        /// </summary>
+        public DataTable GetAllMst()
+        {
+            var dal = new DataAccessLayer();
+            dal.Open();
+            DataTable dt = dal.SelectData("sp_RentCalculationMst_SelectAll", null);
+            dal.Close();
+            return dt;
+        }
+
+        /// <summary>
+        /// جلب تفاصيل الاحتساب برقم الماستر عبر sp_RentCalculationDtl_SelectByCalculationNo
+        /// </summary>
+        public DataTable GetDtlByCalculationNo(string CalculationNo)
+        {
+            var dal = new DataAccessLayer();
+            dal.Open();
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@CalculationNo", SqlDbType.NVarChar, 50) { Value = CalculationNo };
+            DataTable dt = dal.SelectData("sp_RentCalculationDtl_SelectByCalculationNo", param);
+            dal.Close();
+            return dt;
+        }
+
+        /// <summary>
         /// الحصول على رقم الاحتساب التالي (من جدول RentCalculation_mst).
         /// </summary>
         public string GET_NEXT_CalculationNo()
