@@ -373,7 +373,19 @@ namespace Dari
                 if (isEditMode)
                 {
                     rentCalculation.UpdateMst(calculationNo, propertyNo, billYear, billMonth, calculationDate, totalAmount);
-                    MessageBox.Show("تم تحديث الاحتساب بنجاح.", "تحديث", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    rentCalculation.DeleteDtlByCalculationNo(calculationNo);
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        DataRow row = dt.Rows[i];
+                        string tenantNo = GetRowString(row, IdxTenantNo);
+                        string apartmentNo = GetRowString(row, IdxApartmentNo);
+                        string contractNo = GetRowString(row, IdxContractNo);
+                        decimal rentAmount = GetRowDecimal(row, IdxRentAmount);
+                        decimal otherAmount = GetRowDecimal(row, IdxOtherAmount);
+                        decimal totalLineAmount = GetRowDecimal(row, IdxTotalLineAmount);
+                        rentCalculation.AddDtl(calculationNo, tenantNo, apartmentNo, contractNo, rentAmount, otherAmount, totalLineAmount);
+                    }
+                    MessageBox.Show("تم تحديث الاحتساب والتفاصيل بنجاح.", "تحديث", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     SetEditMode(false);
                     SetFieldsEditable(false);
                     ClearFields();

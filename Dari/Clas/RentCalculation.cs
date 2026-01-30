@@ -103,6 +103,19 @@ namespace Dari.Clas
         }
 
         /// <summary>
+        /// حذف تفاصيل الاحتساب برقم الماستر عبر sp_RentCalculationDtl_Delete
+        /// </summary>
+        public void DeleteDtlByCalculationNo(string CalculationNo)
+        {
+            var dal = new DataAccessLayer();
+            dal.Open();
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@CalculationNo", SqlDbType.NVarChar, 50) { Value = CalculationNo };
+            dal.ExecuteCommand("sp_RentCalculationDtl_Delete", param);
+            dal.Close();
+        }
+
+        /// <summary>
         /// إضافة سطر تفصيلي في RentCalculation_dtl عبر sp_RentCalculationDtl_Add
         /// </summary>
         public void AddDtl(
