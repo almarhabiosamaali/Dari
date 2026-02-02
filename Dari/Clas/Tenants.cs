@@ -184,5 +184,21 @@ namespace Dari.Clas
             DAL.ExecuteCommand("sp_Tenant_Delete", param);
             DAL.Close();
         }
+
+        public DataTable GetTenantFullInfo(string tenantNo)
+        {
+            Clas.DataAccessLayer DAL = new Clas.DataAccessLayer();
+            DAL.Open();
+
+            SqlParameter[] param = new SqlParameter[1];
+            param[0] = new SqlParameter("@TenantNo", SqlDbType.NVarChar, 50);
+            param[0].Value = tenantNo;
+
+            DataTable dt = DAL.SelectData("sp_GetTenantFullInfo", param);
+            DAL.Close();
+
+            return dt;
+        }
+
     }
 }

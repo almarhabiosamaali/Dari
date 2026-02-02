@@ -33,12 +33,13 @@ namespace Dari.Clas
             string ReferenceNo = null,
             string Narration = null,
             byte BillMonth = 1,
-            int? BillYear = null)
+            int? BillYear = null,
+            string ApartmentNo = null)
         {
             var dal = new DataAccessLayer();
             dal.Open();
 
-            SqlParameter[] param = new SqlParameter[9];
+            SqlParameter[] param = new SqlParameter[10];
             param[0] = new SqlParameter("@ReceiptNo", SqlDbType.NVarChar, 50) { Value = ReceiptNo };
             param[1] = new SqlParameter("@ReceiptType", SqlDbType.NVarChar, 30) { Value = ReceiptType };
             param[2] = new SqlParameter("@ReceiptDate", SqlDbType.Date) { Value = ReceiptDate };
@@ -48,6 +49,7 @@ namespace Dari.Clas
             param[6] = new SqlParameter("@Narration", SqlDbType.NVarChar, 500) { Value = string.IsNullOrWhiteSpace(Narration) ? (object)DBNull.Value : Narration };
             param[7] = new SqlParameter("@BillMonth", SqlDbType.TinyInt) { Value = BillMonth };
             param[8] = new SqlParameter("@BillYear", SqlDbType.Int) { Value = BillYear.HasValue ? (object)BillYear.Value : DBNull.Value };
+            param[9] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 500) { Value = string.IsNullOrWhiteSpace(ApartmentNo) ? (object)DBNull.Value : ApartmentNo };
 
             dal.ExecuteCommand("sp_Receipt_Add", param);
             dal.Close();
@@ -62,12 +64,13 @@ namespace Dari.Clas
             string ReferenceNo = null,
             string Narration = null,
             byte BillMonth = 1,
-            int? BillYear = null)
+            int BillYear =0,
+            string ApartmentNo = null)
         {
             var dal = new DataAccessLayer();
             dal.Open();
 
-            SqlParameter[] param = new SqlParameter[9];
+            SqlParameter[] param = new SqlParameter[10];
             param[0] = new SqlParameter("@ReceiptNo", SqlDbType.NVarChar, 50) { Value = ReceiptNo };
             param[1] = new SqlParameter("@ReceiptType", SqlDbType.NVarChar, 30) { Value = ReceiptType };
             param[2] = new SqlParameter("@ReceiptDate", SqlDbType.Date) { Value = ReceiptDate };
@@ -76,7 +79,8 @@ namespace Dari.Clas
             param[5] = new SqlParameter("@ReferenceNo", SqlDbType.NVarChar, 50) { Value = string.IsNullOrWhiteSpace(ReferenceNo) ? (object)DBNull.Value : ReferenceNo };
             param[6] = new SqlParameter("@Narration", SqlDbType.NVarChar, 500) { Value = string.IsNullOrWhiteSpace(Narration) ? (object)DBNull.Value : Narration };
             param[7] = new SqlParameter("@BillMonth", SqlDbType.TinyInt) { Value = BillMonth };
-            param[8] = new SqlParameter("@BillYear", SqlDbType.Int) { Value = BillYear.HasValue ? (object)BillYear.Value : DBNull.Value };
+            param[8] = new SqlParameter("@BillYear", SqlDbType.Int) { Value = BillYear };
+            param[9] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 500) { Value = string.IsNullOrWhiteSpace(ApartmentNo) ? (object)DBNull.Value : ApartmentNo };
 
             dal.ExecuteCommand("sp_Receipt_Update", param);
             dal.Close();

@@ -35,12 +35,13 @@ namespace Dari.Clas
             decimal? WaterUsage = null,
             decimal? WaterAmount = null,
             decimal? OtherFees = null,
-            string Narration = null)
+            string Narration = null,
+            string ApartmentNo =null)
         {
             var dal = new DataAccessLayer();
             dal.Open();
 
-            SqlParameter[] param = new SqlParameter[11];
+            SqlParameter[] param = new SqlParameter[12];
             param[0] = new SqlParameter("@InvoiceNo", SqlDbType.NVarChar, 50) { Value = InvoiceNo };
             param[1] = new SqlParameter("@TenantNo", SqlDbType.NVarChar, 50) { Value = TenantNo };
             param[2] = new SqlParameter("@BillYear", SqlDbType.Int) { Value = BillYear };
@@ -52,6 +53,7 @@ namespace Dari.Clas
             param[8] = new SqlParameter("@WaterAmount", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = WaterAmount ?? (object)DBNull.Value };
             param[9] = new SqlParameter("@OtherFees", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = OtherFees ?? (object)DBNull.Value };
             param[10] = new SqlParameter("@Narration", SqlDbType.NVarChar, 500) { Value = string.IsNullOrWhiteSpace(Narration) ? (object)DBNull.Value : Narration };
+            param[11] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 50) { Value = string.IsNullOrWhiteSpace(ApartmentNo) ? (object)DBNull.Value : ApartmentNo };
 
             dal.ExecuteCommand("sp_TenantInvoice_Add", param);
             dal.Close();
@@ -68,12 +70,13 @@ namespace Dari.Clas
             decimal? WaterUsage = null,
             decimal? WaterAmount = null,
             decimal? OtherFees = null,
-            string Narration = null)
+            string Narration = null,
+            string ApartmentNo = null)
         {
             var dal = new DataAccessLayer();
             dal.Open();
 
-            SqlParameter[] param = new SqlParameter[11];
+            SqlParameter[] param = new SqlParameter[12];
             param[0] = new SqlParameter("@InvoiceNo", SqlDbType.NVarChar, 50) { Value = InvoiceNo };
             param[1] = new SqlParameter("@TenantNo", SqlDbType.NVarChar, 50) { Value = TenantNo };
             param[2] = new SqlParameter("@BillYear", SqlDbType.Int) { Value = BillYear };
@@ -85,6 +88,7 @@ namespace Dari.Clas
             param[8] = new SqlParameter("@WaterAmount", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = WaterAmount ?? (object)DBNull.Value };
             param[9] = new SqlParameter("@OtherFees", SqlDbType.Decimal) { Precision = 18, Scale = 2, Value = OtherFees ?? (object)DBNull.Value };
             param[10] = new SqlParameter("@Narration", SqlDbType.NVarChar, 500) { Value = string.IsNullOrWhiteSpace(Narration) ? (object)DBNull.Value : Narration };
+            param[11] = new SqlParameter("@ApartmentNo", SqlDbType.NVarChar, 50) { Value = string.IsNullOrWhiteSpace(ApartmentNo) ? (object)DBNull.Value : ApartmentNo };
 
             dal.ExecuteCommand("sp_TenantInvoice_Update", param);
             dal.Close();

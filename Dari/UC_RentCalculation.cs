@@ -11,6 +11,7 @@ namespace Dari
         private RentCalculation rentCalculation;
         private Buildings buildings;
         private GridBtnViewHelper gridBtnViewHelper;
+        private FinancialMovements financialMovements;
         private bool isFieldsEditable = false;
         private bool isEditMode = false;
 
@@ -24,6 +25,7 @@ namespace Dari
             rentCalculation = new RentCalculation();
             buildings = new Buildings();
             gridBtnViewHelper = new GridBtnViewHelper();
+            financialMovements = new FinancialMovements();
 
             FillYearCombo();
             FillMonthCombo();
@@ -375,6 +377,8 @@ namespace Dari
                 {
                     rentCalculation.UpdateMst(calculationNo, propertyNo, billYear, billMonth, calculationDate, totalAmount);
                     rentCalculation.DeleteDtlByCalculationNo(calculationNo);
+
+                    financialMovements.DELETE_FinancialMovements("1", calculationNo);
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         DataRow row = dt.Rows[i];
@@ -385,6 +389,9 @@ namespace Dari
                         decimal otherAmount = GetRowDecimal(row, IdxOtherAmount);
                         decimal totalLineAmount = GetRowDecimal(row, IdxTotalLineAmount);
                         rentCalculation.AddDtl(calculationNo, tenantNo, apartmentNo, contractNo, rentAmount, otherAmount, totalLineAmount);
+
+                        financialMovements.ADD_FinancialMovements("1", calculationNo, "", calculationDate, billYear, billMonth, tenantNo
+                      , apartmentNo, totalLineAmount, 0, "");
                     }
                     MessageBox.Show("تم تحديث الاحتساب والتفاصيل بنجاح.", "تحديث", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     SetEditMode(false);
@@ -405,6 +412,9 @@ namespace Dari
                         decimal otherAmount = GetRowDecimal(row, IdxOtherAmount);
                         decimal totalLineAmount = GetRowDecimal(row, IdxTotalLineAmount);
                         rentCalculation.AddDtl(calculationNo, tenantNo, apartmentNo, contractNo, rentAmount, otherAmount, totalLineAmount);
+
+                        financialMovements.ADD_FinancialMovements("1", calculationNo, "", calculationDate, billYear, billMonth, tenantNo
+                      , apartmentNo, totalLineAmount, 0, "");
                     }
 
                     MessageBox.Show("تم حفظ الاحتساب والتفاصيل بنجاح.", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -466,6 +476,7 @@ namespace Dari
             {
                 rentCalculation.DeleteDtlByCalculationNo(calculationNo);
                 rentCalculation.DeleteMst(calculationNo);
+                financialMovements.DELETE_FinancialMovements("1", calculationNo);
                 MessageBox.Show("تم حذف الاحتساب والتفاصيل بنجاح.", "حذف", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SetEditMode(false);
                 SetFieldsEditable(false);

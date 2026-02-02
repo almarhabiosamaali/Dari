@@ -10,6 +10,7 @@ namespace Dari
     public partial class UC_TenantInvoices : UserControl
     {
         private TenantInvoices tenantInvoices;
+        private FinancialMovements financialMovements;
         private Tenants tenants;
         private GridBtnViewHelper gridBtnViewHelper;
         private bool isFieldsEditable = false;
@@ -25,6 +26,7 @@ namespace Dari
             tenantInvoices = new TenantInvoices();
             tenants = new Tenants();
             gridBtnViewHelper = new GridBtnViewHelper();
+            financialMovements = new FinancialMovements();
 
             FillBillYearCombo();
             SetDefaultDates();
@@ -139,8 +141,28 @@ namespace Dari
                     string tenantName = row.Table.Columns.Contains("TenantName") ? (row["TenantName"]?.ToString() ?? "") : "";
                     if (!string.IsNullOrWhiteSpace(tenantNo))
                     {
-                        txtTenantNo.Tag = tenantNo;
-                        txtTenantNo.Text = tenantName;
+                        //txtTenantNo.Tag = tenantNo;
+                        //txtTenantNo.Text = tenantName;
+
+                        DataTable dt_tenants = tenants.GetTenantFullInfo(tenantNo);
+                        if (dt_tenants.Rows.Count > 1)
+                        {
+                            MessageBox.Show(dt_tenants.Rows.Count.ToString());
+                            DataRow rowt = gridBtnViewHelper.Show(dt_tenants, "البحث الشقق");
+                            string ApartmentNo = rowt.Table.Columns.Contains("ApartmentNo") ? (rowt["ApartmentNo"]?.ToString() ?? "") : "";
+                            txtTenantNo.Text = tenantName + "       " + ApartmentNo;
+                            txtTenantNo.Tag = Tuple.Create(tenantNo, ApartmentNo);
+                        }
+                        else
+                        {
+                            MessageBox.Show(dt_tenants.Rows.Count.ToString());
+                            string ApartmentNo = dt_tenants.Rows[0]["ApartmentNo"].ToString();
+                            txtTenantNo.Text = tenantName + "       " + ApartmentNo;
+                            txtTenantNo.Tag = Tuple.Create(tenantNo, ApartmentNo);
+
+                        }
+                            
+
                     }
                 }
             }
@@ -242,8 +264,20 @@ namespace Dari
             try
             {
                 string invoiceNo = (txtInvoiceNo?.Text ?? string.Empty).Trim();
-                string tenantNo = txtTenantNo?.Tag?.ToString() ?? (txtTenantNo?.Text ?? string.Empty).Trim();
-                if (string.IsNullOrWhiteSpace(invoiceNo) || string.IsNullOrWhiteSpace(tenantNo))
+            string tenantNo;
+            string apartmentNo;
+
+            if (txtTenantNo?.Tag is Tuple<string, string> info)
+            {
+                tenantNo = info.Item1;
+                apartmentNo = info.Item2;
+            }
+            else
+            {
+                tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+                apartmentNo = string.Empty;
+            }
+            if (string.IsNullOrWhiteSpace(invoiceNo) || string.IsNullOrWhiteSpace(tenantNo))
                 {
                     MessageBox.Show("الرجاء تعبئة رقم الفاتورة ورقم المستأجر.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -269,21 +303,36 @@ namespace Dari
                 decimal? waterUsage = ParseDecimalOrNull(txtWaterUsage?.Text);
                 decimal? waterAmount = ParseDecimalOrNull(txtWaterAmount?.Text);
                 decimal? otherFees = ParseDecimalOrNull(txtOtherFees?.Text);
-                string narration = (txtNarration?.Text ?? string.Empty).Trim();
+            decimal allAmount = electricityAmount.GetValueOrDefault()
+              + waterAmount.GetValueOrDefault()
+              + otherFees.GetValueOrDefault();
+
+            string narration = (txtNarration?.Text ?? string.Empty).Trim();
                 if (string.IsNullOrWhiteSpace(narration)) narration = null;
 
                 if (isEditMode)
                 {
+                financialMovements.DELETE_FinancialMovements("2", invoiceNo);
+
+
                     tenantInvoices.UPDATE_TenantInvoice(
                         invoiceNo, tenantNo, billYear, billMonth, invoiceDate,
-                        electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration);
-                    MessageBox.Show("تم تحديث الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration , apartmentNo);
+
+
+                financialMovements.ADD_FinancialMovements("2", invoiceNo, "", invoiceDate, billYear, billMonth, tenantNo
+                       , apartmentNo, allAmount, 0, narration);
+                MessageBox.Show("تم تحديث الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
                     tenantInvoices.ADD_TenantInvoice(
                         invoiceNo, tenantNo, billYear, billMonth, invoiceDate,
-                        electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration);
+                        electricityUsage, electricityAmount, waterUsage, waterAmount, otherFees, narration, apartmentNo);
+
+
+                financialMovements.ADD_FinancialMovements("2", invoiceNo, "", invoiceDate, billYear, billMonth, tenantNo
+                       , apartmentNo, allAmount, 0, narration);
                     MessageBox.Show("تم حفظ الفاتورة بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -296,6 +345,8 @@ namespace Dari
             {
                 MessageBox.Show($"حدث خطأ أثناء الحفظ: {ex.Message}", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+
         }
 
         private static decimal? ParseDecimalOrNull(string text)
@@ -331,11 +382,12 @@ namespace Dari
                 if (row.Table.Columns.Contains("InvoiceNo"))
                     txtInvoiceNo.Text = row["InvoiceNo"]?.ToString() ?? "";
 
-                if (row.Table.Columns.Contains("TenantNo"))
+                if (row.Table.Columns.Contains("TenantNo") && row.Table.Columns.Contains("ApartmentNo"))
                 {
                     string tenantNo = row["TenantNo"]?.ToString() ?? "";
-                    txtTenantNo.Tag = tenantNo;
-                    txtTenantNo.Text = tenantNo;
+                    string ApartmentNo = row.Table.Columns.Contains("ApartmentNo") ? (row["ApartmentNo"]?.ToString() ?? "") : "";
+                    txtTenantNo.Text = tenantNo + "       " + ApartmentNo;
+                    txtTenantNo.Tag = Tuple.Create(tenantNo, ApartmentNo);
                 }
 
                 if (row.Table.Columns.Contains("BillYear") && cmbBillYear != null)
@@ -441,6 +493,7 @@ namespace Dari
 
             try
             {
+                financialMovements.DELETE_FinancialMovements("2", invoiceNo);
                 tenantInvoices.DELETE_TenantInvoice(invoiceNo);
                 MessageBox.Show("تم حذف الفاتورة بنجاح.", "تم",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);

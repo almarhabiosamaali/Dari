@@ -11,6 +11,7 @@ namespace Dari
         private Receipts receipts;
         private Tenants tenants;
         private GridBtnViewHelper gridBtnViewHelper;
+        private FinancialMovements financialMovements;
         private bool isFieldsEditable = false;
         private bool isEditMode = false;
 
@@ -24,6 +25,7 @@ namespace Dari
             receipts = new Receipts();
             tenants = new Tenants();
             gridBtnViewHelper = new GridBtnViewHelper();
+            financialMovements = new FinancialMovements();
 
             FillBillYearCombo();
             SetDefaultDates();
@@ -98,8 +100,25 @@ namespace Dari
                     string tenantName = row.Table.Columns.Contains("TenantName") ? (row["TenantName"]?.ToString() ?? "") : "";
                     if (!string.IsNullOrWhiteSpace(tenantNo))
                     {
-                        txtTenantNo.Tag = tenantNo;
-                        txtTenantNo.Text = tenantName;
+                        //txtTenantNo.Tag = tenantNo;
+                        //txtTenantNo.Text = tenantName;
+                        DataTable dt_tenants = tenants.GetTenantFullInfo(tenantNo);
+                        if (dt_tenants.Rows.Count > 1)
+                        {
+                            MessageBox.Show(dt_tenants.Rows.Count.ToString());
+                            DataRow rowt = gridBtnViewHelper.Show(dt_tenants, "البحث الشقق");
+                            string ApartmentNo = rowt.Table.Columns.Contains("ApartmentNo") ? (rowt["ApartmentNo"]?.ToString() ?? "") : "";
+                            txtTenantNo.Text = tenantName + "       " + ApartmentNo;
+                            txtTenantNo.Tag = Tuple.Create(tenantNo, ApartmentNo);
+                        }
+                        else
+                        {
+                            MessageBox.Show(dt_tenants.Rows.Count.ToString());
+                            string ApartmentNo = dt_tenants.Rows[0]["ApartmentNo"].ToString();
+                            txtTenantNo.Text = tenantName + "       " + ApartmentNo;
+                            txtTenantNo.Tag = Tuple.Create(tenantNo, ApartmentNo);
+
+                        }
                     }
                 }
             }
@@ -211,7 +230,19 @@ namespace Dari
             try
             {
                 string receiptNo = (txtReceiptNo?.Text ?? string.Empty).Trim();
-                string tenantNo = txtTenantNo?.Tag?.ToString() ?? (txtTenantNo?.Text ?? string.Empty).Trim();
+                string tenantNo;
+                string apartmentNo;
+
+                if (txtTenantNo?.Tag is Tuple<string, string> info)
+                {
+                    tenantNo = info.Item1;
+                    apartmentNo = info.Item2;
+                }
+                else
+                {
+                    tenantNo = (txtTenantNo?.Text ?? string.Empty).Trim();
+                    apartmentNo = string.Empty;
+                }
                 string receiptType = (cmbReceiptType?.SelectedItem?.ToString() ?? cmbReceiptType?.Text ?? "").Trim();
                 if (string.IsNullOrWhiteSpace(receiptNo) || string.IsNullOrWhiteSpace(tenantNo) || string.IsNullOrWhiteSpace(receiptType))
                 {
@@ -232,7 +263,7 @@ namespace Dari
 
                 DateTime receiptDate = dtpReceiptDate?.Value ?? DateTime.Now;
                 byte billMonth = (byte)(cmbBillMonth.SelectedIndex + 1);
-                int? billYear = null;
+                int billYear =0 ;
                 if (cmbBillYear?.SelectedItem != null && int.TryParse(cmbBillYear.SelectedItem.ToString(), out int y))
                     billYear = y;
                 string referenceNo = (txtReferenceNo?.Text ?? string.Empty).Trim();
@@ -242,12 +273,20 @@ namespace Dari
 
                 if (isEditMode)
                 {
-                    receipts.UPDATE_Receipt(receiptNo, receiptType, receiptDate, tenantNo, amount, referenceNo, narration, billMonth, billYear);
+                    financialMovements.DELETE_FinancialMovements("3", receiptNo);
+
+                    receipts.UPDATE_Receipt(receiptNo, receiptType, receiptDate, tenantNo, amount, referenceNo, narration, billMonth, billYear, apartmentNo);
+
+                    financialMovements.ADD_FinancialMovements("3", receiptNo, receiptType, receiptDate, billYear, billMonth, tenantNo
+                      , apartmentNo, 0, amount, narration);
                     MessageBox.Show("تم تحديث السند بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    receipts.ADD_Receipt(receiptNo, receiptType, receiptDate, tenantNo, amount, referenceNo, narration, billMonth, billYear);
+                    receipts.ADD_Receipt(receiptNo, receiptType, receiptDate, tenantNo, amount, referenceNo, narration, billMonth, billYear , apartmentNo);
+
+                    financialMovements.ADD_FinancialMovements("3", receiptNo, receiptType, receiptDate, billYear, billMonth, tenantNo
+                      , apartmentNo, 0, amount, narration);
                     MessageBox.Show("تم حفظ السند بنجاح.", "تم", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -290,8 +329,9 @@ namespace Dari
                 if (row.Table.Columns.Contains("TenantNo"))
                 {
                     string tenantNo = row["TenantNo"]?.ToString() ?? "";
-                    txtTenantNo.Tag = tenantNo;
-                    txtTenantNo.Text = tenantNo;
+                    string ApartmentNo = row.Table.Columns.Contains("ApartmentNo") ? (row["ApartmentNo"]?.ToString() ?? "") : "";
+                    txtTenantNo.Text = tenantNo + "       " + ApartmentNo;
+                    txtTenantNo.Tag = Tuple.Create(tenantNo, ApartmentNo);
                 }
                 if (row.Table.Columns.Contains("ReceiptType") && cmbReceiptType != null)
                 {
