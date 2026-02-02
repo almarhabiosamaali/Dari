@@ -105,7 +105,7 @@ namespace Dari
                         DataTable dt_tenants = tenants.GetTenantFullInfo(tenantNo);
                         if (dt_tenants.Rows.Count > 1)
                         {
-                            MessageBox.Show(dt_tenants.Rows.Count.ToString());
+                           
                             DataRow rowt = gridBtnViewHelper.Show(dt_tenants, "البحث الشقق");
                             string ApartmentNo = rowt.Table.Columns.Contains("ApartmentNo") ? (rowt["ApartmentNo"]?.ToString() ?? "") : "";
                             txtTenantNo.Text = tenantName + "       " + ApartmentNo;
@@ -113,7 +113,7 @@ namespace Dari
                         }
                         else
                         {
-                            MessageBox.Show(dt_tenants.Rows.Count.ToString());
+                            
                             string ApartmentNo = dt_tenants.Rows[0]["ApartmentNo"].ToString();
                             txtTenantNo.Text = tenantName + "       " + ApartmentNo;
                             txtTenantNo.Tag = Tuple.Create(tenantNo, ApartmentNo);
