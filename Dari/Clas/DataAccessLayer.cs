@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -58,8 +58,6 @@ namespace Dari.Clas
         //Method To Read Data From Database
         public DataTable SelectData(string stored_procedure, SqlParameter[] param)
         {
-
-
             SqlCommand sqlCommand = new SqlCommand();
             SqlCommand sqlcmd = sqlCommand;
             sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -77,11 +75,26 @@ namespace Dari.Clas
             DataTable dt = new DataTable();
             da.Fill(dt);
             return dt;
+        }
 
-
-
-
-
+        /// <summary>
+        /// تنفيذ استعلام SQL وعرض النتيجة في DataTable (للتقارير عند عدم وجود SP).
+        /// </summary>
+        public DataTable SelectDataFromQuery(string sqlQuery, SqlParameter[] param)
+        {
+            SqlCommand sqlcmd = new SqlCommand();
+            sqlcmd.CommandType = CommandType.Text;
+            sqlcmd.CommandText = sqlQuery;
+            sqlcmd.Connection = sqlconnection;
+            if (param != null)
+            {
+                for (int i = 0; i < param.Length; i++)
+                    sqlcmd.Parameters.Add(param[i]);
+            }
+            SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            return dt;
         }
 
         //Method to Insert, Update, and Delete Data From Database

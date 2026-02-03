@@ -32,6 +32,8 @@ namespace Dari
             this.btnMenuToggle = new MaterialSkin.Controls.MaterialButton();
             this.btnSettings = new MaterialSkin.Controls.MaterialButton();
             this.btnReports = new MaterialSkin.Controls.MaterialButton();
+            this.pnlReportsSubMenu = new System.Windows.Forms.Panel();
+            this.btnAccountStatement = new MaterialSkin.Controls.MaterialButton();
             this.btnOperations = new MaterialSkin.Controls.MaterialButton();
             this.pnlOperationsSubMenu = new System.Windows.Forms.Panel();
             this.btnReceipts = new MaterialSkin.Controls.MaterialButton();
@@ -46,6 +48,7 @@ namespace Dari
             this.pnlContent = new System.Windows.Forms.Panel();
             this.lblHeaderTitle = new MaterialSkin.Controls.MaterialLabel();
             this.pnlSidebar.SuspendLayout();
+            this.pnlReportsSubMenu.SuspendLayout();
             this.pnlOperationsSubMenu.SuspendLayout();
             this.pnlDataSubMenu.SuspendLayout();
             this.pnlContent.SuspendLayout();
@@ -57,6 +60,7 @@ namespace Dari
             this.pnlSidebar.Controls.Add(this.btnMenuToggle);
             this.pnlSidebar.Controls.Add(this.btnSettings);
             this.pnlSidebar.Controls.Add(this.btnReports);
+            this.pnlSidebar.Controls.Add(this.pnlReportsSubMenu);
             this.pnlSidebar.Controls.Add(this.btnOperations);
             this.pnlSidebar.Controls.Add(this.pnlOperationsSubMenu);
             this.pnlSidebar.Controls.Add(this.btnDataManagement);
@@ -132,6 +136,39 @@ namespace Dari
             this.btnReports.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
             this.btnReports.UseAccentColor = false;
             this.btnReports.UseVisualStyleBackColor = true;
+            // 
+            // pnlReportsSubMenu
+            // 
+            this.pnlReportsSubMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
+            this.pnlReportsSubMenu.Controls.Add(this.btnAccountStatement);
+            this.pnlReportsSubMenu.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlReportsSubMenu.Location = new System.Drawing.Point(0, 0);
+            this.pnlReportsSubMenu.Name = "pnlReportsSubMenu";
+            this.pnlReportsSubMenu.Size = new System.Drawing.Size(250, 50);
+            this.pnlReportsSubMenu.TabIndex = 7;
+            this.pnlReportsSubMenu.Visible = false;
+            // 
+            // btnAccountStatement
+            // 
+            this.btnAccountStatement.AutoSize = false;
+            this.btnAccountStatement.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAccountStatement.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnAccountStatement.Depth = 0;
+            this.btnAccountStatement.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnAccountStatement.DrawShadows = false;
+            this.btnAccountStatement.HighEmphasis = false;
+            this.btnAccountStatement.Icon = null;
+            this.btnAccountStatement.Location = new System.Drawing.Point(0, 0);
+            this.btnAccountStatement.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnAccountStatement.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAccountStatement.Name = "btnAccountStatement";
+            this.btnAccountStatement.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnAccountStatement.Size = new System.Drawing.Size(250, 50);
+            this.btnAccountStatement.TabIndex = 0;
+            this.btnAccountStatement.Text = "  📋 كشف الحساب";
+            this.btnAccountStatement.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnAccountStatement.UseAccentColor = false;
+            this.btnAccountStatement.UseVisualStyleBackColor = true;
             // 
             // btnOperations
             // 
@@ -398,6 +435,7 @@ namespace Dari
             this.Text = "نظام إدارة إيجارات المباني";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.pnlSidebar.ResumeLayout(false);
+            this.pnlReportsSubMenu.ResumeLayout(false);
             this.pnlOperationsSubMenu.ResumeLayout(false);
             this.pnlDataSubMenu.ResumeLayout(false);
             this.pnlContent.ResumeLayout(false);
@@ -412,6 +450,8 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnMenuToggle;
         private MaterialSkin.Controls.MaterialButton btnSettings;
         private MaterialSkin.Controls.MaterialButton btnReports;
+        private System.Windows.Forms.Panel pnlReportsSubMenu;
+        private MaterialSkin.Controls.MaterialButton btnAccountStatement;
         private MaterialSkin.Controls.MaterialButton btnOperations;
         private System.Windows.Forms.Panel pnlOperationsSubMenu;
         private MaterialSkin.Controls.MaterialButton btnInvoices;

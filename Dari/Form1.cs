@@ -17,6 +17,7 @@ namespace Dari
         private bool isMenuCollapsed = false;
         private bool isDataSubMenuExpanded = false;
         private bool isOperationsSubMenuExpanded = false;
+        private bool isReportsSubMenuExpanded = false;
         private const int MENU_EXPANDED_WIDTH = 250;
         private const int MENU_COLLAPSED_WIDTH = 60;
         private UserControl currentUserControl = null;
@@ -59,6 +60,7 @@ namespace Dari
             btnRentLoad.Click += BtnRentLoad_Click;
             btnInvoices.Click += BtnInvoices_Click;
             btnReceipts.Click += BtnReceipts_Click;
+            btnAccountStatement.Click += BtnAccountStatement_Click;
         }
 
         private void SetupSidebarMenu()
@@ -110,8 +112,10 @@ namespace Dari
                 // إخفاء القوائم الفرعية عند طي القائمة
                 pnlDataSubMenu.Visible = false;
                 pnlOperationsSubMenu.Visible = false;
+                pnlReportsSubMenu.Visible = false;
                 isDataSubMenuExpanded = false;
                 isOperationsSubMenuExpanded = false;
+                isReportsSubMenuExpanded = false;
                 
                 if (isDataSubMenuExpanded)
                     btnDataManagement.Text = "📊 ▼";
@@ -122,6 +126,11 @@ namespace Dari
                     btnOperations.Text = "💼 ▼";
                 else
                     btnOperations.Text = "💼";
+                
+                if (isReportsSubMenuExpanded)
+                    btnReports.Text = "📈 ▼";
+                else
+                    btnReports.Text = "📈";
             }
             else
             {
@@ -141,6 +150,12 @@ namespace Dari
                     btnOperations.Text = "💼 العمليات ▼";
                 else
                     btnOperations.Text = "💼 العمليات";
+                
+                // تحديث نص التقارير حسب حالة القائمة الفرعية
+                if (isReportsSubMenuExpanded)
+                    btnReports.Text = "📈 التقارير ▼";
+                else
+                    btnReports.Text = "📈 التقارير";
             }
         }
 
@@ -311,8 +326,34 @@ namespace Dari
 
         private void BtnReports_Click(object sender, EventArgs e)
         {
-            lblHeaderTitle.Text = "التقارير";
-            // هنا سيتم فتح شاشة التقارير لاحقاً
+            ToggleReportsSubMenu();
+        }
+
+        private void ToggleReportsSubMenu()
+        {
+            isReportsSubMenuExpanded = !isReportsSubMenuExpanded;
+            
+            if (isReportsSubMenuExpanded)
+            {
+                if (pnlSidebar.Controls.Contains(pnlReportsSubMenu))
+                    pnlSidebar.Controls.Remove(pnlReportsSubMenu);
+                int reportsIndex = pnlSidebar.Controls.IndexOf(btnReports);
+                pnlSidebar.Controls.Add(pnlReportsSubMenu);
+                pnlSidebar.Controls.SetChildIndex(pnlReportsSubMenu, reportsIndex + 1);
+                pnlReportsSubMenu.Visible = true;
+            }
+            else
+                pnlReportsSubMenu.Visible = false;
+            
+            if (isReportsSubMenuExpanded)
+                btnReports.Text = isMenuCollapsed ? "📈 ▼" : "📈 التقارير ▼";
+            else
+                btnReports.Text = isMenuCollapsed ? "📈" : "📈 التقارير";
+        }
+
+        private void BtnAccountStatement_Click(object sender, EventArgs e)
+        {
+            ShowUserControl(new UC_ReportAccountStatement());
         }
 
         private void BtnSettings_Click(object sender, EventArgs e)
