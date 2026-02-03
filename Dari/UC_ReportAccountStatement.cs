@@ -283,8 +283,11 @@ namespace Dari
             // نوع المستند: الكل = null, إيجار=1, فاتورة=2, سندات=3
             string movementTypeFilter = null;
             if (cmbDocumentType != null && cmbDocumentType.SelectedIndex > 0)
+            {
                 movementTypeFilter = cmbDocumentType.SelectedIndex == 1 ? "1" : cmbDocumentType.SelectedIndex == 2 ? "2" : "3";
-
+                MessageBox.Show(movementTypeFilter);
+            }
+                
             try
             {
                 dt = _reportAccountStatement.GetAccountStatement(P_where());
@@ -303,11 +306,49 @@ namespace Dari
         string P_where ()
         {
             string p_whr = null;
-            if(txtTenantNo.Text != null || txtTenantNo.Text != null)
+            if(!string.IsNullOrWhiteSpace(txtTenantNo.Text))
             {
-                p_whr = p_whr + " and TenantNo = " + txtTenantNo.Text + "";
+                p_whr = p_whr + " and TenantNo = " + txtTenantNo.Text + " ";
             }
 
+            int? fromMonth = null;
+            if (cmbFromMonth != null && cmbFromMonth.SelectedIndex >= 0)
+                fromMonth = cmbFromMonth.SelectedIndex + 1;
+
+            int? toMonth = null;
+            if (cmbToMonth != null && cmbToMonth.SelectedIndex >= 0)
+                toMonth = cmbToMonth.SelectedIndex + 1;
+
+            if(cmbFromMonth != null && cmbFromMonth.SelectedIndex >= 0)
+            {
+                p_whr = p_whr + " and BillMonth BETWEEN " + fromMonth + " AND " + toMonth + "  ";
+            }
+
+            if (cmbYear != null)
+            {
+                int year = int.Parse(cmbYear.SelectedItem?.ToString());
+                p_whr = p_whr + " and BillYear = "+ year + "";
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtApartmentNo.Text))
+            {
+                p_whr = p_whr + " and ApartmentNo = " + txtApartmentNo.Text + " ";
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtPropertyNo.Text))
+            {
+                p_whr = p_whr + " and PropertyNo = " + txtPropertyNo.Text + " ";
+            }
+
+            string movementTypeFilter = null;
+            if (cmbDocumentType != null && cmbDocumentType.SelectedIndex > 0)
+            {
+                movementTypeFilter = cmbDocumentType.SelectedIndex == 1 ? "1" : cmbDocumentType.SelectedIndex == 2 ? "2" : "3";
+                p_whr = p_whr + " and MovementType = "+ movementTypeFilter + "";
+            }
+
+
+            MessageBox.Show(p_whr);
             return p_whr;
         }
     }
