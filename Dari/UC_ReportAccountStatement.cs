@@ -15,7 +15,7 @@ namespace Dari
     {
         private ReportAccountStatement _reportAccountStatement;
         private DataTable _lastReportData;
-        private int _printRowIndex; // لترقيم الصفحات عند الطباعة
+        
         private GridBtnViewHelper _gridBtnViewHelper;
         private Tenants _tenants;
         private Buildings _buildings;
@@ -236,130 +236,27 @@ namespace Dari
 
         private void BtnPrint_Click(object sender, EventArgs e)
         {
+            DataTable dt = new DataTable();
             if (_lastReportData == null || _lastReportData.Rows.Count == 0)
             {
                 MessageBox.Show("قم بعرض التقرير أولاً (عرض / معاينة) ثم اختر طباعة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+            dt = _reportAccountStatement.GetAccountStatement(P_where());
+            RPT.RepAcc myRept = new RPT.RepAcc();
+            myRept.DataSourceConnections[0].IntegratedSecurity = false;
+            myRept.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.Password);
+            myRept.SetDataSource(dt);
+            // myReport.SetParameterValue("@p_whr", p);
+            RPT.reportCaller myFom = new RPT.reportCaller();
+            myFom.crystalReportViewer1.ReportSource = myRept;
+            myFom.ShowDialog();
 
-            using (var printDoc = new PrintDocument())
-            {
-                printDoc.BeginPrint += PrintDoc_BeginPrint;
-                printDoc.PrintPage += PrintDoc_PrintPage;
-                using (var pp = new PrintPreviewDialog())
-                {
-                    pp.Document = printDoc;
-                    pp.ShowDialog();
-                }
-            }
         }
 
-        private void PrintDoc_BeginPrint(object sender, PrintEventArgs e)
-        {
-            _printRowIndex = 0;
-        }
+        
 
-        private void PrintDoc_PrintPage(object sender, PrintPageEventArgs e)
-        {
-            if (_lastReportData == null || _lastReportData.Columns.Count == 0) return;
-
-            var g = e.Graphics;
-            var margin = e.MarginBounds;
-            float left = margin.Left;
-            float width = margin.Width;
-            float y = margin.Top;
-
-            // خط الهامش للجدول
-            const float padding = 4f;
-            const float rowHeight = 24f;
-            const float headerHeight = 28f;
-            int colCount = _lastReportData.Columns.Count;
-            float colWidth = width / colCount;
-            float[] colWidths = new float[colCount];
-            for (int i = 0; i < colCount; i++) colWidths[i] = colWidth;
-
-            using (var fontTitle = new Font("Arial", 16, FontStyle.Bold))
-            using (var fontHeader = new Font("Arial", 9, FontStyle.Bold))
-            using (var fontCell = new Font("Arial", 8))
-            using (var sfCenter = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
-            using (var sfRight = new StringFormat { Alignment = StringAlignment.Far, LineAlignment = StringAlignment.Center })
-            using (var sfLeft = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center })
-            {
-                sfCenter.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-                sfRight.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-                sfLeft.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
-
-                // عنوان التقرير
-                g.DrawString("كشف الحساب", fontTitle, Brushes.Black, left + width / 2f, y + 14f, new StringFormat(sfCenter) { Alignment = StringAlignment.Center });
-                y += 36f;
-
-                float tableLeft = left;
-                float tableWidth = width;
-                float tableTop = y;
-
-                // صف العناوين
-                float x = tableLeft;
-                using (var brushHeader = new SolidBrush(Color.FromArgb(240, 240, 240)))
-                using (var pen = new Pen(Color.Black, 1f))
-                {
-                    g.FillRectangle(brushHeader, x, y, tableWidth, headerHeight);
-                    g.DrawRectangle(pen, x, y, tableWidth, headerHeight);
-                    for (int c = 0; c < colCount; c++)
-                    {
-                        if (c > 0) g.DrawLine(pen, x, y, x, y + headerHeight);
-                        var rect = new RectangleF(x + padding, y + padding, colWidths[c] - padding * 2, headerHeight - padding * 2);
-                        g.DrawString(_lastReportData.Columns[c].ColumnName, fontHeader, Brushes.Black, rect, sfCenter);
-                        x += colWidths[c];
-                    }
-                }
-                y += headerHeight;
-
-                // صفوف البيانات
-                using (var pen = new Pen(Color.Gray, 0.75f))
-                {
-                    while (_printRowIndex < _lastReportData.Rows.Count)
-                    {
-                        if (y + rowHeight > margin.Bottom - 24)
-                        {
-                            using (var penOuter = new Pen(Color.Black, 1.5f))
-                                g.DrawRectangle(penOuter, tableLeft, tableTop, tableWidth, y - tableTop);
-                            e.HasMorePages = true;
-                            return;
-                        }
-
-                        DataRow row = _lastReportData.Rows[_printRowIndex];
-                        float rowY = y;
-                        x = tableLeft;
-                        for (int c = 0; c < colCount; c++)
-                        {
-                            if (c > 0) g.DrawLine(pen, x, rowY, x, rowY + rowHeight);
-                            string cellText = row[c]?.ToString() ?? "";
-                            if (row[c] is DateTime dt)
-                                cellText = dt.ToString("yyyy-MM-dd");
-                            else if (row[c] is decimal)
-                                cellText = string.Format("{0:N2}", row[c]);
-                            var rect = new RectangleF(x + padding, rowY + padding, colWidths[c] - padding * 2, rowHeight - padding * 2);
-                            // أعمدة الأرقام (مدين/دائن) بمحاذاة لليمين، الباقي لليسار
-                            var sf = (c >= colCount - 2) ? sfRight : sfLeft;
-                            g.DrawString(cellText, fontCell, Brushes.Black, rect, sf);
-                            x += colWidths[c];
-                        }
-                        g.DrawLine(pen, tableLeft, rowY + rowHeight, tableLeft + tableWidth, rowY + rowHeight);
-                        y += rowHeight;
-                        _printRowIndex++;
-                    }
-                }
-
-                // إطار خارجي للجدول بالكامل
-                float tableHeight = y - tableTop;
-                using (var penOuter = new Pen(Color.Black, 1.5f))
-                    g.DrawRectangle(penOuter, tableLeft, tableTop, tableWidth, tableHeight);
-
-                // تذييل الصفحة (فقط في الصفحة الأخيرة)
-                if (!e.HasMorePages)
-                    g.DrawString("— نهاية كشف الحساب —", fontCell, Brushes.Gray, left + width / 2f, margin.Bottom - 14f, new StringFormat(sfCenter));
-            }
-        }
+       
 
         private bool ValidateFilters(out string message)
         {
