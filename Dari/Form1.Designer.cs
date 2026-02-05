@@ -33,6 +33,7 @@ namespace Dari
             this.btnSettings = new MaterialSkin.Controls.MaterialButton();
             this.btnReports = new MaterialSkin.Controls.MaterialButton();
             this.pnlReportsSubMenu = new System.Windows.Forms.Panel();
+            this.btnTenantMonthlyStatement = new MaterialSkin.Controls.MaterialButton();
             this.btnAccountStatement = new MaterialSkin.Controls.MaterialButton();
             this.btnOperations = new MaterialSkin.Controls.MaterialButton();
             this.pnlOperationsSubMenu = new System.Windows.Forms.Panel();
@@ -141,12 +142,35 @@ namespace Dari
             // 
             this.pnlReportsSubMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
             this.pnlReportsSubMenu.Controls.Add(this.btnAccountStatement);
+            this.pnlReportsSubMenu.Controls.Add(this.btnTenantMonthlyStatement);
             this.pnlReportsSubMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlReportsSubMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlReportsSubMenu.Name = "pnlReportsSubMenu";
-            this.pnlReportsSubMenu.Size = new System.Drawing.Size(250, 50);
+            this.pnlReportsSubMenu.Size = new System.Drawing.Size(250, 100);
             this.pnlReportsSubMenu.TabIndex = 7;
             this.pnlReportsSubMenu.Visible = false;
+            // 
+            // btnTenantMonthlyStatement
+            // 
+            this.btnTenantMonthlyStatement.AutoSize = false;
+            this.btnTenantMonthlyStatement.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnTenantMonthlyStatement.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnTenantMonthlyStatement.Depth = 0;
+            this.btnTenantMonthlyStatement.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnTenantMonthlyStatement.DrawShadows = false;
+            this.btnTenantMonthlyStatement.HighEmphasis = false;
+            this.btnTenantMonthlyStatement.Icon = null;
+            this.btnTenantMonthlyStatement.Location = new System.Drawing.Point(0, 50);
+            this.btnTenantMonthlyStatement.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnTenantMonthlyStatement.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnTenantMonthlyStatement.Name = "btnTenantMonthlyStatement";
+            this.btnTenantMonthlyStatement.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnTenantMonthlyStatement.Size = new System.Drawing.Size(250, 50);
+            this.btnTenantMonthlyStatement.TabIndex = 1;
+            this.btnTenantMonthlyStatement.Text = "  📄 كشف المستأجر الشهري";
+            this.btnTenantMonthlyStatement.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnTenantMonthlyStatement.UseAccentColor = false;
+            this.btnTenantMonthlyStatement.UseVisualStyleBackColor = true;
             // 
             // btnAccountStatement
             // 
@@ -451,6 +475,7 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnSettings;
         private MaterialSkin.Controls.MaterialButton btnReports;
         private System.Windows.Forms.Panel pnlReportsSubMenu;
+        private MaterialSkin.Controls.MaterialButton btnTenantMonthlyStatement;
         private MaterialSkin.Controls.MaterialButton btnAccountStatement;
         private MaterialSkin.Controls.MaterialButton btnOperations;
         private System.Windows.Forms.Panel pnlOperationsSubMenu;

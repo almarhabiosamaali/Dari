@@ -61,6 +61,7 @@ namespace Dari
             btnInvoices.Click += BtnInvoices_Click;
             btnReceipts.Click += BtnReceipts_Click;
             btnAccountStatement.Click += BtnAccountStatement_Click;
+            btnTenantMonthlyStatement.Click += BtnTenantMonthlyStatement_Click;
         }
 
         private void SetupSidebarMenu()
@@ -354,6 +355,11 @@ namespace Dari
         private void BtnAccountStatement_Click(object sender, EventArgs e)
         {
             ShowUserControl(new UC_ReportAccountStatement());
+        }
+
+        private void BtnTenantMonthlyStatement_Click(object sender, EventArgs e)
+        {
+            ShowUserControl(new UC_TenantMonthlyStatement());
         }
 
         private void BtnSettings_Click(object sender, EventArgs e)
