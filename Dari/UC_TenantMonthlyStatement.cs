@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Windows.Forms;
 using Dari.Clas;
 
@@ -11,6 +12,7 @@ namespace Dari
     {
         private GridBtnViewHelper _gridBtnViewHelper;
         private Tenants _tenants;
+        private ReportTenantMonthlyStatement _reportTenantMonthlyStatement;
 
         public UC_TenantMonthlyStatement()
         {
@@ -19,13 +21,93 @@ namespace Dari
 
             _gridBtnViewHelper = new GridBtnViewHelper();
             _tenants = new Tenants();
+            _reportTenantMonthlyStatement = new ReportTenantMonthlyStatement();
 
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
+            if (btnPreview != null)
+                btnPreview.Click += BtnPreview_Click;
             if (txtTenantNo != null)
                 txtTenantNo.KeyDown += TxtTenantNo_KeyDown;
 
             Load += UC_TenantMonthlyStatement_Load;
+        }
+
+        private string GetTenantNo()
+        {
+            var v = (txtTenantNo?.Tag ?? txtTenantNo?.Text)?.ToString()?.Trim();
+            return string.IsNullOrWhiteSpace(v) ? null : v;
+        }
+
+        private void BtnPreview_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(GetTenantNo()))
+            {
+                MessageBox.Show("يرجى إدخال أو اختيار رقم المستأجر.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            if (cmbYear?.SelectedItem == null)
+            {
+                MessageBox.Show("يرجى اختيار السنة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            GetReportData(out DataTable dt, out string msg);
+            if (dt == null)
+            {
+                MessageBox.Show(msg ?? "لم يتم جلب أي بيانات.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            dgvReport.DataSource = null;
+            dgvReport.DataSource = dt;
+            dgvReport.Visible = true;
+            dgvReport.BringToFront();
+            dgvReport.Refresh();
+
+            if (dt.Rows.Count == 0)
+                MessageBox.Show("لا توجد بيانات مطابقة لمعايير البحث.", "معاينة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void GetReportData(out DataTable dt, out string errorMessage)
+        {
+            dt = null;
+            errorMessage = null;
+            try
+            {
+                MessageBox.Show(P_where() +"----"+ cmbArrears.SelectedIndex.ToString());
+                dt = _reportTenantMonthlyStatement.GetTenantMonthlyStatement(P_where(), cmbArrears.SelectedIndex);
+                if (dt != null && dt.Rows.Count == 0)
+                    errorMessage = "لا توجد حركات مطابقة لمعايير البحث.";
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "خطأ عند جلب البيانات: " + ex.Message;
+            }
+        }
+
+        /// <summary>
+        /// يبني شرط الفلتر @P_Whr للإجراء المخزن sp_TenantMonthlyStatement.
+        /// </summary>
+        private string P_where()
+        {
+            string p_whr = null;
+            string tenantNo = GetTenantNo();
+            if (!string.IsNullOrWhiteSpace(tenantNo))
+                p_whr = (p_whr ?? "") + " and TenantNo = N'" + tenantNo.Replace("'", "''") + "' ";
+
+            if (cmbYear != null && cmbYear.SelectedItem != null && int.TryParse(cmbYear.SelectedItem.ToString(), out int year))
+                p_whr = (p_whr ?? "") + " and BillYear = " + year + " ";
+
+            int? fromMonth = (cmbFromMonth != null && cmbFromMonth.SelectedIndex >= 0) ? cmbFromMonth.SelectedIndex + 1 : (int?)null;
+            int? toMonth = (cmbToMonth != null && cmbToMonth.SelectedIndex >= 0) ? cmbToMonth.SelectedIndex + 1 : (int?)null;
+            if (fromMonth.HasValue && toMonth.HasValue)
+                p_whr = (p_whr ?? "") + " and BillMonth BETWEEN " + fromMonth + " AND " + toMonth + " ";
+
+            //if (cmbArrears != null && cmbArrears.SelectedIndex == 1) // المتأخرات فقط
+            //    p_whr = (p_whr ?? "") + " and ArrearsOnly = 1 ";
+
+            return p_whr;
         }
 
         private void UC_TenantMonthlyStatement_Load(object sender, EventArgs e)

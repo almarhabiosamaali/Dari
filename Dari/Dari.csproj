@@ -116,6 +116,7 @@
     <Compile Include="Clas\Receipts.cs" />
     <Compile Include="Clas\RentCalculation.cs" />
     <Compile Include="Clas\ReportAccountStatement.cs" />
+    <Compile Include="Clas\ReportTenantMonthlyStatement.cs" />
     <Compile Include="UC_RentCalculation.cs">
       <SubType>UserControl</SubType>
     </Compile>

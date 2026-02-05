@@ -25,6 +25,7 @@ namespace Dari
             this.btnClose = new MaterialSkin.Controls.MaterialButton();
             this.lblTitle = new MaterialSkin.Controls.MaterialLabel();
             this.pnlForm = new Panel();
+            this.dgvReport = new DataGridView();
             this.pnlFilters = new Panel();
             this.btnPrint = new MaterialSkin.Controls.MaterialButton();
             this.btnPreview = new MaterialSkin.Controls.MaterialButton();
@@ -87,6 +88,7 @@ namespace Dari
             //
             this.pnlForm.BackColor = Color.White;
             this.pnlForm.Controls.Add(this.pnlFilters);
+            this.pnlForm.Controls.Add(this.dgvReport);
             this.pnlForm.Dock = DockStyle.Fill;
             this.pnlForm.Location = new Point(0, 74);
             this.pnlForm.Padding = new Padding(27, 25, 27, 25);
@@ -114,6 +116,23 @@ namespace Dari
             this.pnlFilters.RightToLeft = RightToLeft.Yes;
             this.pnlFilters.Size = new Size(1213, 320);
             this.pnlFilters.TabIndex = 0;
+            //
+            // dgvReport
+            //
+            this.dgvReport.AllowUserToAddRows = false;
+            this.dgvReport.AllowUserToDeleteRows = false;
+            this.dgvReport.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvReport.BackgroundColor = Color.White;
+            this.dgvReport.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvReport.Dock = DockStyle.Fill;
+            this.dgvReport.Margin = new Padding(0);
+            this.dgvReport.MinimumSize = new Size(0, 180);
+            this.dgvReport.Name = "dgvReport";
+            this.dgvReport.ReadOnly = true;
+            this.dgvReport.RightToLeft = RightToLeft.Yes;
+            this.dgvReport.RowHeadersVisible = false;
+            this.dgvReport.TabIndex = 1;
+            this.dgvReport.Visible = true;
             //
             // lblTenantNo
             //
@@ -351,6 +370,7 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnClose;
         private MaterialSkin.Controls.MaterialLabel lblTitle;
         private Panel pnlForm;
+        private DataGridView dgvReport;
         private Panel pnlFilters;
         private MaterialSkin.Controls.MaterialLabel lblTenantNo;
         private MaterialSkin.Controls.MaterialTextBox2 txtTenantNo;
