@@ -1,16 +1,18 @@
 using System;
+using System.Data;
 using System.Windows.Forms;
 using Dari.Clas;
 
 namespace Dari
 {
     /// <summary>
-    /// شاشة تقرير المباني والشقق المتاحة (التصميم فقط).
+    /// شاشة تقرير المباني والشقق المتاحة.
     /// </summary>
     public partial class UC_ReportAvailableBuildingsApartments : UserControl
     {
         private GridBtnViewHelper _gridBtnViewHelper;
         private Buildings _buildings;
+        private ReportGetApartmentsStatus _reportGetApartmentsStatus;
 
         public UC_ReportAvailableBuildingsApartments()
         {
@@ -19,11 +21,67 @@ namespace Dari
 
             _gridBtnViewHelper = new GridBtnViewHelper();
             _buildings = new Buildings();
+            _reportGetApartmentsStatus = new ReportGetApartmentsStatus();
 
             if (btnClose != null)
                 btnClose.Click += BtnClose_Click;
+            if (btnPreview != null)
+                btnPreview.Click += BtnPreview_Click;
             if (txtPropertyNo != null)
                 txtPropertyNo.KeyDown += TxtPropertyNo_KeyDown;
+        }
+
+        private void BtnPreview_Click(object sender, EventArgs e)
+        {
+            GetReportData(out DataTable dt, out string msg);
+            if (dt == null)
+            {
+                MessageBox.Show(msg ?? "لم يتم جلب أي بيانات.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            dgvReport.DataSource = null;
+            dgvReport.DataSource = dt;
+            dgvReport.Visible = true;
+            dgvReport.BringToFront();
+            dgvReport.Refresh();
+
+            if (dt.Rows.Count == 0)
+                MessageBox.Show("لا توجد بيانات مطابقة لمعايير البحث.", "معاينة", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void GetReportData(out DataTable dt, out string errorMessage)
+        {
+            dt = null;
+            errorMessage = null;
+            try
+            {
+                dt = _reportGetApartmentsStatus.GetApartmentsStatus(P_where());
+                if (dt != null && dt.Rows.Count == 0)
+                    errorMessage = "لا توجد بيانات مطابقة لمعايير البحث.";
+            }
+            catch (Exception ex)
+            {
+                errorMessage = "خطأ عند جلب البيانات: " + ex.Message;
+            }
+        }
+
+        /// <summary>
+        /// يبني شرط الفلتر @P_Whr للإجراء المخزن sp_ReportGetApartmentsStatus.
+        /// </summary>
+        private string P_where()
+        {
+            string p_whr = null;
+            string propertyNo = GetPropertyNo();
+            if (!string.IsNullOrWhiteSpace(propertyNo))
+                p_whr = (p_whr ?? "") + " and PropertyNo = N'" + propertyNo.Replace("'", "''") + "' ";
+
+            if (cmbStatus != null && cmbStatus.SelectedIndex == 1) // المتاحة
+                p_whr = (p_whr ?? "") + " and IsRented = 0 ";
+            else if (cmbStatus != null && cmbStatus.SelectedIndex == 2) // المؤجرة
+                p_whr = (p_whr ?? "") + " and IsRented = 1 ";
+
+            return p_whr;
         }
 
         private string GetPropertyNo()
