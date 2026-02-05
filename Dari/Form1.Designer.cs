@@ -33,6 +33,7 @@ namespace Dari
             this.btnSettings = new MaterialSkin.Controls.MaterialButton();
             this.btnReports = new MaterialSkin.Controls.MaterialButton();
             this.pnlReportsSubMenu = new System.Windows.Forms.Panel();
+            this.btnAvailableBuildingsApartments = new MaterialSkin.Controls.MaterialButton();
             this.btnTenantMonthlyStatement = new MaterialSkin.Controls.MaterialButton();
             this.btnAccountStatement = new MaterialSkin.Controls.MaterialButton();
             this.btnOperations = new MaterialSkin.Controls.MaterialButton();
@@ -143,12 +144,35 @@ namespace Dari
             this.pnlReportsSubMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(25)))), ((int)(((byte)(118)))), ((int)(((byte)(210)))));
             this.pnlReportsSubMenu.Controls.Add(this.btnAccountStatement);
             this.pnlReportsSubMenu.Controls.Add(this.btnTenantMonthlyStatement);
+            this.pnlReportsSubMenu.Controls.Add(this.btnAvailableBuildingsApartments);
             this.pnlReportsSubMenu.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlReportsSubMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlReportsSubMenu.Name = "pnlReportsSubMenu";
-            this.pnlReportsSubMenu.Size = new System.Drawing.Size(250, 100);
+            this.pnlReportsSubMenu.Size = new System.Drawing.Size(250, 150);
             this.pnlReportsSubMenu.TabIndex = 7;
             this.pnlReportsSubMenu.Visible = false;
+            // 
+            // btnAvailableBuildingsApartments
+            // 
+            this.btnAvailableBuildingsApartments.AutoSize = false;
+            this.btnAvailableBuildingsApartments.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAvailableBuildingsApartments.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnAvailableBuildingsApartments.Depth = 0;
+            this.btnAvailableBuildingsApartments.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnAvailableBuildingsApartments.DrawShadows = false;
+            this.btnAvailableBuildingsApartments.HighEmphasis = false;
+            this.btnAvailableBuildingsApartments.Icon = null;
+            this.btnAvailableBuildingsApartments.Location = new System.Drawing.Point(0, 100);
+            this.btnAvailableBuildingsApartments.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnAvailableBuildingsApartments.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAvailableBuildingsApartments.Name = "btnAvailableBuildingsApartments";
+            this.btnAvailableBuildingsApartments.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnAvailableBuildingsApartments.Size = new System.Drawing.Size(250, 50);
+            this.btnAvailableBuildingsApartments.TabIndex = 2;
+            this.btnAvailableBuildingsApartments.Text = "  🏢 المباني والشقق المتاحة";
+            this.btnAvailableBuildingsApartments.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnAvailableBuildingsApartments.UseAccentColor = false;
+            this.btnAvailableBuildingsApartments.UseVisualStyleBackColor = true;
             // 
             // btnTenantMonthlyStatement
             // 
@@ -475,6 +499,7 @@ namespace Dari
         private MaterialSkin.Controls.MaterialButton btnSettings;
         private MaterialSkin.Controls.MaterialButton btnReports;
         private System.Windows.Forms.Panel pnlReportsSubMenu;
+        private MaterialSkin.Controls.MaterialButton btnAvailableBuildingsApartments;
         private MaterialSkin.Controls.MaterialButton btnTenantMonthlyStatement;
         private MaterialSkin.Controls.MaterialButton btnAccountStatement;
         private MaterialSkin.Controls.MaterialButton btnOperations;

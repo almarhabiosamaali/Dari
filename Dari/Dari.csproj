@@ -129,6 +129,12 @@
     <Compile Include="UC_ReportAccountStatement.Designer.cs">
       <DependentUpon>UC_ReportAccountStatement.cs</DependentUpon>
     </Compile>
+    <Compile Include="UC_ReportAvailableBuildingsApartments.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_ReportAvailableBuildingsApartments.Designer.cs">
+      <DependentUpon>UC_ReportAvailableBuildingsApartments.cs</DependentUpon>
+    </Compile>
     <Compile Include="UC_TenantMonthlyStatement.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UC_ReportAccountStatement.resx">
       <DependentUpon>UC_ReportAccountStatement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_ReportAvailableBuildingsApartments.resx">
+      <DependentUpon>UC_ReportAvailableBuildingsApartments.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UC_TenantMonthlyStatement.resx">
       <DependentUpon>UC_TenantMonthlyStatement.cs</DependentUpon>
