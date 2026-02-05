@@ -16,6 +16,10 @@ namespace Dari
         private ReportAccountStatement _reportAccountStatement;
         private DataTable _lastReportData;
         private int _printRowIndex; // لترقيم الصفحات عند الطباعة
+        private GridBtnViewHelper _gridBtnViewHelper;
+        private Tenants _tenants;
+        private Buildings _buildings;
+        private Apartments _apartments;
 
         public UC_ReportAccountStatement()
         {
@@ -23,13 +27,141 @@ namespace Dari
             if (DesignMode) return;
 
             _reportAccountStatement = new ReportAccountStatement();
+            _gridBtnViewHelper = new GridBtnViewHelper();
+            _tenants = new Tenants();
+            _buildings = new Buildings();
+            _apartments = new Apartments();
 
             if (btnClose != null) btnClose.Click += BtnClose_Click;
             if (cmbReportType != null) cmbReportType.SelectedIndexChanged += CmbReportType_SelectedIndexChanged;
             if (btnPreview != null) btnPreview.Click += BtnPreview_Click;
             if (btnPrint != null) btnPrint.Click += BtnPrint_Click;
 
+            if (txtTenantNo != null) txtTenantNo.KeyDown += TxtTenantNo_KeyDown;
+            if (txtPropertyNo != null) txtPropertyNo.KeyDown += TxtPropertyNo_KeyDown;
+            if (txtApartmentNo != null) txtApartmentNo.KeyDown += TxtApartmentNo_KeyDown;
+
             Load += UC_ReportAccountStatement_Load;
+        }
+
+        /// <summary>رقم المستأجر الفعلي (من البحث أو من النص)</summary>
+        private string GetTenantNo()
+        {
+            var v = (txtTenantNo?.Tag ?? txtTenantNo?.Text)?.ToString()?.Trim();
+            return string.IsNullOrWhiteSpace(v) ? null : v;
+        }
+
+        /// <summary>رقم العقار الفعلي (من البحث أو من النص)</summary>
+        private string GetPropertyNo()
+        {
+            var v = (txtPropertyNo?.Tag ?? txtPropertyNo?.Text)?.ToString()?.Trim();
+            return string.IsNullOrWhiteSpace(v) ? null : v;
+        }
+
+        private void TxtTenantNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.F2 || e.KeyCode == Keys.Space ||
+                (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z) ||
+                (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9))
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                OpenTenantSearchPopup();
+            }
+        }
+
+        private void TxtPropertyNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.F2 || e.KeyCode == Keys.Space ||
+                (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z) ||
+                (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9))
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                OpenPropertySearchPopup();
+            }
+        }
+
+        private void TxtApartmentNo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.F2 || e.KeyCode == Keys.Space ||
+                (e.KeyCode >= Keys.A && e.KeyCode <= Keys.Z) ||
+                (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) ||
+                (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9))
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+                OpenApartmentSearchPopup();
+            }
+        }
+
+        private void OpenTenantSearchPopup()
+        {
+            try
+            {
+                DataTable dt = _tenants.GET_ALL_Tenants();
+                DataRow row = _gridBtnViewHelper.Show(dt, "البحث عن المستأجرين");
+                if (row != null)
+                {
+                    string tenantNo = row.Table.Columns.Contains("TenantNo") ? (row["TenantNo"]?.ToString() ?? "") : "";
+                    string tenantName = row.Table.Columns.Contains("TenantName") ? (row["TenantName"]?.ToString() ?? "") : "";
+                    if (!string.IsNullOrWhiteSpace(tenantNo))
+                    {
+                        txtTenantNo.Tag = tenantNo;
+                        txtTenantNo.Text = string.IsNullOrWhiteSpace(tenantName) ? tenantNo : tenantName;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("حدث خطأ أثناء البحث عن المستأجرين: " + ex.Message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OpenPropertySearchPopup()
+        {
+            try
+            {
+                DataTable dt = _buildings.GET_ALL_Buildings();
+                DataRow row = _gridBtnViewHelper.Show(dt, "البحث عن العقارات");
+                if (row != null)
+                {
+                    string propertyNo = row.Table.Columns.Contains("PropertyNo") ? (row["PropertyNo"]?.ToString() ?? "") : "";
+                    string propertyName = row.Table.Columns.Contains("PropertyName") ? (row["PropertyName"]?.ToString() ?? "") : "";
+                    if (!string.IsNullOrWhiteSpace(propertyNo))
+                    {
+                        txtPropertyNo.Tag = propertyNo;
+                        txtPropertyNo.Text = string.IsNullOrWhiteSpace(propertyName) ? propertyNo : propertyName;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("حدث خطأ أثناء البحث عن العقارات: " + ex.Message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OpenApartmentSearchPopup()
+        {
+            try
+            {
+                DataTable dt = _apartments.GET_ALL_Apartments();
+                DataRow row = _gridBtnViewHelper.Show(dt, "البحث عن الشقق");
+                if (row != null)
+                {
+                    string apartmentNo = row.Table.Columns.Contains("ApartmentNo") ? (row["ApartmentNo"]?.ToString() ?? "") : "";
+                    if (!string.IsNullOrWhiteSpace(apartmentNo))
+                    {
+                        txtApartmentNo.Text = apartmentNo;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("حدث خطأ أثناء البحث عن الشقق: " + ex.Message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void UC_ReportAccountStatement_Load(object sender, EventArgs e)
@@ -110,16 +242,16 @@ namespace Dari
                 return;
             }
 
-            //using (var printDoc = new PrintDocument())
-            //{
-            //    printDoc.BeginPrint += PrintDoc_BeginPrint;
-            //    printDoc.PrintPage += PrintDoc_PrintPage;
-            //    using (var pp = new PrintPreviewDialog())
-            //    {
-            //        pp.Document = printDoc;
-            //        pp.ShowDialog();
-            //    }
-            //}
+            using (var printDoc = new PrintDocument())
+            {
+                printDoc.BeginPrint += PrintDoc_BeginPrint;
+                printDoc.PrintPage += PrintDoc_PrintPage;
+                using (var pp = new PrintPreviewDialog())
+                {
+                    pp.Document = printDoc;
+                    pp.ShowDialog();
+                }
+            }
         }
 
         private void PrintDoc_BeginPrint(object sender, PrintEventArgs e)
@@ -235,17 +367,17 @@ namespace Dari
             int reportType = cmbReportType.SelectedIndex;
             if (reportType == 0) // مستأجر
             {
-                if (string.IsNullOrWhiteSpace(txtTenantNo?.Text))
+                if (string.IsNullOrWhiteSpace(GetTenantNo()))
                 {
-                    message = "يرجى إدخال رقم المستأجر.";
+                    message = "يرجى إدخال أو اختيار رقم المستأجر (اضغط مفتاحاً في الحقل للبحث).";
                     return false;
                 }
             }
             else if (reportType == 1) // عقار
             {
-                if (string.IsNullOrWhiteSpace(txtPropertyNo?.Text))
+                if (string.IsNullOrWhiteSpace(GetPropertyNo()))
                 {
-                    message = "يرجى إدخال رقم العقار.";
+                    message = "يرجى إدخال أو اختيار رقم العقار (اضغط مفتاحاً في الحقل للبحث).";
                     return false;
                 }
             }
@@ -280,14 +412,6 @@ namespace Dari
             if (cmbToMonth != null && cmbToMonth.SelectedIndex >= 0)
                 toMonth = cmbToMonth.SelectedIndex + 1;
 
-            // نوع المستند: الكل = null, إيجار=1, فاتورة=2, سندات=3
-            string movementTypeFilter = null;
-            if (cmbDocumentType != null && cmbDocumentType.SelectedIndex > 0)
-            {
-                movementTypeFilter = cmbDocumentType.SelectedIndex == 1 ? "1" : cmbDocumentType.SelectedIndex == 2 ? "2" : "3";
-                MessageBox.Show(movementTypeFilter);
-            }
-                
             try
             {
                 dt = _reportAccountStatement.GetAccountStatement(P_where());
@@ -303,12 +427,13 @@ namespace Dari
 
 
 
-        string P_where ()
+        string P_where()
         {
             string p_whr = null;
-            if(!string.IsNullOrWhiteSpace(txtTenantNo.Text))
+            string tenantNo = GetTenantNo();
+            if (!string.IsNullOrWhiteSpace(tenantNo))
             {
-                p_whr = p_whr + " and TenantNo = " + txtTenantNo.Text + " ";
+                p_whr = (p_whr ?? "") + " and TenantNo = N'" + tenantNo.Replace("'", "''") + "' ";
             }
 
             int? fromMonth = null;
@@ -319,36 +444,34 @@ namespace Dari
             if (cmbToMonth != null && cmbToMonth.SelectedIndex >= 0)
                 toMonth = cmbToMonth.SelectedIndex + 1;
 
-            if(cmbFromMonth != null && cmbFromMonth.SelectedIndex >= 0)
+            if (fromMonth.HasValue && toMonth.HasValue)
             {
-                p_whr = p_whr + " and BillMonth BETWEEN " + fromMonth + " AND " + toMonth + "  ";
+                p_whr = (p_whr ?? "") + " and BillMonth BETWEEN " + fromMonth + " AND " + toMonth + " ";
             }
 
-            if (cmbYear != null)
+            if (cmbYear != null && cmbYear.SelectedItem != null)
             {
-                int year = int.Parse(cmbYear.SelectedItem?.ToString());
-                p_whr = p_whr + " and BillYear = "+ year + "";
+                int year = int.Parse(cmbYear.SelectedItem.ToString());
+                p_whr = (p_whr ?? "") + " and BillYear = " + year + " ";
             }
 
-            if (!string.IsNullOrWhiteSpace(txtApartmentNo.Text))
+            if (!string.IsNullOrWhiteSpace(txtApartmentNo?.Text?.Trim()))
             {
-                p_whr = p_whr + " and ApartmentNo = " + txtApartmentNo.Text + " ";
+                p_whr = (p_whr ?? "") + " and ApartmentNo = N'" + txtApartmentNo.Text.Trim().Replace("'", "''") + "' ";
             }
 
-            if (!string.IsNullOrWhiteSpace(txtPropertyNo.Text))
+            string propertyNo = GetPropertyNo();
+            if (!string.IsNullOrWhiteSpace(propertyNo))
             {
-                p_whr = p_whr + " and PropertyNo = " + txtPropertyNo.Text + " ";
+                p_whr = (p_whr ?? "") + " and PropertyNo = N'" + propertyNo.Replace("'", "''") + "' ";
             }
 
-            string movementTypeFilter = null;
             if (cmbDocumentType != null && cmbDocumentType.SelectedIndex > 0)
             {
-                movementTypeFilter = cmbDocumentType.SelectedIndex == 1 ? "1" : cmbDocumentType.SelectedIndex == 2 ? "2" : "3";
-                p_whr = p_whr + " and MovementType = "+ movementTypeFilter + "";
+                string movementTypeFilter = cmbDocumentType.SelectedIndex == 1 ? "1" : cmbDocumentType.SelectedIndex == 2 ? "2" : "3";
+                p_whr = (p_whr ?? "") + " and MovementType = N'" + movementTypeFilter + "' ";
             }
 
-
-            MessageBox.Show(p_whr);
             return p_whr;
         }
     }
