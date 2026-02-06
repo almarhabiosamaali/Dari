@@ -75,7 +75,7 @@ namespace Dari
             errorMessage = null;
             try
             {
-                MessageBox.Show(P_where() +"----"+ cmbArrears.SelectedIndex.ToString());
+                //MessageBox.Show(P_where() +"----"+ cmbArrears.SelectedIndex.ToString());
                 dt = _reportTenantMonthlyStatement.GetTenantMonthlyStatement(P_where(), cmbArrears.SelectedIndex);
                 if (dt != null && dt.Rows.Count == 0)
                     errorMessage = "لا توجد حركات مطابقة لمعايير البحث.";
