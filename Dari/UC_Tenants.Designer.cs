@@ -45,31 +45,30 @@ namespace Dari
             this.btnEdit = new MaterialSkin.Controls.MaterialButton();
             this.btnAdd = new MaterialSkin.Controls.MaterialButton();
             this.pnlFields = new System.Windows.Forms.Panel();
-            // Panels للمرفقات
             this.pnlIdImage = new System.Windows.Forms.Panel();
+            this.lblIdImage = new MaterialSkin.Controls.MaterialLabel();
+            this.lblIdImageName = new MaterialSkin.Controls.MaterialLabel();
+            this.btnIdImageUpload = new MaterialSkin.Controls.MaterialButton();
+            this.btnIdImageOpen = new MaterialSkin.Controls.MaterialButton();
+            this.btnIdImageDelete = new MaterialSkin.Controls.MaterialButton();
             this.pnlContractImage = new System.Windows.Forms.Panel();
+            this.lblContractImage = new MaterialSkin.Controls.MaterialLabel();
+            this.lblContractImageName = new MaterialSkin.Controls.MaterialLabel();
+            this.btnContractImageUpload = new MaterialSkin.Controls.MaterialButton();
+            this.btnContractImageOpen = new MaterialSkin.Controls.MaterialButton();
+            this.btnContractImageDelete = new MaterialSkin.Controls.MaterialButton();
             this.pnlGuaranteeImage = new System.Windows.Forms.Panel();
+            this.lblGuaranteeImage = new MaterialSkin.Controls.MaterialLabel();
+            this.lblGuaranteeImageName = new MaterialSkin.Controls.MaterialLabel();
+            this.btnGuaranteeImageUpload = new MaterialSkin.Controls.MaterialButton();
+            this.btnGuaranteeImageOpen = new MaterialSkin.Controls.MaterialButton();
+            this.btnGuaranteeImageDelete = new MaterialSkin.Controls.MaterialButton();
             this.pnlGuarantorIdImage = new System.Windows.Forms.Panel();
             this.lblGuarantorIdImage = new MaterialSkin.Controls.MaterialLabel();
             this.lblGuarantorIdImageName = new MaterialSkin.Controls.MaterialLabel();
             this.btnGuarantorIdImageUpload = new MaterialSkin.Controls.MaterialButton();
             this.btnGuarantorIdImageOpen = new MaterialSkin.Controls.MaterialButton();
             this.btnGuarantorIdImageDelete = new MaterialSkin.Controls.MaterialButton();
-            this.lblGuaranteeImage = new MaterialSkin.Controls.MaterialLabel();
-            this.lblGuaranteeImageName = new MaterialSkin.Controls.MaterialLabel();
-            this.btnGuaranteeImageUpload = new MaterialSkin.Controls.MaterialButton();
-            this.btnGuaranteeImageOpen = new MaterialSkin.Controls.MaterialButton();
-            this.btnGuaranteeImageDelete = new MaterialSkin.Controls.MaterialButton();
-            this.lblContractImage = new MaterialSkin.Controls.MaterialLabel();
-            this.lblContractImageName = new MaterialSkin.Controls.MaterialLabel();
-            this.btnContractImageUpload = new MaterialSkin.Controls.MaterialButton();
-            this.btnContractImageOpen = new MaterialSkin.Controls.MaterialButton();
-            this.btnContractImageDelete = new MaterialSkin.Controls.MaterialButton();
-            this.lblIdImage = new MaterialSkin.Controls.MaterialLabel();
-            this.lblIdImageName = new MaterialSkin.Controls.MaterialLabel();
-            this.btnIdImageUpload = new MaterialSkin.Controls.MaterialButton();
-            this.btnIdImageOpen = new MaterialSkin.Controls.MaterialButton();
-            this.btnIdImageDelete = new MaterialSkin.Controls.MaterialButton();
             this.lblCommercialRegNo = new MaterialSkin.Controls.MaterialLabel();
             this.txtCommercialRegNo = new MaterialSkin.Controls.MaterialTextBox2();
             this.lblGuarantorWorkPlace = new MaterialSkin.Controls.MaterialLabel();
@@ -106,6 +105,10 @@ namespace Dari
             this.pnlForm.SuspendLayout();
             this.pnlButtons.SuspendLayout();
             this.pnlFields.SuspendLayout();
+            this.pnlIdImage.SuspendLayout();
+            this.pnlContractImage.SuspendLayout();
+            this.pnlGuaranteeImage.SuspendLayout();
+            this.pnlGuarantorIdImage.SuspendLayout();
             this.pnlDataGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTenants)).BeginInit();
             this.SuspendLayout();
@@ -288,7 +291,6 @@ namespace Dari
             // 
             // pnlFields
             // 
-            // Panels للمرفقات
             this.pnlFields.Controls.Add(this.pnlIdImage);
             this.pnlFields.Controls.Add(this.pnlContractImage);
             this.pnlFields.Controls.Add(this.pnlGuaranteeImage);
@@ -331,88 +333,6 @@ namespace Dari
             this.pnlFields.Size = new System.Drawing.Size(1213, 680);
             this.pnlFields.TabIndex = 0;
             // 
-            // lblGuarantorIdImage
-            // 
-            this.lblGuarantorIdImage.AutoSize = true;
-            this.lblGuarantorIdImage.Depth = 0;
-            this.lblGuarantorIdImage.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblGuarantorIdImage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGuarantorIdImage.Location = new System.Drawing.Point(479, 0);
-            this.lblGuarantorIdImage.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblGuarantorIdImage.Name = "lblGuarantorIdImage";
-            this.lblGuarantorIdImage.Size = new System.Drawing.Size(117, 17);
-            this.lblGuarantorIdImage.TabIndex = 45;
-            this.lblGuarantorIdImage.Text = "صورة هوية الضامن:";
-            // 
-            // lblGuarantorIdImageName
-            // 
-            this.lblGuarantorIdImageName.AutoSize = true;
-            this.lblGuarantorIdImageName.Depth = 0;
-            this.lblGuarantorIdImageName.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblGuarantorIdImageName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGuarantorIdImageName.Location = new System.Drawing.Point(0, 21);
-            this.lblGuarantorIdImageName.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblGuarantorIdImageName.Name = "lblGuarantorIdImageName";
-            this.lblGuarantorIdImageName.Size = new System.Drawing.Size(1, 0);
-            this.lblGuarantorIdImageName.TabIndex = 46;
-            // 
-            // btnGuarantorIdImageUpload
-            // 
-            this.btnGuarantorIdImageUpload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuarantorIdImageUpload.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnGuarantorIdImageUpload.Depth = 0;
-            this.btnGuarantorIdImageUpload.HighEmphasis = true;
-            this.btnGuarantorIdImageUpload.Icon = null;
-            this.btnGuarantorIdImageUpload.Location = new System.Drawing.Point(300, 16);
-            this.btnGuarantorIdImageUpload.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnGuarantorIdImageUpload.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnGuarantorIdImageUpload.Name = "btnGuarantorIdImageUpload";
-            this.btnGuarantorIdImageUpload.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnGuarantorIdImageUpload.Size = new System.Drawing.Size(64, 36);
-            this.btnGuarantorIdImageUpload.TabIndex = 47;
-            this.btnGuarantorIdImageUpload.Text = "رفع";
-            this.btnGuarantorIdImageUpload.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnGuarantorIdImageUpload.UseAccentColor = false;
-            this.btnGuarantorIdImageUpload.UseVisualStyleBackColor = true;
-            // 
-            // btnGuarantorIdImageOpen
-            // 
-            this.btnGuarantorIdImageOpen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuarantorIdImageOpen.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnGuarantorIdImageOpen.Depth = 0;
-            this.btnGuarantorIdImageOpen.HighEmphasis = true;
-            this.btnGuarantorIdImageOpen.Icon = null;
-            this.btnGuarantorIdImageOpen.Location = new System.Drawing.Point(370, 16);
-            this.btnGuarantorIdImageOpen.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnGuarantorIdImageOpen.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnGuarantorIdImageOpen.Name = "btnGuarantorIdImageOpen";
-            this.btnGuarantorIdImageOpen.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnGuarantorIdImageOpen.Size = new System.Drawing.Size(64, 36);
-            this.btnGuarantorIdImageOpen.TabIndex = 48;
-            this.btnGuarantorIdImageOpen.Text = "فتح";
-            this.btnGuarantorIdImageOpen.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnGuarantorIdImageOpen.UseAccentColor = false;
-            this.btnGuarantorIdImageOpen.UseVisualStyleBackColor = true;
-            // 
-            // btnGuarantorIdImageDelete
-            // 
-            this.btnGuarantorIdImageDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuarantorIdImageDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnGuarantorIdImageDelete.Depth = 0;
-            this.btnGuarantorIdImageDelete.HighEmphasis = true;
-            this.btnGuarantorIdImageDelete.Icon = null;
-            this.btnGuarantorIdImageDelete.Location = new System.Drawing.Point(440, 16);
-            this.btnGuarantorIdImageDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnGuarantorIdImageDelete.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnGuarantorIdImageDelete.Name = "btnGuarantorIdImageDelete";
-            this.btnGuarantorIdImageDelete.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnGuarantorIdImageDelete.Size = new System.Drawing.Size(64, 36);
-            this.btnGuarantorIdImageDelete.TabIndex = 49;
-            this.btnGuarantorIdImageDelete.Text = "حذف";
-            this.btnGuarantorIdImageDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnGuarantorIdImageDelete.UseAccentColor = false;
-            this.btnGuarantorIdImageDelete.UseVisualStyleBackColor = true;
-            // 
             // pnlIdImage
             // 
             this.pnlIdImage.Controls.Add(this.lblIdImage);
@@ -425,209 +345,6 @@ namespace Dari
             this.pnlIdImage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlIdImage.Size = new System.Drawing.Size(587, 60);
             this.pnlIdImage.TabIndex = 50;
-            // 
-            // pnlContractImage
-            // 
-            this.pnlContractImage.Controls.Add(this.lblContractImage);
-            this.pnlContractImage.Controls.Add(this.lblContractImageName);
-            this.pnlContractImage.Controls.Add(this.btnContractImageUpload);
-            this.pnlContractImage.Controls.Add(this.btnContractImageOpen);
-            this.pnlContractImage.Controls.Add(this.btnContractImageDelete);
-            this.pnlContractImage.Location = new System.Drawing.Point(0, 520);
-            this.pnlContractImage.Name = "pnlContractImage";
-            this.pnlContractImage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlContractImage.Size = new System.Drawing.Size(587, 60);
-            this.pnlContractImage.TabIndex = 51;
-            // 
-            // pnlGuaranteeImage
-            // 
-            this.pnlGuaranteeImage.Controls.Add(this.lblGuaranteeImage);
-            this.pnlGuaranteeImage.Controls.Add(this.lblGuaranteeImageName);
-            this.pnlGuaranteeImage.Controls.Add(this.btnGuaranteeImageUpload);
-            this.pnlGuaranteeImage.Controls.Add(this.btnGuaranteeImageOpen);
-            this.pnlGuaranteeImage.Controls.Add(this.btnGuaranteeImageDelete);
-            this.pnlGuaranteeImage.Location = new System.Drawing.Point(613, 590);
-            this.pnlGuaranteeImage.Name = "pnlGuaranteeImage";
-            this.pnlGuaranteeImage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlGuaranteeImage.Size = new System.Drawing.Size(587, 60);
-            this.pnlGuaranteeImage.TabIndex = 52;
-            // 
-            // pnlGuarantorIdImage
-            // 
-            this.pnlGuarantorIdImage.Controls.Add(this.lblGuarantorIdImage);
-            this.pnlGuarantorIdImage.Controls.Add(this.lblGuarantorIdImageName);
-            this.pnlGuarantorIdImage.Controls.Add(this.btnGuarantorIdImageUpload);
-            this.pnlGuarantorIdImage.Controls.Add(this.btnGuarantorIdImageOpen);
-            this.pnlGuarantorIdImage.Controls.Add(this.btnGuarantorIdImageDelete);
-            this.pnlGuarantorIdImage.Location = new System.Drawing.Point(0, 590);
-            this.pnlGuarantorIdImage.Name = "pnlGuarantorIdImage";
-            this.pnlGuarantorIdImage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlGuarantorIdImage.Size = new System.Drawing.Size(587, 60);
-            this.pnlGuarantorIdImage.TabIndex = 53;
-            // 
-            // lblGuaranteeImage
-            // 
-            this.lblGuaranteeImage.AutoSize = true;
-            this.lblGuaranteeImage.Depth = 0;
-            this.lblGuaranteeImage.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblGuaranteeImage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGuaranteeImage.Location = new System.Drawing.Point(479, 0);
-            this.lblGuaranteeImage.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblGuaranteeImage.Name = "lblGuaranteeImage";
-            this.lblGuaranteeImage.Size = new System.Drawing.Size(81, 17);
-            this.lblGuaranteeImage.TabIndex = 40;
-            this.lblGuaranteeImage.Text = "صورة الضمان:";
-            // 
-            // lblGuaranteeImageName
-            // 
-            this.lblGuaranteeImageName.AutoSize = true;
-            this.lblGuaranteeImageName.Depth = 0;
-            this.lblGuaranteeImageName.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblGuaranteeImageName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblGuaranteeImageName.Location = new System.Drawing.Point(0, 21);
-            this.lblGuaranteeImageName.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblGuaranteeImageName.Name = "lblGuaranteeImageName";
-            this.lblGuaranteeImageName.Size = new System.Drawing.Size(1, 0);
-            this.lblGuaranteeImageName.TabIndex = 41;
-            // 
-            // btnGuaranteeImageUpload
-            // 
-            this.btnGuaranteeImageUpload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuaranteeImageUpload.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnGuaranteeImageUpload.Depth = 0;
-            this.btnGuaranteeImageUpload.HighEmphasis = true;
-            this.btnGuaranteeImageUpload.Icon = null;
-            this.btnGuaranteeImageUpload.Location = new System.Drawing.Point(300, 16);
-            this.btnGuaranteeImageUpload.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnGuaranteeImageUpload.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnGuaranteeImageUpload.Name = "btnGuaranteeImageUpload";
-            this.btnGuaranteeImageUpload.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnGuaranteeImageUpload.Size = new System.Drawing.Size(64, 36);
-            this.btnGuaranteeImageUpload.TabIndex = 42;
-            this.btnGuaranteeImageUpload.Text = "رفع";
-            this.btnGuaranteeImageUpload.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnGuaranteeImageUpload.UseAccentColor = false;
-            this.btnGuaranteeImageUpload.UseVisualStyleBackColor = true;
-            // 
-            // btnGuaranteeImageOpen
-            // 
-            this.btnGuaranteeImageOpen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuaranteeImageOpen.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnGuaranteeImageOpen.Depth = 0;
-            this.btnGuaranteeImageOpen.HighEmphasis = true;
-            this.btnGuaranteeImageOpen.Icon = null;
-            this.btnGuaranteeImageOpen.Location = new System.Drawing.Point(370, 16);
-            this.btnGuaranteeImageOpen.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnGuaranteeImageOpen.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnGuaranteeImageOpen.Name = "btnGuaranteeImageOpen";
-            this.btnGuaranteeImageOpen.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnGuaranteeImageOpen.Size = new System.Drawing.Size(64, 36);
-            this.btnGuaranteeImageOpen.TabIndex = 43;
-            this.btnGuaranteeImageOpen.Text = "فتح";
-            this.btnGuaranteeImageOpen.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnGuaranteeImageOpen.UseAccentColor = false;
-            this.btnGuaranteeImageOpen.UseVisualStyleBackColor = true;
-            // 
-            // btnGuaranteeImageDelete
-            // 
-            this.btnGuaranteeImageDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnGuaranteeImageDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnGuaranteeImageDelete.Depth = 0;
-            this.btnGuaranteeImageDelete.HighEmphasis = true;
-            this.btnGuaranteeImageDelete.Icon = null;
-            this.btnGuaranteeImageDelete.Location = new System.Drawing.Point(440, 16);
-            this.btnGuaranteeImageDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnGuaranteeImageDelete.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnGuaranteeImageDelete.Name = "btnGuaranteeImageDelete";
-            this.btnGuaranteeImageDelete.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnGuaranteeImageDelete.Size = new System.Drawing.Size(64, 36);
-            this.btnGuaranteeImageDelete.TabIndex = 44;
-            this.btnGuaranteeImageDelete.Text = "حذف";
-            this.btnGuaranteeImageDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnGuaranteeImageDelete.UseAccentColor = false;
-            this.btnGuaranteeImageDelete.UseVisualStyleBackColor = true;
-            // 
-            // lblContractImage
-            // 
-            this.lblContractImage.AutoSize = true;
-            this.lblContractImage.Depth = 0;
-            this.lblContractImage.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblContractImage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblContractImage.Location = new System.Drawing.Point(479, 0);
-            this.lblContractImage.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblContractImage.Name = "lblContractImage";
-            this.lblContractImage.Size = new System.Drawing.Size(69, 17);
-            this.lblContractImage.TabIndex = 35;
-            this.lblContractImage.Text = "صورة العقد:";
-            // 
-            // lblContractImageName
-            // 
-            this.lblContractImageName.AutoSize = true;
-            this.lblContractImageName.Depth = 0;
-            this.lblContractImageName.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblContractImageName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblContractImageName.Location = new System.Drawing.Point(0, 21);
-            this.lblContractImageName.MouseState = MaterialSkin.MouseState.HOVER;
-            this.lblContractImageName.Name = "lblContractImageName";
-            this.lblContractImageName.Size = new System.Drawing.Size(1, 0);
-            this.lblContractImageName.TabIndex = 36;
-            // 
-            // btnContractImageUpload
-            // 
-            this.btnContractImageUpload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnContractImageUpload.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnContractImageUpload.Depth = 0;
-            this.btnContractImageUpload.HighEmphasis = true;
-            this.btnContractImageUpload.Icon = null;
-            this.btnContractImageUpload.Location = new System.Drawing.Point(300, 16);
-            this.btnContractImageUpload.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnContractImageUpload.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnContractImageUpload.Name = "btnContractImageUpload";
-            this.btnContractImageUpload.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnContractImageUpload.Size = new System.Drawing.Size(64, 36);
-            this.btnContractImageUpload.TabIndex = 37;
-            this.btnContractImageUpload.Text = "رفع";
-            this.btnContractImageUpload.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnContractImageUpload.UseAccentColor = false;
-            this.btnContractImageUpload.UseVisualStyleBackColor = true;
-            // 
-            // btnContractImageOpen
-            // 
-            this.btnContractImageOpen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnContractImageOpen.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnContractImageOpen.Depth = 0;
-            this.btnContractImageOpen.HighEmphasis = true;
-            this.btnContractImageOpen.Icon = null;
-            this.btnContractImageOpen.Location = new System.Drawing.Point(370, 16);
-            this.btnContractImageOpen.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnContractImageOpen.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnContractImageOpen.Name = "btnContractImageOpen";
-            this.btnContractImageOpen.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnContractImageOpen.Size = new System.Drawing.Size(64, 36);
-            this.btnContractImageOpen.TabIndex = 38;
-            this.btnContractImageOpen.Text = "فتح";
-            this.btnContractImageOpen.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnContractImageOpen.UseAccentColor = false;
-            this.btnContractImageOpen.UseVisualStyleBackColor = true;
-            // 
-            // btnContractImageDelete
-            // 
-            this.btnContractImageDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.btnContractImageDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnContractImageDelete.Depth = 0;
-            this.btnContractImageDelete.HighEmphasis = true;
-            this.btnContractImageDelete.Icon = null;
-            this.btnContractImageDelete.Location = new System.Drawing.Point(440, 16);
-            this.btnContractImageDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.btnContractImageDelete.MouseState = MaterialSkin.MouseState.HOVER;
-            this.btnContractImageDelete.Name = "btnContractImageDelete";
-            this.btnContractImageDelete.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.btnContractImageDelete.Size = new System.Drawing.Size(64, 36);
-            this.btnContractImageDelete.TabIndex = 39;
-            this.btnContractImageDelete.Text = "حذف";
-            this.btnContractImageDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
-            this.btnContractImageDelete.UseAccentColor = false;
-            this.btnContractImageDelete.UseVisualStyleBackColor = true;
             // 
             // lblIdImage
             // 
@@ -711,13 +428,298 @@ namespace Dari
             this.btnIdImageDelete.UseAccentColor = false;
             this.btnIdImageDelete.UseVisualStyleBackColor = true;
             // 
+            // pnlContractImage
+            // 
+            this.pnlContractImage.Controls.Add(this.lblContractImage);
+            this.pnlContractImage.Controls.Add(this.lblContractImageName);
+            this.pnlContractImage.Controls.Add(this.btnContractImageUpload);
+            this.pnlContractImage.Controls.Add(this.btnContractImageOpen);
+            this.pnlContractImage.Controls.Add(this.btnContractImageDelete);
+            this.pnlContractImage.Location = new System.Drawing.Point(0, 520);
+            this.pnlContractImage.Name = "pnlContractImage";
+            this.pnlContractImage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.pnlContractImage.Size = new System.Drawing.Size(587, 60);
+            this.pnlContractImage.TabIndex = 51;
+            // 
+            // lblContractImage
+            // 
+            this.lblContractImage.AutoSize = true;
+            this.lblContractImage.Depth = 0;
+            this.lblContractImage.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblContractImage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblContractImage.Location = new System.Drawing.Point(479, 0);
+            this.lblContractImage.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblContractImage.Name = "lblContractImage";
+            this.lblContractImage.Size = new System.Drawing.Size(69, 17);
+            this.lblContractImage.TabIndex = 35;
+            this.lblContractImage.Text = "صورة العقد:";
+            // 
+            // lblContractImageName
+            // 
+            this.lblContractImageName.AutoSize = true;
+            this.lblContractImageName.Depth = 0;
+            this.lblContractImageName.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblContractImageName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblContractImageName.Location = new System.Drawing.Point(0, 21);
+            this.lblContractImageName.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblContractImageName.Name = "lblContractImageName";
+            this.lblContractImageName.Size = new System.Drawing.Size(1, 0);
+            this.lblContractImageName.TabIndex = 36;
+            // 
+            // btnContractImageUpload
+            // 
+            this.btnContractImageUpload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnContractImageUpload.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnContractImageUpload.Depth = 0;
+            this.btnContractImageUpload.HighEmphasis = true;
+            this.btnContractImageUpload.Icon = null;
+            this.btnContractImageUpload.Location = new System.Drawing.Point(300, 16);
+            this.btnContractImageUpload.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnContractImageUpload.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnContractImageUpload.Name = "btnContractImageUpload";
+            this.btnContractImageUpload.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnContractImageUpload.Size = new System.Drawing.Size(64, 36);
+            this.btnContractImageUpload.TabIndex = 37;
+            this.btnContractImageUpload.Text = "رفع";
+            this.btnContractImageUpload.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnContractImageUpload.UseAccentColor = false;
+            this.btnContractImageUpload.UseVisualStyleBackColor = true;
+            // 
+            // btnContractImageOpen
+            // 
+            this.btnContractImageOpen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnContractImageOpen.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnContractImageOpen.Depth = 0;
+            this.btnContractImageOpen.HighEmphasis = true;
+            this.btnContractImageOpen.Icon = null;
+            this.btnContractImageOpen.Location = new System.Drawing.Point(370, 16);
+            this.btnContractImageOpen.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnContractImageOpen.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnContractImageOpen.Name = "btnContractImageOpen";
+            this.btnContractImageOpen.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnContractImageOpen.Size = new System.Drawing.Size(64, 36);
+            this.btnContractImageOpen.TabIndex = 38;
+            this.btnContractImageOpen.Text = "فتح";
+            this.btnContractImageOpen.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnContractImageOpen.UseAccentColor = false;
+            this.btnContractImageOpen.UseVisualStyleBackColor = true;
+            // 
+            // btnContractImageDelete
+            // 
+            this.btnContractImageDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnContractImageDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnContractImageDelete.Depth = 0;
+            this.btnContractImageDelete.HighEmphasis = true;
+            this.btnContractImageDelete.Icon = null;
+            this.btnContractImageDelete.Location = new System.Drawing.Point(440, 16);
+            this.btnContractImageDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnContractImageDelete.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnContractImageDelete.Name = "btnContractImageDelete";
+            this.btnContractImageDelete.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnContractImageDelete.Size = new System.Drawing.Size(64, 36);
+            this.btnContractImageDelete.TabIndex = 39;
+            this.btnContractImageDelete.Text = "حذف";
+            this.btnContractImageDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnContractImageDelete.UseAccentColor = false;
+            this.btnContractImageDelete.UseVisualStyleBackColor = true;
+            // 
+            // pnlGuaranteeImage
+            // 
+            this.pnlGuaranteeImage.Controls.Add(this.lblGuaranteeImage);
+            this.pnlGuaranteeImage.Controls.Add(this.lblGuaranteeImageName);
+            this.pnlGuaranteeImage.Controls.Add(this.btnGuaranteeImageUpload);
+            this.pnlGuaranteeImage.Controls.Add(this.btnGuaranteeImageOpen);
+            this.pnlGuaranteeImage.Controls.Add(this.btnGuaranteeImageDelete);
+            this.pnlGuaranteeImage.Location = new System.Drawing.Point(613, 590);
+            this.pnlGuaranteeImage.Name = "pnlGuaranteeImage";
+            this.pnlGuaranteeImage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.pnlGuaranteeImage.Size = new System.Drawing.Size(587, 60);
+            this.pnlGuaranteeImage.TabIndex = 52;
+            // 
+            // lblGuaranteeImage
+            // 
+            this.lblGuaranteeImage.AutoSize = true;
+            this.lblGuaranteeImage.Depth = 0;
+            this.lblGuaranteeImage.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblGuaranteeImage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGuaranteeImage.Location = new System.Drawing.Point(479, 0);
+            this.lblGuaranteeImage.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblGuaranteeImage.Name = "lblGuaranteeImage";
+            this.lblGuaranteeImage.Size = new System.Drawing.Size(81, 17);
+            this.lblGuaranteeImage.TabIndex = 40;
+            this.lblGuaranteeImage.Text = "صورة الضمان:";
+            // 
+            // lblGuaranteeImageName
+            // 
+            this.lblGuaranteeImageName.AutoSize = true;
+            this.lblGuaranteeImageName.Depth = 0;
+            this.lblGuaranteeImageName.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblGuaranteeImageName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGuaranteeImageName.Location = new System.Drawing.Point(0, 21);
+            this.lblGuaranteeImageName.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblGuaranteeImageName.Name = "lblGuaranteeImageName";
+            this.lblGuaranteeImageName.Size = new System.Drawing.Size(1, 0);
+            this.lblGuaranteeImageName.TabIndex = 41;
+            // 
+            // btnGuaranteeImageUpload
+            // 
+            this.btnGuaranteeImageUpload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnGuaranteeImageUpload.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnGuaranteeImageUpload.Depth = 0;
+            this.btnGuaranteeImageUpload.HighEmphasis = true;
+            this.btnGuaranteeImageUpload.Icon = null;
+            this.btnGuaranteeImageUpload.Location = new System.Drawing.Point(300, 16);
+            this.btnGuaranteeImageUpload.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnGuaranteeImageUpload.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnGuaranteeImageUpload.Name = "btnGuaranteeImageUpload";
+            this.btnGuaranteeImageUpload.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnGuaranteeImageUpload.Size = new System.Drawing.Size(64, 36);
+            this.btnGuaranteeImageUpload.TabIndex = 42;
+            this.btnGuaranteeImageUpload.Text = "رفع";
+            this.btnGuaranteeImageUpload.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnGuaranteeImageUpload.UseAccentColor = false;
+            this.btnGuaranteeImageUpload.UseVisualStyleBackColor = true;
+            // 
+            // btnGuaranteeImageOpen
+            // 
+            this.btnGuaranteeImageOpen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnGuaranteeImageOpen.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnGuaranteeImageOpen.Depth = 0;
+            this.btnGuaranteeImageOpen.HighEmphasis = true;
+            this.btnGuaranteeImageOpen.Icon = null;
+            this.btnGuaranteeImageOpen.Location = new System.Drawing.Point(370, 16);
+            this.btnGuaranteeImageOpen.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnGuaranteeImageOpen.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnGuaranteeImageOpen.Name = "btnGuaranteeImageOpen";
+            this.btnGuaranteeImageOpen.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnGuaranteeImageOpen.Size = new System.Drawing.Size(64, 36);
+            this.btnGuaranteeImageOpen.TabIndex = 43;
+            this.btnGuaranteeImageOpen.Text = "فتح";
+            this.btnGuaranteeImageOpen.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnGuaranteeImageOpen.UseAccentColor = false;
+            this.btnGuaranteeImageOpen.UseVisualStyleBackColor = true;
+            // 
+            // btnGuaranteeImageDelete
+            // 
+            this.btnGuaranteeImageDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnGuaranteeImageDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnGuaranteeImageDelete.Depth = 0;
+            this.btnGuaranteeImageDelete.HighEmphasis = true;
+            this.btnGuaranteeImageDelete.Icon = null;
+            this.btnGuaranteeImageDelete.Location = new System.Drawing.Point(440, 16);
+            this.btnGuaranteeImageDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnGuaranteeImageDelete.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnGuaranteeImageDelete.Name = "btnGuaranteeImageDelete";
+            this.btnGuaranteeImageDelete.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnGuaranteeImageDelete.Size = new System.Drawing.Size(64, 36);
+            this.btnGuaranteeImageDelete.TabIndex = 44;
+            this.btnGuaranteeImageDelete.Text = "حذف";
+            this.btnGuaranteeImageDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnGuaranteeImageDelete.UseAccentColor = false;
+            this.btnGuaranteeImageDelete.UseVisualStyleBackColor = true;
+            // 
+            // pnlGuarantorIdImage
+            // 
+            this.pnlGuarantorIdImage.Controls.Add(this.lblGuarantorIdImage);
+            this.pnlGuarantorIdImage.Controls.Add(this.lblGuarantorIdImageName);
+            this.pnlGuarantorIdImage.Controls.Add(this.btnGuarantorIdImageUpload);
+            this.pnlGuarantorIdImage.Controls.Add(this.btnGuarantorIdImageOpen);
+            this.pnlGuarantorIdImage.Controls.Add(this.btnGuarantorIdImageDelete);
+            this.pnlGuarantorIdImage.Location = new System.Drawing.Point(0, 590);
+            this.pnlGuarantorIdImage.Name = "pnlGuarantorIdImage";
+            this.pnlGuarantorIdImage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.pnlGuarantorIdImage.Size = new System.Drawing.Size(587, 60);
+            this.pnlGuarantorIdImage.TabIndex = 53;
+            // 
+            // lblGuarantorIdImage
+            // 
+            this.lblGuarantorIdImage.AutoSize = true;
+            this.lblGuarantorIdImage.Depth = 0;
+            this.lblGuarantorIdImage.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblGuarantorIdImage.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGuarantorIdImage.Location = new System.Drawing.Point(466, 0);
+            this.lblGuarantorIdImage.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblGuarantorIdImage.Name = "lblGuarantorIdImage";
+            this.lblGuarantorIdImage.Size = new System.Drawing.Size(117, 17);
+            this.lblGuarantorIdImage.TabIndex = 45;
+            this.lblGuarantorIdImage.Text = "صورة هوية الضامن:";
+            // 
+            // lblGuarantorIdImageName
+            // 
+            this.lblGuarantorIdImageName.AutoSize = true;
+            this.lblGuarantorIdImageName.Depth = 0;
+            this.lblGuarantorIdImageName.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblGuarantorIdImageName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblGuarantorIdImageName.Location = new System.Drawing.Point(0, 21);
+            this.lblGuarantorIdImageName.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblGuarantorIdImageName.Name = "lblGuarantorIdImageName";
+            this.lblGuarantorIdImageName.Size = new System.Drawing.Size(1, 0);
+            this.lblGuarantorIdImageName.TabIndex = 46;
+            // 
+            // btnGuarantorIdImageUpload
+            // 
+            this.btnGuarantorIdImageUpload.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnGuarantorIdImageUpload.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnGuarantorIdImageUpload.Depth = 0;
+            this.btnGuarantorIdImageUpload.HighEmphasis = true;
+            this.btnGuarantorIdImageUpload.Icon = null;
+            this.btnGuarantorIdImageUpload.Location = new System.Drawing.Point(300, 16);
+            this.btnGuarantorIdImageUpload.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnGuarantorIdImageUpload.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnGuarantorIdImageUpload.Name = "btnGuarantorIdImageUpload";
+            this.btnGuarantorIdImageUpload.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnGuarantorIdImageUpload.Size = new System.Drawing.Size(64, 36);
+            this.btnGuarantorIdImageUpload.TabIndex = 47;
+            this.btnGuarantorIdImageUpload.Text = "رفع";
+            this.btnGuarantorIdImageUpload.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnGuarantorIdImageUpload.UseAccentColor = false;
+            this.btnGuarantorIdImageUpload.UseVisualStyleBackColor = true;
+            // 
+            // btnGuarantorIdImageOpen
+            // 
+            this.btnGuarantorIdImageOpen.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnGuarantorIdImageOpen.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnGuarantorIdImageOpen.Depth = 0;
+            this.btnGuarantorIdImageOpen.HighEmphasis = true;
+            this.btnGuarantorIdImageOpen.Icon = null;
+            this.btnGuarantorIdImageOpen.Location = new System.Drawing.Point(370, 16);
+            this.btnGuarantorIdImageOpen.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnGuarantorIdImageOpen.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnGuarantorIdImageOpen.Name = "btnGuarantorIdImageOpen";
+            this.btnGuarantorIdImageOpen.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnGuarantorIdImageOpen.Size = new System.Drawing.Size(64, 36);
+            this.btnGuarantorIdImageOpen.TabIndex = 48;
+            this.btnGuarantorIdImageOpen.Text = "فتح";
+            this.btnGuarantorIdImageOpen.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnGuarantorIdImageOpen.UseAccentColor = false;
+            this.btnGuarantorIdImageOpen.UseVisualStyleBackColor = true;
+            // 
+            // btnGuarantorIdImageDelete
+            // 
+            this.btnGuarantorIdImageDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnGuarantorIdImageDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnGuarantorIdImageDelete.Depth = 0;
+            this.btnGuarantorIdImageDelete.HighEmphasis = true;
+            this.btnGuarantorIdImageDelete.Icon = null;
+            this.btnGuarantorIdImageDelete.Location = new System.Drawing.Point(440, 16);
+            this.btnGuarantorIdImageDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnGuarantorIdImageDelete.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnGuarantorIdImageDelete.Name = "btnGuarantorIdImageDelete";
+            this.btnGuarantorIdImageDelete.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnGuarantorIdImageDelete.Size = new System.Drawing.Size(64, 36);
+            this.btnGuarantorIdImageDelete.TabIndex = 49;
+            this.btnGuarantorIdImageDelete.Text = "حذف";
+            this.btnGuarantorIdImageDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            this.btnGuarantorIdImageDelete.UseAccentColor = false;
+            this.btnGuarantorIdImageDelete.UseVisualStyleBackColor = true;
+            // 
             // lblCommercialRegNo
             // 
             this.lblCommercialRegNo.AutoSize = true;
             this.lblCommercialRegNo.Depth = 0;
             this.lblCommercialRegNo.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblCommercialRegNo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblCommercialRegNo.Location = new System.Drawing.Point(1092, 450);
+            this.lblCommercialRegNo.Location = new System.Drawing.Point(1067, 450);
             this.lblCommercialRegNo.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblCommercialRegNo.Name = "lblCommercialRegNo";
             this.lblCommercialRegNo.Size = new System.Drawing.Size(119, 17);
@@ -765,9 +767,9 @@ namespace Dari
             this.lblGuarantorWorkPlace.Location = new System.Drawing.Point(470, 385);
             this.lblGuarantorWorkPlace.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblGuarantorWorkPlace.Name = "lblGuarantorWorkPlace";
-            this.lblGuarantorWorkPlace.Size = new System.Drawing.Size(102, 17);
+            this.lblGuarantorWorkPlace.Size = new System.Drawing.Size(105, 17);
             this.lblGuarantorWorkPlace.TabIndex = 27;
-            this.lblGuarantorWorkPlace.Text = "جهة عمل الكفيل:";
+            this.lblGuarantorWorkPlace.Text = "جهة عمل الضامن:";
             // 
             // txtGuarantorWorkPlace
             // 
@@ -810,9 +812,9 @@ namespace Dari
             this.lblGuarantorMobile.Location = new System.Drawing.Point(1092, 385);
             this.lblGuarantorMobile.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblGuarantorMobile.Name = "lblGuarantorMobile";
-            this.lblGuarantorMobile.Size = new System.Drawing.Size(77, 17);
+            this.lblGuarantorMobile.Size = new System.Drawing.Size(80, 17);
             this.lblGuarantorMobile.TabIndex = 25;
-            this.lblGuarantorMobile.Text = "جوال الكفيل:";
+            this.lblGuarantorMobile.Text = "جوال الضامن:";
             // 
             // txtGuarantorMobile
             // 
@@ -855,9 +857,9 @@ namespace Dari
             this.lblGuarantorNationalId.Location = new System.Drawing.Point(470, 320);
             this.lblGuarantorNationalId.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblGuarantorNationalId.Name = "lblGuarantorNationalId";
-            this.lblGuarantorNationalId.Size = new System.Drawing.Size(105, 17);
+            this.lblGuarantorNationalId.Size = new System.Drawing.Size(108, 17);
             this.lblGuarantorNationalId.TabIndex = 23;
-            this.lblGuarantorNationalId.Text = "رقم هوية الكفيل:";
+            this.lblGuarantorNationalId.Text = "رقم هوية الضامن:";
             // 
             // txtGuarantorNationalId
             // 
@@ -900,9 +902,9 @@ namespace Dari
             this.lblGuarantorName.Location = new System.Drawing.Point(1092, 320);
             this.lblGuarantorName.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblGuarantorName.Name = "lblGuarantorName";
-            this.lblGuarantorName.Size = new System.Drawing.Size(74, 17);
+            this.lblGuarantorName.Size = new System.Drawing.Size(77, 17);
             this.lblGuarantorName.TabIndex = 21;
-            this.lblGuarantorName.Text = "اسم الكفيل:";
+            this.lblGuarantorName.Text = "اسم الضامن:";
             // 
             // txtGuarantorName
             // 
@@ -984,7 +986,7 @@ namespace Dari
             this.lblWorkPlace.Depth = 0;
             this.lblWorkPlace.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblWorkPlace.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.lblWorkPlace.Location = new System.Drawing.Point(1092, 255);
+            this.lblWorkPlace.Location = new System.Drawing.Point(1110, 255);
             this.lblWorkPlace.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblWorkPlace.Name = "lblWorkPlace";
             this.lblWorkPlace.Size = new System.Drawing.Size(65, 17);
@@ -1413,6 +1415,14 @@ namespace Dari
             this.pnlButtons.ResumeLayout(false);
             this.pnlFields.ResumeLayout(false);
             this.pnlFields.PerformLayout();
+            this.pnlIdImage.ResumeLayout(false);
+            this.pnlIdImage.PerformLayout();
+            this.pnlContractImage.ResumeLayout(false);
+            this.pnlContractImage.PerformLayout();
+            this.pnlGuaranteeImage.ResumeLayout(false);
+            this.pnlGuaranteeImage.PerformLayout();
+            this.pnlGuarantorIdImage.ResumeLayout(false);
+            this.pnlGuarantorIdImage.PerformLayout();
             this.pnlDataGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTenants)).EndInit();
             this.ResumeLayout(false);
