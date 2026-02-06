@@ -371,7 +371,7 @@ namespace Dari
         private void BtnSettings_Click(object sender, EventArgs e)
         {
             lblHeaderTitle.Text = "الإعدادات";
-            // هنا سيتم فتح شاشة الإعدادات لاحقاً
+            ShowUserControl(new UC_SettingsConnection());
         }
     }
 }
