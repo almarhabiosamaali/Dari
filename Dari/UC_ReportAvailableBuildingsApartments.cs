@@ -135,5 +135,24 @@ namespace Dari
             }
             Visible = false;
         }
+
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            DataTable dt = new DataTable();
+            //if (_lastReportData == null || _lastReportData.Rows.Count == 0)
+            //{
+            //    MessageBox.Show("قم بعرض التقرير أولاً (عرض / معاينة) ثم اختر طباعة.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            //    return;
+            //}
+            dt = _reportGetApartmentsStatus.GetApartmentsStatus(P_where());
+            RPT.RepAcc myRept = new RPT.RepAcc();
+            myRept.DataSourceConnections[0].IntegratedSecurity = false;
+            myRept.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.Password);
+            myRept.SetDataSource(dt);
+            // myReport.SetParameterValue("@p_whr", p);
+            RPT.reportCaller myFom = new RPT.reportCaller();
+            myFom.crystalReportViewer1.ReportSource = myRept;
+            myFom.ShowDialog();
+        }
     }
 }
