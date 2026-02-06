@@ -145,7 +145,7 @@ namespace Dari
             //    return;
             //}
             dt = _reportGetApartmentsStatus.GetApartmentsStatus(P_where());
-            RPT.RepAcc myRept = new RPT.RepAcc();
+            RPT.ReportGetApartmentsStatus myRept = new RPT.ReportGetApartmentsStatus();
             myRept.DataSourceConnections[0].IntegratedSecurity = false;
             myRept.DataSourceConnections[0].SetConnection(Properties.Settings.Default.Server, Properties.Settings.Default.Database, Properties.Settings.Default.ID, Properties.Settings.Default.Password);
             myRept.SetDataSource(dt);
