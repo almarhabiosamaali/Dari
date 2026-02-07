@@ -47,6 +47,15 @@ namespace Dari
                 return;
             }
 
+            // دخول ADMIN / ADMIN@123 → تحويل لشاشة إعدادات الاتصال بدون استدعاء قاعدة البيانات
+            if (string.Equals(signInName, "ADMIN", StringComparison.OrdinalIgnoreCase) && pwd == "ADMIN@123")
+            {
+                CurrentUser.ShowConnectionSettingsNext = true;
+                DialogResult = DialogResult.OK;
+                Close();
+                return;
+            }
+
             try
             {
                 DataTable dt = _userLogin.Login(signInName, pwd);

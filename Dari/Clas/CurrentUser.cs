@@ -30,5 +30,10 @@ namespace Dari.Clas
         }
 
         public static bool IsLoggedIn => ID.HasValue;
+
+        /// <summary>
+        /// عند true: بعد إغلاق شاشة الدخول يتم عرض شاشة إعدادات الاتصال (دخول ADMIN/ADMIN@123).
+        /// </summary>
+        public static bool ShowConnectionSettingsNext { get; set; }
     }
 }

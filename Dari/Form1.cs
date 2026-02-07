@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MaterialSkin;
 using MaterialSkin.Controls;
+using Dari.Clas;
 
 namespace Dari
 {
@@ -76,6 +77,13 @@ namespace Dari
                 {
                     Application.Exit();
                     return;
+                }
+
+                if (CurrentUser.ShowConnectionSettingsNext)
+                {
+                    CurrentUser.ShowConnectionSettingsNext = false;
+                    lblHeaderTitle.Text = "إعدادات الاتصال بالسيرفر";
+                    ShowUserControl(new UC_SettingsConnection());
                 }
             }
         }
