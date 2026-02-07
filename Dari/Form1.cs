@@ -70,21 +70,38 @@ namespace Dari
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            var overlay = new Form
+            {
+                FormBorderStyle = FormBorderStyle.None,
+                ShowInTaskbar = false,
+                BackColor = Color.Black,
+                Opacity = 0.65,
+                Size = Size,
+                Location = Location,
+                StartPosition = FormStartPosition.Manual
+            };
+            overlay.Show(this);
+
             using (var formLogin = new FormLogin())
             {
                 formLogin.StartPosition = FormStartPosition.CenterParent;
                 if (formLogin.ShowDialog(this) != DialogResult.OK)
                 {
+                    overlay.Close();
+                    overlay.Dispose();
                     Application.Exit();
                     return;
                 }
+            }
 
-                if (CurrentUser.ShowConnectionSettingsNext)
-                {
-                    CurrentUser.ShowConnectionSettingsNext = false;
-                    lblHeaderTitle.Text = "إعدادات الاتصال بالسيرفر";
-                    ShowUserControl(new UC_SettingsConnection());
-                }
+            overlay.Close();
+            overlay.Dispose();
+
+            if (CurrentUser.ShowConnectionSettingsNext)
+            {
+                CurrentUser.ShowConnectionSettingsNext = false;
+                lblHeaderTitle.Text = "إعدادات الاتصال بالسيرفر";
+                ShowUserControl(new UC_SettingsConnection());
             }
         }
 
