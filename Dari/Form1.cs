@@ -63,6 +63,21 @@ namespace Dari
             btnAccountStatement.Click += BtnAccountStatement_Click;
             btnTenantMonthlyStatement.Click += BtnTenantMonthlyStatement_Click;
             btnAvailableBuildingsApartments.Click += BtnAvailableBuildingsApartments_Click;
+
+            Load += Form1_Load;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            using (var formLogin = new FormLogin())
+            {
+                formLogin.StartPosition = FormStartPosition.CenterParent;
+                if (formLogin.ShowDialog(this) != DialogResult.OK)
+                {
+                    Application.Exit();
+                    return;
+                }
+            }
         }
 
         private void SetupSidebarMenu()
