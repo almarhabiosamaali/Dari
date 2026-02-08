@@ -25,6 +25,18 @@ namespace Dari
             this.btnClose = new MaterialSkin.Controls.MaterialButton();
             this.lblTitle = new MaterialSkin.Controls.MaterialLabel();
             this.pnlForm = new System.Windows.Forms.Panel();
+            this.pnlFilters = new System.Windows.Forms.Panel();
+            this.lblCalculationNo = new MaterialSkin.Controls.MaterialLabel();
+            this.txtCalculationNo = new MaterialSkin.Controls.MaterialTextBox2();
+            this.lblCalculationDate = new MaterialSkin.Controls.MaterialLabel();
+            this.dtpCalculationDate = new System.Windows.Forms.DateTimePicker();
+            this.lblPropertyNo = new MaterialSkin.Controls.MaterialLabel();
+            this.txtPropertyNo = new MaterialSkin.Controls.MaterialTextBox2();
+            this.lblYear = new MaterialSkin.Controls.MaterialLabel();
+            this.cmbYear = new MaterialSkin.Controls.MaterialComboBox();
+            this.lblMonth = new MaterialSkin.Controls.MaterialLabel();
+            this.cmbMonth = new MaterialSkin.Controls.MaterialComboBox();
+            this.btnCalculate = new MaterialSkin.Controls.MaterialButton();
             this.pnlButtons = new System.Windows.Forms.Panel();
             this.lblTotal = new MaterialSkin.Controls.MaterialLabel();
             this.btnSave = new MaterialSkin.Controls.MaterialButton();
@@ -32,31 +44,19 @@ namespace Dari
             this.btnDelete = new MaterialSkin.Controls.MaterialButton();
             this.btnEdit = new MaterialSkin.Controls.MaterialButton();
             this.btnAdd = new MaterialSkin.Controls.MaterialButton();
-            this.pnlFilters = new System.Windows.Forms.Panel();
-            this.lblCalculationDate = new MaterialSkin.Controls.MaterialLabel();
-            this.dtpCalculationDate = new System.Windows.Forms.DateTimePicker();
-            this.lblCalculationNo = new MaterialSkin.Controls.MaterialLabel();
-            this.txtCalculationNo = new MaterialSkin.Controls.MaterialTextBox2();
-            this.btnCalculate = new MaterialSkin.Controls.MaterialButton();
-            this.lblMonth = new MaterialSkin.Controls.MaterialLabel();
-            this.cmbMonth = new MaterialSkin.Controls.MaterialComboBox();
-            this.lblYear = new MaterialSkin.Controls.MaterialLabel();
-            this.cmbYear = new MaterialSkin.Controls.MaterialComboBox();
-            this.lblPropertyNo = new MaterialSkin.Controls.MaterialLabel();
-            this.txtPropertyNo = new MaterialSkin.Controls.MaterialTextBox2();
             this.pnlDataGrid = new System.Windows.Forms.Panel();
             this.dgvRentSummary = new System.Windows.Forms.DataGridView();
             this.pnlHeader.SuspendLayout();
             this.pnlForm.SuspendLayout();
-            this.pnlButtons.SuspendLayout();
             this.pnlFilters.SuspendLayout();
+            this.pnlButtons.SuspendLayout();
             this.pnlDataGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRentSummary)).BeginInit();
             this.SuspendLayout();
-            //
+            // 
             // pnlHeader
-            //
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(33, 150, 243);
+            // 
+            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(150)))), ((int)(((byte)(243)))));
             this.pnlHeader.Controls.Add(this.btnClose);
             this.pnlHeader.Controls.Add(this.lblTitle);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
@@ -65,157 +65,55 @@ namespace Dari
             this.pnlHeader.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlHeader.Size = new System.Drawing.Size(1267, 74);
             this.pnlHeader.TabIndex = 0;
-            //
+            // 
             // btnClose
-            //
+            // 
             this.btnClose.AutoSize = false;
+            this.btnClose.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnClose.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btnClose.Depth = 0;
             this.btnClose.HighEmphasis = false;
             this.btnClose.Icon = null;
             this.btnClose.Location = new System.Drawing.Point(10, 12);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnClose.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnClose.Name = "btnClose";
+            this.btnClose.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btnClose.Size = new System.Drawing.Size(120, 45);
             this.btnClose.TabIndex = 99;
             this.btnClose.Text = "رجوع";
             this.btnClose.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
             this.btnClose.UseAccentColor = false;
             this.btnClose.UseVisualStyleBackColor = true;
-            //
+            // 
             // lblTitle
-            //
+            // 
             this.lblTitle.AutoSize = true;
             this.lblTitle.Depth = 0;
             this.lblTitle.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
             this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(1115, 15);
+            this.lblTitle.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(125, 19);
+            this.lblTitle.Size = new System.Drawing.Size(94, 17);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "احتساب الإيجار";
-            //
+            // 
             // pnlForm
-            //
+            // 
             this.pnlForm.BackColor = System.Drawing.Color.White;
+            this.pnlForm.Controls.Add(this.lblTotal);
             this.pnlForm.Controls.Add(this.pnlFilters);
             this.pnlForm.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlForm.Location = new System.Drawing.Point(0, 74);
+            this.pnlForm.Name = "pnlForm";
             this.pnlForm.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
             this.pnlForm.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlForm.Size = new System.Drawing.Size(1267, 244);
             this.pnlForm.TabIndex = 1;
-            //
-            // pnlButtons
-            //
-            this.pnlButtons.Controls.Add(this.lblTotal);
-            this.pnlButtons.Controls.Add(this.btnSave);
-            this.pnlButtons.Controls.Add(this.btnSearch);
-            this.pnlButtons.Controls.Add(this.btnDelete);
-            this.pnlButtons.Controls.Add(this.btnEdit);
-            this.pnlButtons.Controls.Add(this.btnAdd);
-            this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlButtons.Location = new System.Drawing.Point(27, 615);
-            this.pnlButtons.Name = "pnlButtons";
-            this.pnlButtons.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlButtons.Size = new System.Drawing.Size(1213, 98);
-            this.pnlButtons.TabIndex = 1;
-            //
-            // lblTotal
-            //
-            this.lblTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTotal.AutoSize = true;
-            this.lblTotal.Depth = 0;
-            this.lblTotal.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
-            this.lblTotal.Location = new System.Drawing.Point(970, 35);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(120, 19);
-            this.lblTotal.TabIndex = 5;
-            this.lblTotal.Text = "الاجمالي: 0.00";
-            this.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            //
-            // btnSave
-            //
-            this.btnSave.AutoSize = false;
-            this.btnSave.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnSave.Depth = 0;
-            this.btnSave.HighEmphasis = false;
-            this.btnSave.Icon = null;
-            this.btnSave.Location = new System.Drawing.Point(0, 18);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(200, 62);
-            this.btnSave.TabIndex = 4;
-            this.btnSave.Text = "حفظ";
-            this.btnSave.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnSave.UseAccentColor = false;
-            this.btnSave.UseVisualStyleBackColor = true;
-            //
-            // btnSearch
-            //
-            this.btnSearch.AutoSize = false;
-            this.btnSearch.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnSearch.Depth = 0;
-            this.btnSearch.HighEmphasis = false;
-            this.btnSearch.Icon = null;
-            this.btnSearch.Location = new System.Drawing.Point(213, 18);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(200, 62);
-            this.btnSearch.TabIndex = 3;
-            this.btnSearch.Text = "🔍 عرض";
-            this.btnSearch.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnSearch.UseAccentColor = false;
-            this.btnSearch.UseVisualStyleBackColor = true;
-            //
-            // btnDelete
-            //
-            this.btnDelete.AutoSize = false;
-            this.btnDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnDelete.Depth = 0;
-            this.btnDelete.HighEmphasis = true;
-            this.btnDelete.Icon = null;
-            this.btnDelete.Location = new System.Drawing.Point(427, 18);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(200, 62);
-            this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "🗑️ حذف";
-            this.btnDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnDelete.UseAccentColor = true;
-            this.btnDelete.UseVisualStyleBackColor = true;
-            //
-            // btnEdit
-            //
-            this.btnEdit.AutoSize = false;
-            this.btnEdit.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnEdit.Depth = 0;
-            this.btnEdit.HighEmphasis = true;
-            this.btnEdit.Icon = null;
-            this.btnEdit.Location = new System.Drawing.Point(640, 18);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(200, 62);
-            this.btnEdit.TabIndex = 1;
-            this.btnEdit.Text = "✏️ تعديل";
-            this.btnEdit.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnEdit.UseAccentColor = false;
-            this.btnEdit.UseVisualStyleBackColor = true;
-            //
-            // btnAdd
-            //
-            this.btnAdd.AutoSize = false;
-            this.btnAdd.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.btnAdd.Depth = 0;
-            this.btnAdd.HighEmphasis = true;
-            this.btnAdd.Icon = null;
-            this.btnAdd.Location = new System.Drawing.Point(853, 18);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(200, 62);
-            this.btnAdd.TabIndex = 0;
-            this.btnAdd.Text = "➕ إضافة";
-            this.btnAdd.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.btnAdd.UseAccentColor = false;
-            this.btnAdd.UseVisualStyleBackColor = true;
-            //
+            // 
             // pnlFilters
-            //
+            // 
             this.pnlFilters.Controls.Add(this.lblCalculationNo);
             this.pnlFilters.Controls.Add(this.txtCalculationNo);
             this.pnlFilters.Controls.Add(this.lblCalculationDate);
@@ -231,24 +129,28 @@ namespace Dari
             this.pnlFilters.Location = new System.Drawing.Point(27, 25);
             this.pnlFilters.Name = "pnlFilters";
             this.pnlFilters.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.pnlFilters.Size = new System.Drawing.Size(1213, 190);
+            this.pnlFilters.Size = new System.Drawing.Size(1213, 194);
             this.pnlFilters.TabIndex = 0;
-            //
+            // 
             // lblCalculationNo
-            //
+            // 
             this.lblCalculationNo.AutoSize = true;
             this.lblCalculationNo.Depth = 0;
             this.lblCalculationNo.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblCalculationNo.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblCalculationNo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblCalculationNo.Location = new System.Drawing.Point(1085, 0);
+            this.lblCalculationNo.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblCalculationNo.Name = "lblCalculationNo";
-            this.lblCalculationNo.Size = new System.Drawing.Size(91, 19);
+            this.lblCalculationNo.Size = new System.Drawing.Size(89, 17);
             this.lblCalculationNo.TabIndex = 0;
             this.lblCalculationNo.Text = "رقم الاحتساب:";
-            //
+            // 
             // txtCalculationNo
-            //
+            // 
             this.txtCalculationNo.AnimateReadOnly = false;
+            this.txtCalculationNo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.txtCalculationNo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.txtCalculationNo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.txtCalculationNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
             this.txtCalculationNo.Depth = 0;
             this.txtCalculationNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -262,27 +164,33 @@ namespace Dari
             this.txtCalculationNo.PrefixSuffixText = null;
             this.txtCalculationNo.ReadOnly = false;
             this.txtCalculationNo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txtCalculationNo.SelectedText = "";
+            this.txtCalculationNo.SelectionLength = 0;
+            this.txtCalculationNo.SelectionStart = 0;
+            this.txtCalculationNo.ShortcutsEnabled = true;
             this.txtCalculationNo.Size = new System.Drawing.Size(587, 36);
             this.txtCalculationNo.TabIndex = 0;
+            this.txtCalculationNo.TabStop = false;
             this.txtCalculationNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtCalculationNo.TrailingIcon = null;
             this.txtCalculationNo.UseSystemPasswordChar = false;
             this.txtCalculationNo.UseTallSize = false;
-            //
+            // 
             // lblCalculationDate
-            //
+            // 
             this.lblCalculationDate.AutoSize = true;
             this.lblCalculationDate.Depth = 0;
             this.lblCalculationDate.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblCalculationDate.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblCalculationDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblCalculationDate.Location = new System.Drawing.Point(509, 0);
+            this.lblCalculationDate.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblCalculationDate.Name = "lblCalculationDate";
-            this.lblCalculationDate.Size = new System.Drawing.Size(99, 19);
+            this.lblCalculationDate.Size = new System.Drawing.Size(99, 17);
             this.lblCalculationDate.TabIndex = 0;
             this.lblCalculationDate.Text = "تاريخ الاحتساب:";
-            //
+            // 
             // dtpCalculationDate
-            //
+            // 
             this.dtpCalculationDate.CustomFormat = "yyyy-MM-dd";
             this.dtpCalculationDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpCalculationDate.Location = new System.Drawing.Point(0, 21);
@@ -291,22 +199,26 @@ namespace Dari
             this.dtpCalculationDate.RightToLeftLayout = true;
             this.dtpCalculationDate.Size = new System.Drawing.Size(587, 22);
             this.dtpCalculationDate.TabIndex = 1;
-            //
+            // 
             // lblPropertyNo
-            //
+            // 
             this.lblPropertyNo.AutoSize = true;
             this.lblPropertyNo.Depth = 0;
             this.lblPropertyNo.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblPropertyNo.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblPropertyNo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblPropertyNo.Location = new System.Drawing.Point(1115, 60);
+            this.lblPropertyNo.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblPropertyNo.Name = "lblPropertyNo";
-            this.lblPropertyNo.Size = new System.Drawing.Size(75, 19);
+            this.lblPropertyNo.Size = new System.Drawing.Size(61, 17);
             this.lblPropertyNo.TabIndex = 1;
             this.lblPropertyNo.Text = "رقم العقار:";
-            //
+            // 
             // txtPropertyNo
-            //
+            // 
             this.txtPropertyNo.AnimateReadOnly = false;
+            this.txtPropertyNo.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.None;
+            this.txtPropertyNo.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.None;
+            this.txtPropertyNo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.txtPropertyNo.CharacterCasing = System.Windows.Forms.CharacterCasing.Normal;
             this.txtPropertyNo.Depth = 0;
             this.txtPropertyNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
@@ -320,27 +232,33 @@ namespace Dari
             this.txtPropertyNo.PrefixSuffixText = null;
             this.txtPropertyNo.ReadOnly = false;
             this.txtPropertyNo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.txtPropertyNo.SelectedText = "";
+            this.txtPropertyNo.SelectionLength = 0;
+            this.txtPropertyNo.SelectionStart = 0;
+            this.txtPropertyNo.ShortcutsEnabled = true;
             this.txtPropertyNo.Size = new System.Drawing.Size(587, 36);
             this.txtPropertyNo.TabIndex = 2;
+            this.txtPropertyNo.TabStop = false;
             this.txtPropertyNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtPropertyNo.TrailingIcon = null;
             this.txtPropertyNo.UseSystemPasswordChar = false;
             this.txtPropertyNo.UseTallSize = false;
-            //
+            // 
             // lblYear
-            //
+            // 
             this.lblYear.AutoSize = true;
             this.lblYear.Depth = 0;
             this.lblYear.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblYear.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblYear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblYear.Location = new System.Drawing.Point(515, 60);
+            this.lblYear.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblYear.Name = "lblYear";
-            this.lblYear.Size = new System.Drawing.Size(41, 19);
+            this.lblYear.Size = new System.Drawing.Size(37, 17);
             this.lblYear.TabIndex = 3;
             this.lblYear.Text = "السنة:";
-            //
+            // 
             // cmbYear
-            //
+            // 
             this.cmbYear.AutoResize = false;
             this.cmbYear.BackColor = System.Drawing.Color.White;
             this.cmbYear.Depth = 0;
@@ -349,32 +267,34 @@ namespace Dari
             this.cmbYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbYear.DropDownWidth = 121;
             this.cmbYear.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.cmbYear.ForeColor = System.Drawing.Color.FromArgb(222, 0, 0, 0);
+            this.cmbYear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.cmbYear.FormattingEnabled = true;
             this.cmbYear.IntegralHeight = false;
             this.cmbYear.ItemHeight = 43;
             this.cmbYear.Location = new System.Drawing.Point(0, 81);
+            this.cmbYear.MaxDropDownItems = 4;
             this.cmbYear.MouseState = MaterialSkin.MouseState.OUT;
             this.cmbYear.Name = "cmbYear";
             this.cmbYear.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cmbYear.Size = new System.Drawing.Size(587, 49);
             this.cmbYear.StartIndex = 0;
             this.cmbYear.TabIndex = 1;
-            //
+            // 
             // lblMonth
-            //
+            // 
             this.lblMonth.AutoSize = true;
             this.lblMonth.Depth = 0;
             this.lblMonth.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.lblMonth.ForeColor = System.Drawing.Color.FromArgb(180, 0, 0, 0);
+            this.lblMonth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblMonth.Location = new System.Drawing.Point(1115, 140);
+            this.lblMonth.MouseState = MaterialSkin.MouseState.HOVER;
             this.lblMonth.Name = "lblMonth";
-            this.lblMonth.Size = new System.Drawing.Size(43, 19);
+            this.lblMonth.Size = new System.Drawing.Size(38, 17);
             this.lblMonth.TabIndex = 5;
             this.lblMonth.Text = "الشهر:";
-            //
+            // 
             // cmbMonth
-            //
+            // 
             this.cmbMonth.AutoResize = false;
             this.cmbMonth.BackColor = System.Drawing.Color.White;
             this.cmbMonth.Depth = 0;
@@ -383,52 +303,196 @@ namespace Dari
             this.cmbMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMonth.DropDownWidth = 121;
             this.cmbMonth.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.cmbMonth.ForeColor = System.Drawing.Color.FromArgb(222, 0, 0, 0);
+            this.cmbMonth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.cmbMonth.FormattingEnabled = true;
             this.cmbMonth.IntegralHeight = false;
             this.cmbMonth.ItemHeight = 43;
             this.cmbMonth.Items.AddRange(new object[] {
-                "1 - يناير", "2 - فبراير", "3 - مارس", "4 - أبريل", "5 - مايو", "6 - يونيو",
-                "7 - يوليو", "8 - أغسطس", "9 - سبتمبر", "10 - أكتوبر", "11 - نوفمبر", "12 - ديسمبر"
-            });
+            "1 - يناير",
+            "2 - فبراير",
+            "3 - مارس",
+            "4 - أبريل",
+            "5 - مايو",
+            "6 - يونيو",
+            "7 - يوليو",
+            "8 - أغسطس",
+            "9 - سبتمبر",
+            "10 - أكتوبر",
+            "11 - نوفمبر",
+            "12 - ديسمبر"});
             this.cmbMonth.Location = new System.Drawing.Point(613, 161);
+            this.cmbMonth.MaxDropDownItems = 4;
             this.cmbMonth.MouseState = MaterialSkin.MouseState.OUT;
             this.cmbMonth.Name = "cmbMonth";
             this.cmbMonth.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cmbMonth.Size = new System.Drawing.Size(587, 49);
             this.cmbMonth.StartIndex = 0;
             this.cmbMonth.TabIndex = 2;
-            //
+            // 
             // btnCalculate
-            //
+            // 
             this.btnCalculate.AutoSize = false;
+            this.btnCalculate.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnCalculate.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.btnCalculate.Depth = 0;
             this.btnCalculate.HighEmphasis = true;
             this.btnCalculate.Icon = null;
             this.btnCalculate.Location = new System.Drawing.Point(0, 155);
+            this.btnCalculate.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnCalculate.MouseState = MaterialSkin.MouseState.HOVER;
             this.btnCalculate.Name = "btnCalculate";
+            this.btnCalculate.NoAccentTextColor = System.Drawing.Color.Empty;
             this.btnCalculate.Size = new System.Drawing.Size(220, 55);
             this.btnCalculate.TabIndex = 3;
             this.btnCalculate.Text = "📅 احتساب";
             this.btnCalculate.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.btnCalculate.UseAccentColor = false;
             this.btnCalculate.UseVisualStyleBackColor = true;
-            //
+            // 
+            // pnlButtons
+            // 
+            this.pnlButtons.Controls.Add(this.btnSave);
+            this.pnlButtons.Controls.Add(this.btnSearch);
+            this.pnlButtons.Controls.Add(this.btnDelete);
+            this.pnlButtons.Controls.Add(this.btnEdit);
+            this.pnlButtons.Controls.Add(this.btnAdd);
+            this.pnlButtons.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlButtons.Location = new System.Drawing.Point(27, 590);
+            this.pnlButtons.Name = "pnlButtons";
+            this.pnlButtons.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.pnlButtons.Size = new System.Drawing.Size(1213, 98);
+            this.pnlButtons.TabIndex = 1;
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Depth = 0;
+            this.lblTotal.Font = new System.Drawing.Font("IRANYekanMobileFN", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.lblTotal.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.lblTotal.Location = new System.Drawing.Point(102, 227);
+            this.lblTotal.MouseState = MaterialSkin.MouseState.HOVER;
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(83, 17);
+            this.lblTotal.TabIndex = 5;
+            this.lblTotal.Text = "الاجمالي: 0.00";
+            this.lblTotal.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = false;
+            this.btnSave.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSave.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnSave.Depth = 0;
+            this.btnSave.HighEmphasis = false;
+            this.btnSave.Icon = null;
+            this.btnSave.Location = new System.Drawing.Point(0, 18);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnSave.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnSave.Size = new System.Drawing.Size(200, 62);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "حفظ";
+            this.btnSave.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnSave.UseAccentColor = false;
+            this.btnSave.UseVisualStyleBackColor = true;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.AutoSize = false;
+            this.btnSearch.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnSearch.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnSearch.Depth = 0;
+            this.btnSearch.HighEmphasis = false;
+            this.btnSearch.Icon = null;
+            this.btnSearch.Location = new System.Drawing.Point(213, 18);
+            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnSearch.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnSearch.Size = new System.Drawing.Size(200, 62);
+            this.btnSearch.TabIndex = 3;
+            this.btnSearch.Text = "🔍 عرض";
+            this.btnSearch.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnSearch.UseAccentColor = false;
+            this.btnSearch.UseVisualStyleBackColor = true;
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.AutoSize = false;
+            this.btnDelete.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnDelete.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnDelete.Depth = 0;
+            this.btnDelete.HighEmphasis = true;
+            this.btnDelete.Icon = null;
+            this.btnDelete.Location = new System.Drawing.Point(427, 18);
+            this.btnDelete.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnDelete.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnDelete.Size = new System.Drawing.Size(200, 62);
+            this.btnDelete.TabIndex = 2;
+            this.btnDelete.Text = "🗑️ حذف";
+            this.btnDelete.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnDelete.UseAccentColor = true;
+            this.btnDelete.UseVisualStyleBackColor = true;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.AutoSize = false;
+            this.btnEdit.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnEdit.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnEdit.Depth = 0;
+            this.btnEdit.HighEmphasis = true;
+            this.btnEdit.Icon = null;
+            this.btnEdit.Location = new System.Drawing.Point(640, 18);
+            this.btnEdit.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnEdit.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnEdit.Size = new System.Drawing.Size(200, 62);
+            this.btnEdit.TabIndex = 1;
+            this.btnEdit.Text = "✏️ تعديل";
+            this.btnEdit.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnEdit.UseAccentColor = false;
+            this.btnEdit.UseVisualStyleBackColor = true;
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.AutoSize = false;
+            this.btnAdd.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.btnAdd.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.btnAdd.Depth = 0;
+            this.btnAdd.HighEmphasis = true;
+            this.btnAdd.Icon = null;
+            this.btnAdd.Location = new System.Drawing.Point(853, 18);
+            this.btnAdd.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.btnAdd.MouseState = MaterialSkin.MouseState.HOVER;
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.btnAdd.Size = new System.Drawing.Size(200, 62);
+            this.btnAdd.TabIndex = 0;
+            this.btnAdd.Text = "➕ إضافة";
+            this.btnAdd.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.btnAdd.UseAccentColor = false;
+            this.btnAdd.UseVisualStyleBackColor = true;
+            // 
             // pnlDataGrid
-            //
+            // 
             this.pnlDataGrid.BackColor = System.Drawing.Color.White;
             this.pnlDataGrid.Controls.Add(this.pnlButtons);
             this.pnlDataGrid.Controls.Add(this.dgvRentSummary);
             this.pnlDataGrid.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDataGrid.Location = new System.Drawing.Point(0, 318);
+            this.pnlDataGrid.Name = "pnlDataGrid";
             this.pnlDataGrid.Padding = new System.Windows.Forms.Padding(27, 25, 27, 25);
             this.pnlDataGrid.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.pnlDataGrid.Size = new System.Drawing.Size(1267, 713);
             this.pnlDataGrid.TabIndex = 2;
-            //
+            // 
             // dgvRentSummary
-            //
+            // 
             this.dgvRentSummary.AllowUserToAddRows = false;
             this.dgvRentSummary.AllowUserToDeleteRows = false;
             this.dgvRentSummary.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -436,7 +500,7 @@ namespace Dari
             this.dgvRentSummary.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dgvRentSummary.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRentSummary.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvRentSummary.GridColor = System.Drawing.Color.FromArgb(240, 240, 240);
+            this.dgvRentSummary.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
             this.dgvRentSummary.Location = new System.Drawing.Point(27, 25);
             this.dgvRentSummary.MultiSelect = false;
             this.dgvRentSummary.Name = "dgvRentSummary";
@@ -444,11 +508,11 @@ namespace Dari
             this.dgvRentSummary.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.dgvRentSummary.RowHeadersWidth = 51;
             this.dgvRentSummary.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvRentSummary.Size = new System.Drawing.Size(1213, 558);
+            this.dgvRentSummary.Size = new System.Drawing.Size(1213, 663);
             this.dgvRentSummary.TabIndex = 0;
-            //
+            // 
             // UC_RentCalculation
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
@@ -461,12 +525,14 @@ namespace Dari
             this.pnlHeader.ResumeLayout(false);
             this.pnlHeader.PerformLayout();
             this.pnlForm.ResumeLayout(false);
-            this.pnlButtons.ResumeLayout(false);
+            this.pnlForm.PerformLayout();
             this.pnlFilters.ResumeLayout(false);
             this.pnlFilters.PerformLayout();
+            this.pnlButtons.ResumeLayout(false);
             this.pnlDataGrid.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvRentSummary)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion
